@@ -63,7 +63,7 @@
 
 	<!-- -----------------------Imprimindo na Tela------------------------------------- -->
 
-	<br>
+	<h3>-----Imprimindo:-----</h3>
 	<%="Valor da variavel declarada: " + cont%>
 
 	<br>
@@ -71,7 +71,7 @@
 
 	<!-- -----------------------Objeto Implicito Application------------------------------------- -->
 
-	<br>
+	<h3>-----Application:-----</h3>
 	<%=application.getInitParameterNames().nextElement()%>
 
 	<br>
@@ -79,17 +79,16 @@
 
 	<!-- -----------------------Objeto Implicito Session------------------------------------- -->
 
-	<br>
+	<h3>-----Session:-----</h3>
 	<%
 	session.setAttribute("idCurso", "Curso de JSP");
 	%>
 
 	<!-- -----------------------Directivas------------------------------------- -->
 
+	<h3>-----Directivas:-----</h3>
 	<%@ page import="java.util.Date"%>
 
-	<br>
-	<br>
 	<%="Data de Hoje: " + new Date()%>
 
 	<%@ page info="Directivas, Pagina do Curso de Java JSP."%>
@@ -104,11 +103,12 @@
 
 	<!-- -----------------------Include(Fragment)------------------------------------- -->
 
-	<br>
+	<h3>-----Include-fragment:-----</h3>
 	<%@ include file="fragmentInclude.jsp"%>
 
 	<!-- -----------------------Tag Customizada------------------------------------- -->
 
+	<h3>-----Tag Customizada:-----</h3>
 	<myprefix:minhatag />
 
 	<!-- -----------------------Tag JSP Forwards------------------------------------- -->
@@ -119,12 +119,10 @@
 
 	<!-- -----------------------Tag JSP Beans, Processamento em Tempo de Execucao------------------------ -->
 
+	<h3>-----Java Beans:-----</h3>
 	<jsp:useBean id="beanProjetoJSP" class="beans.BeanProjetoJSP"
 		scope="session" />
 
-
-	<br>
-	<br>
 	<%=beanProjetoJSP.getImprime()%>
 
 	<br>
@@ -134,29 +132,67 @@
 		<table>
 			<tr>
 				<td><label>Nome:</label>
-				<td><input id="nome" type="text" name="nome" style="margin-left: 10px;"/>
+				<td><input id="nome" type="text" name="nome"
+					style="margin-left: 10px;" />
 			</tr>
-			
+
 			<tr>
 				<td><label>Data:</label>
-				<td><input id="ano" type="text" name="ano" style="margin-left: 10px;" />
+				<td><input id="ano" type="text" name="ano"
+					style="margin-left: 10px;" />
 			</tr>
-			
+
 			<tr>
 				<td><label>Sexo:</label>
-				<td><input id="sexo" type="text" name="sexo" style="margin-left: 10px;" />
+				<td><input id="sexo" type="text" name="sexo"
+					style="margin-left: 10px;" />
 			</tr>
-			
+
 			<tr>
-				<td><td><button id="btn_enviar" type="submit" name="btn_enviar" style="margin: 10px;">Enviar</button>
+				<td>
+				<td><button id="btn_enviar" type="submit" name="btn_enviar"
+						style="margin: 10px;">Enviar</button>
 			</tr>
 		</table>
 	</form>
 
+	<!-- -----------------------Tag JSP Expression Language------------------------------------- -->
+
+	<h3>-----Expression Language:-----</h3>
+	<form action="quartaActivity.jsp" method="post" style="margin: 20px;">
+		<table>
+			<tr>
+				<td><label>Nome:</label> <td><input id="nome" type="text" name="nome"
+					style="margin-left: 10px;" />
+			
+			</tr>
+			
+			<tr>
+				<td><label>Ano:</label>
+				
+				<td><input id="ano" type="text" name="ano"
+					style="margin-left: 10px;" />
+			
+			</tr>
+
+			<tr>
+				<td>
+				<td><button id="btn_enviar" type="submit" name="btn_enviar"
+						style="margin: 10px;">Enviar</button>
+			
+			</tr>
+		</table>
+	</form>
+
+	<% session.setAttribute("user", "gustavopaco@gmail.com");
+		session.setAttribute("password", "123456");
+	%>
+		
 
 	<!-- -----------------------Tag JSP Include------------------------------------- -->
 
-	<jsp:include page="rodapeActivity.jsp" />
+					<jsp:include page="rodapeActivity.jsp" />
 
-</body>
+
+				</body>
 </html>
