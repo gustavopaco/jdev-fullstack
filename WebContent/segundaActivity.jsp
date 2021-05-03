@@ -19,12 +19,12 @@
 
 
 	<%
-	String nome = "Nome recebido: " + request.getParameter("nome");
+	String nome = "Nome recebido: " + request.getParameter("nomePessoa");
 	out.print(nome);
 	%>
 
 	</br></br>
-	<%="Nome recebido: " + request.getParameter("nome")%>
+	<%="Nome recebido: " + request.getParameter("nomePessoa")%>
 	
 	</br>
 	<%= "Context path: " + request.getContextPath() %>

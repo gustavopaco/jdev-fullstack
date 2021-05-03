@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
+
 	<%@ taglib prefix="myprefix" uri="WEB-INF/testetag.tld" %>
+	
+	
 	
 <!DOCTYPE html>
 <html>
@@ -47,7 +49,7 @@
 	<%=" -> Segundo Jeito de imprimir em Java no JSP"%>
 
 	<form action="segundaActivity.jsp" id="form_id" style="margin: 20px;">
-		<input id="nome" type="text" name="nome" />
+		<input id="nomePessoa" type="text" name="nomePessoa" />
 		<button id="btn_salvar" type="submit">Salvar</button>
 	</form>
 
@@ -61,23 +63,23 @@
 
 	<!-- -----------------------Imprimindo na Tela------------------------------------- -->
 
-	</br>
+	<br>
 	<%="Valor da variavel declarada: " + cont%>
 
-	</br>
+	<br>
 	<%="Chamando metodo que multiplica * 3 valor passado como parametro: " + retornaValor(8)%>
 
 	<!-- -----------------------Objeto Implicito Application------------------------------------- -->
 
-	<br />
+	<br>
 	<%=application.getInitParameterNames().nextElement()%>
 
-	<br />
+	<br>
 	<%=application.getInitParameter("estado")%>
 
 	<!-- -----------------------Objeto Implicito Session------------------------------------- -->
 
-	<br />
+	<br>
 	<%
 	session.setAttribute("idCurso", "Curso de JSP");
 	%>
@@ -86,22 +88,22 @@
 
 	<%@ page import="java.util.Date"%>
 
-	<br /></br>
+	<br><br>
 	<%="Data de Hoje: " + new Date()%>
 
 	<%@ page info="Directivas, Pagina do Curso de Java JSP."%>
 
-	<br />
+	<br >
 	<%=getServletInfo()%>
 
 	<%@ page errorPage="errorActivity.jsp" %>
 	
-	</br>
+	<br>
 	<%= " -Setar AQUI- Calculo 100/0 para causar erro e enviar para Pagina errorActivity: " + 100/2 %>
 	
 	<!-- -----------------------Include(Fragment)------------------------------------- -->
 	
-	</br>
+	<br>
 	<%@ include file="fragmentInclude.jsp" %>
 	
 	<!-- -----------------------Tag Customizada------------------------------------- -->
@@ -114,9 +116,35 @@
 		<jsp:param value="Aplicacao JSP, site Java avancado.com" name="paramforward"/>
 	</jsp:forward> --%>
 	
-		<!-- -----------------------Tag JSP Include------------------------------------- -->
+	<!-- -----------------------Tag JSP Beans, Processamento em Tempo de Execucao------------------------ -->
+	
+	<jsp:useBean id="beanProjetoJSP" class="beans.BeanProjetoJSP" scope="session"/>
+	
+	
+	<br><br>
+	<%= beanProjetoJSP.getImprime() %>
+	
+	<br>
+	<%= "Metodo de Calculo por Java Beans: " + beanProjetoJSP.getCalculaNumero(50) %>
+	
+	<form action="terceiraActivity.jsp" method="post" style="margin: 10px;">
+	
+		<label >Nome:</label>
+		<input id="nome" type="text" name="nome"/>
+		<br>
+		<label >Data:</label>
+		<input id="ano" type="text" name="ano"/>
+		<br>
+		<label>Sexo:</label>
+		<input id="sexo" type="text" name="sexo"/>
+		<br><br>
+		<button id="btn_enviar" type="submit" name="btn_enviar">Enviar</button>
+	</form>
+	
+	
+	<!-- -----------------------Tag JSP Include------------------------------------- -->
 		
-		<jsp:include page="rodapeActivity.jsp"/>
+	<jsp:include page="rodapeActivity.jsp"/>
 	
 </body>
 </html>

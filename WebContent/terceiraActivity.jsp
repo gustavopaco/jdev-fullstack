@@ -14,8 +14,19 @@
 	
 	
 	<!-- -----------------------Tag Forwards------------------------------------- -->
-	</br>
+	<br>
 	<%= request.getParameter("paramforward") %>
+	
+	<!-- -----------------------Tag JSP Beans, Processamento em Tempo de Execucao------------------------ -->
+	
+	<jsp:useBean id="beanProjetoJSP" class="beans.BeanProjetoJSP" scope="session"/>
+	<jsp:setProperty property="*" name="beanProjetoJSP"/>
+	
+	<br>
+	<jsp:getProperty property="nome" name="beanProjetoJSP"/>
+	<jsp:getProperty property="ano" name="beanProjetoJSP"/>
+	<jsp:getProperty property="sexo" name="beanProjetoJSP"/>
+	
 	
 </body>
 </html>
