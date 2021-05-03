@@ -12,5 +12,10 @@
 	
 	<%= "Nome do Curso na Session: " + session.getAttribute("idCurso") %>
 	
+	
+	<!-- -----------------------Tag Forwards------------------------------------- -->
+	</br>
+	<%= request.getParameter("paramforward") %>
+	
 </body>
 </html>

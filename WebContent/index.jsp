@@ -14,12 +14,18 @@
 	<h1>Bem vindo ao projeto de JSP</h1>
 
 
-	<!-- Tag	->			"< %  % >"		SERVE PARA ESCREVER EM JAVA DENTRO DO JSP	-->
-	<!-- Tag	-> 			"< %! % >"		SERVE PARA DECLARAR VARIAVEIS OU METODOS JAVA EM JSP -->
-	<!-- Tag	->			"< %=  % >"		SERVE PARA IMPRIMIR EM JAVA NA TELA JSP  -->
+	<!-- Tag	->			"< %  % >"					SERVE PARA ESCREVER EM JAVA DENTRO DO JSP	-->
+	<!-- Tag	-> 			"< %! % >"					SERVE PARA DECLARAR VARIAVEIS OU METODOS JAVA EM JSP -->
+	<!-- Tag	->			"< %=  % >"					SERVE PARA IMPRIMIR EM JAVA NA TELA JSP  -->
 	
-	<!-- Tag	->			"< %@  % >"		Directivas, SERVE PARA IMPORTAR Classes JAVA, 
-											SETAR INFORMACAO QUE PODE SER RECUPERADA EM OUTRA PAGINA  -->
+	<!-- Tag	->			"< %@  % >"					Directivas, SERVE PARA IMPORTAR Classes JAVA, 
+														SETAR INFORMACAO QUE PODE SER RECUPERADA EM OUTRA PAGINA  -->
+											
+	<!-- Tag	->			"< %@  % >"					Include, SERVE colocar um Fragmento
+														de outra pagina em um pagina -->
+											
+	<!-- Tag	->			"<jsp:forwards>				Serve para direcionar para outra pagina,
+														e tambem passar um parametro que sera recebido por request  -->
 
 	<!-- OBJETO IMPLICITO -> 	"request"				Tem uma infinidade de metodos, RECEBER PARAMETRO DE OUTRA TELA -->
 
@@ -100,6 +106,13 @@
 	<!-- -----------------------Tag Customizada------------------------------------- -->
 	
 	<myprefix:minhatag/>
+	
+	<!-- -----------------------Tag JSP Forwards------------------------------------- -->
 
+<%-- 	<jsp:forward page="terceiraActivity.jsp">
+		<jsp:param value="Aplicacao JSP, site Java avancado.com" name="paramforward"/>
+	</jsp:forward> --%>
+	
+	
 </body>
 </html>
