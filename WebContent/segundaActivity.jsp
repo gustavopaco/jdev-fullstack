@@ -13,9 +13,9 @@
 
 	<!-- Comando	-> 		"out.print"					Nao eh mais usado, Serve para imprimir na Tela JSP -->
 	
-	<!-- OBJETO IMPLICITO -> 	"request"				Tem uma infinidade de metodos para ser utilizados -->	
+	<!-- OBJETO IMPLICITO -> 	"request"				Tem uma infinidade de metodos, RECEBER PARAMETRO DE OUTRA TELA -->
 	
-	<!-- OBJETO IMPLICITO -> 	"response"				Tem uma infinidade de metodos para ser utilizados -->	
+	<!-- OBJETO IMPLICITO -> 	"response"				Tem uma infinidade de metodos, DIRECIONAR PARA OUTRA TELA -->
 
 
 	<%
@@ -23,10 +23,10 @@
 	out.print(nome);
 	%>
 
-	</br>
+	</br></br>
 	<%="Nome recebido: " + request.getParameter("nome")%>
 	
-	</br></br>
+	</br>
 	<%= "Context path: " + request.getContextPath() %>
 	
 	</br>
@@ -51,7 +51,7 @@
 
 	
 	<!-- ENVIANDO PARA PAGINA DE ERRO 404, por exemplo -->
-<%-- 	</br>
+<%-- 	</br></br>
 	<% response.sendError(404, "OCORREU UM ERRO INESPERADO."); %> --%>
 
 
@@ -59,6 +59,18 @@
 	<!-- REDIRECIONANDO PARA PAGINA DA GLOBO -->
 <%-- 	</br>
 	<% response.sendRedirect("https://www.globo.com/"); %> --%>
+	
+	<!-- ------------Objeto Implicito Session, Obtendo atributo da Session ------------------------ -->
+	
+	</br></br>
+	<%= "Valor do atributo da Session: " + session.getAttribute("idCurso") %>
+	
+	</br>
+	<%= "Valor da ID da Session: " + session.getId() %>
+	
+	<form action="terceiraActivity.jsp" id="form_id" style="margin: 20px;">
+		<button id="btn_enviar" type="submit">Ir para Proxima Tela</button>
+	</form>
 
 </body>
 </html>
