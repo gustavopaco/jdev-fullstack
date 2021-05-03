@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-	<%@ taglib prefix="myprefix" uri="WEB-INF/testetag.tld" %>
-	
-	
-	
+<%@ taglib prefix="myprefix" uri="WEB-INF/testetag.tld"%>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="cabecalhoActivity.jsp"/>
+	<jsp:include page="cabecalhoActivity.jsp" />
 
 	<h1>Bem vindo ao projeto de JSP</h1>
 
@@ -20,13 +20,13 @@
 	<!-- Tag	->			"< %  % >"					SERVE PARA ESCREVER EM JAVA DENTRO DO JSP	-->
 	<!-- Tag	-> 			"< %! % >"					SERVE PARA DECLARAR VARIAVEIS OU METODOS JAVA EM JSP -->
 	<!-- Tag	->			"< %=  % >"					SERVE PARA IMPRIMIR EM JAVA NA TELA JSP  -->
-	
+
 	<!-- Tag	->			"< %@  % >"					Directivas, SERVE PARA IMPORTAR Classes JAVA, 
 														SETAR INFORMACAO QUE PODE SER RECUPERADA EM OUTRA PAGINA  -->
-											
+
 	<!-- Tag	->			"< %@  % >"					Include, SERVE colocar um Fragmento
 														de outra pagina em um pagina -->
-											
+
 	<!-- Tag	->			"< jsp: forwards>				Serve para direcionar para outra pagina,
 														e tambem passar um parametro que sera recebido por request  -->
 
@@ -88,63 +88,75 @@
 
 	<%@ page import="java.util.Date"%>
 
-	<br><br>
+	<br>
+	<br>
 	<%="Data de Hoje: " + new Date()%>
 
 	<%@ page info="Directivas, Pagina do Curso de Java JSP."%>
 
-	<br >
+	<br>
 	<%=getServletInfo()%>
 
-	<%@ page errorPage="errorActivity.jsp" %>
-	
+	<%@ page errorPage="errorActivity.jsp"%>
+
 	<br>
-	<%= " -Setar AQUI- Calculo 100/0 para causar erro e enviar para Pagina errorActivity: " + 100/2 %>
-	
+	<%=" -Setar AQUI- Calculo 100/0 para causar erro e enviar para Pagina errorActivity: " + 100 / 2%>
+
 	<!-- -----------------------Include(Fragment)------------------------------------- -->
-	
+
 	<br>
-	<%@ include file="fragmentInclude.jsp" %>
-	
+	<%@ include file="fragmentInclude.jsp"%>
+
 	<!-- -----------------------Tag Customizada------------------------------------- -->
-	
-	<myprefix:minhatag/>
-	
+
+	<myprefix:minhatag />
+
 	<!-- -----------------------Tag JSP Forwards------------------------------------- -->
 
-<%-- 	<jsp:forward page="terceiraActivity.jsp">
+	<%-- 	<jsp:forward page="terceiraActivity.jsp">
 		<jsp:param value="Aplicacao JSP, site Java avancado.com" name="paramforward"/>
 	</jsp:forward> --%>
-	
+
 	<!-- -----------------------Tag JSP Beans, Processamento em Tempo de Execucao------------------------ -->
-	
-	<jsp:useBean id="beanProjetoJSP" class="beans.BeanProjetoJSP" scope="session"/>
-	
-	
-	<br><br>
-	<%= beanProjetoJSP.getImprime() %>
-	
+
+	<jsp:useBean id="beanProjetoJSP" class="beans.BeanProjetoJSP"
+		scope="session" />
+
+
 	<br>
-	<%= "Metodo de Calculo por Java Beans: " + beanProjetoJSP.getCalculaNumero(50) %>
-	
+	<br>
+	<%=beanProjetoJSP.getImprime()%>
+
+	<br>
+	<%="Metodo de Calculo por Java Beans: " + beanProjetoJSP.getCalculaNumero(50)%>
+
 	<form action="terceiraActivity.jsp" method="post" style="margin: 10px;">
-	
-		<label >Nome:</label>
-		<input id="nome" type="text" name="nome"/>
-		<br>
-		<label >Data:</label>
-		<input id="ano" type="text" name="ano"/>
-		<br>
-		<label>Sexo:</label>
-		<input id="sexo" type="text" name="sexo"/>
-		<br><br>
-		<button id="btn_enviar" type="submit" name="btn_enviar">Enviar</button>
+		<table>
+			<tr>
+				<td><label>Nome:</label>
+				<td><input id="nome" type="text" name="nome" style="margin-left: 10px;"/>
+			</tr>
+			
+			<tr>
+				<td><label>Data:</label>
+				<td><input id="ano" type="text" name="ano" style="margin-left: 10px;" />
+			</tr>
+			
+			<tr>
+				<td><label>Sexo:</label>
+				<td><input id="sexo" type="text" name="sexo" style="margin-left: 10px;" />
+			</tr>
+			
+			<tr>
+				<td><td><button id="btn_enviar" type="submit" name="btn_enviar" style="margin: 10px;">Enviar</button>
+			</tr>
+		</table>
 	</form>
-	
-	
+
+
 	<!-- -----------------------Tag JSP Include------------------------------------- -->
-		
-	<jsp:include page="rodapeActivity.jsp"/>
-	
+
+	<jsp:include page="rodapeActivity.jsp" />
+
 </body>
 </html>
