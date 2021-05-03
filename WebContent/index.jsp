@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<jsp:include page="cabecalhoActivity.jsp"/>
 
 	<h1>Bem vindo ao projeto de JSP</h1>
 
@@ -24,7 +25,7 @@
 	<!-- Tag	->			"< %@  % >"					Include, SERVE colocar um Fragmento
 														de outra pagina em um pagina -->
 											
-	<!-- Tag	->			"<jsp:forwards>				Serve para direcionar para outra pagina,
+	<!-- Tag	->			"< jsp: forwards>				Serve para direcionar para outra pagina,
 														e tambem passar um parametro que sera recebido por request  -->
 
 	<!-- OBJETO IMPLICITO -> 	"request"				Tem uma infinidade de metodos, RECEBER PARAMETRO DE OUTRA TELA -->
@@ -113,6 +114,9 @@
 		<jsp:param value="Aplicacao JSP, site Java avancado.com" name="paramforward"/>
 	</jsp:forward> --%>
 	
+		<!-- -----------------------Tag JSP Include------------------------------------- -->
+		
+		<jsp:include page="rodapeActivity.jsp"/>
 	
 </body>
 </html>
