@@ -12,8 +12,10 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 
-@WebFilter(urlPatterns = {"/*"})
-public class Filter implements jakarta.servlet.Filter{
+
+
+@WebFilter(filterName = "Filter",urlPatterns = {"/*"})
+public class Filter implements jakarta.servlet.Filter {
 
 	private static Connection connection;
 	
