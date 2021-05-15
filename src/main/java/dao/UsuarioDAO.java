@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import models.Usuario;
 import org.postgresql.core.EncodingPredictor.DecodeResult;
 import org.postgresql.util.PSQLException;
 import org.postgresql.util.PSQLState;
@@ -46,15 +49,15 @@ public class UsuarioDAO {
 		
 	}
 	
-	public void cadastrarUsuario(String login, String password) throws Exception{
+	public void cadastrarUsuario(Usuario usuario) throws Exception{
 		
 		try {
 			
 			String sql = "insert into usuario (login,password) values (?,?)";
 			PreparedStatement insertPreparedStatement = connection.prepareStatement(sql);
 			
-			insertPreparedStatement.setString(1, login);
-			insertPreparedStatement.setString(2, password);
+			insertPreparedStatement.setString(1, usuario.getLogin());
+			insertPreparedStatement.setString(2, usuario.getPassword());
 			
 			insertPreparedStatement.executeUpdate();
 			connection.commit();
@@ -69,5 +72,24 @@ public class UsuarioDAO {
 		}
 		
 	}
-	
+
+	public List<Usuario> listarUsuarios(){
+
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+
+		try {
+
+			String sql = "select * from usuario";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			return usuarios;
+	}
+
 }
