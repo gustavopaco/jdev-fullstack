@@ -10,9 +10,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 @WebServlet("/login")
-public class LoginServletController extends HttpServlet{
+public class LoginServletController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private UsuarioDAO usuarioDAO;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,9 +26,10 @@ public class LoginServletController extends HttpServlet{
 
 		String login = req.getParameter("login");
 		String password = req.getParameter("password");
-		
-		if(new UsuarioDAO().validaLogin(login, password)) { // Acesso Liberado
-			
+		usuarioDAO = new UsuarioDAO();
+
+		if(usuarioDAO.validaLogin(login, password)) { // Acesso Liberado
+			req.setAttribute("usuarios",usuarioDAO.listarUsuarios());
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("homeActivity.jsp");
 			requestDispatcher.forward(req, resp);
 		}else {	// Acesso Negado
