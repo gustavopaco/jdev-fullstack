@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page isELIgnored="false" %>
 <html lang="en">
 <head>
     <title>Login</title>
@@ -41,7 +43,7 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" type="submit">
+                    <button class="login100-form-btn" type="submit" onclick="sessao()">
                         Login
                     </button>
                 </div>
@@ -82,6 +84,13 @@
 </script>
 <!--===============================================================================================-->
 <script src="resources/js/main.js"></script>
-
+<script type="text/javascript">
+    function sessao() {
+        var login = document.getElementById("login").value;
+        var password = document.getElementById("password").value;
+        sessionStorage.setItem("login",login);
+        sessionStorage.setItem("password",password);
+    }
+</script>
 </body>
 </html>

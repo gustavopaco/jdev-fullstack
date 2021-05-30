@@ -34,6 +34,19 @@
     <title>Title</title>
 </head>
 <body class="bg-gra-02">
+<div style="display: flex;justify-content: flex-end;margin-top: 30px; margin-right: 25px;">
+    <form action="login" method="post">
+        <input type="hidden" name="login" id="sessionLogin">
+        <input type="hidden" name="password" id="sessionPassword">
+    <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home</button>
+    </form>
+    <a href="produtos?action=listar">
+        <button style="background-color: transparent; margin-left: 30px; margin-right: 30px; border: none; color: white; font-size: 20px;">
+            Products
+        </button>
+    </a>
+    <a href="index.jsp"><button style="background-color: transparent; border: none; color: white; font-size: 20px;">Logout</button></a>
+</div>
 <div class="p-t-100 font-poppins" style="position: relative;">
     <div class="wrapper wrapper--w680">
         <div class="card card-4">
@@ -70,7 +83,7 @@
                             <button class="btn btn--radius-2 btn--blue" type="submit">Save</button>
                         </div>
                         <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue" type="button">Cancel</button>
+                            <a href="produtos?action=listar"><button class="btn btn--radius-2 btn--blue" type="button">Cancel</button></a>
                         </div>
                     </div>
                 </form>
@@ -79,7 +92,7 @@
     </div>
 </div>
 
-<div class="p-t-100" style="display: block;background-color: transparent; position:relative;">
+<div class="p-t-100" style="display: block; background-color: transparent; position:relative;">
     <div class="card card-4 wrapper" style="max-width: 1140px; min-width: 900px;">
         <div class="card-body">
             <h2 class="title">Products</h2>
@@ -123,7 +136,9 @@
 <script type="text/javascript">
     window.onload = function () {
         var s = '${acao}';
-        redirect(s)
+        redirect(s);
+        document.getElementById("sessionLogin").value = sessionStorage.getItem("login");
+        document.getElementById("sessionPassword").value = sessionStorage.getItem("password");
     }
 
     function redirect(s) {

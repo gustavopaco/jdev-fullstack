@@ -12,67 +12,78 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/css-table-16/owl.carousel.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/css/css-table-16/bootstrap.min.css">
-    <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/css-table-16/style.css">
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="resources/css/mainreg.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="resources/css/tabelaresponsiva.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
     <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/estilo.css">
     <!--===============================================================================================-->
     <title>Insert title here</title>
 </head>
-<body class="body-background-color">
+<body class="bg-gra-02">
 
-<div style="display: flex;justify-content: flex-end;margin-top: 30px; margin-right: 25px;">
-    <button style="background-color: transparent;border: none;color: white;">Home</button>
+<div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-right: 25px;">
+    <form action="login" method="post">
+        <input type="hidden" name="login" id="sessionLogin">
+        <input type="hidden" name="password" id="sessionPassword">
+        <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home</button>
+    </form>
     <a href="produtos?action=listar">
-        <button style="background-color: transparent;margin-left: 30px;margin-right: 30px;border: none;color: white;">
+        <button style="background-color: transparent; margin-left: 30px; margin-right: 30px; border: none; color: white; font-size: 20px;">
             Products
         </button>
     </a>
-    <button style="background-color: transparent;border: none;color: white;">Logout</button>
+    <a href="index.jsp">
+        <button style="background-color: transparent; border: none; color: white; font-size: 20px;">Logout</button>
+    </a>
 </div>
 
-<div class="divtablesize">
 
-    <div class="">
-        <h1 class="mb-5 textstyle ">Usuarios</h1>
-
-        <div class="table-responsive">
-
-            <table class="table table-striped tabelacustomizada">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Birthday</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="user" items="${usuarios}">
-                    <tr scope="row">
-                        <td><c:out value="${user.name}"/></td>
-                        <td>${user.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}</td>
-                        <td><c:out value="${user.gender}"/></td>
-                        <td><c:out value="${user.cpf}"/></td>
-                        <td><c:out value="${user.phone}"/></td>
-                        <td><c:out value="${user.login}"/></td>
-                        <td><a href="cadastroCtl?action=delete&id=${user.id}"><img class="imagesize"
-                                                                                   src="resources/images/deleteimg.png"
-                                                                                   title="Delete"/></a></td>
-                        <td><a href="cadastroCtl?action=edit&id=${user.id}"><img class="imagesize"
-                                                                                 src="https://img.icons8.com/dusk/64/000000/edit--v2.png"
-                                                                                 title="Edit"/></a></td>
+<div class="p-t-100" style="display: block; background-color: transparent; position: relative;">
+    <div class="card card-4 wrapper" style="max-width: 1440px; min-width: 1440px;">
+        <div class="card-body">
+            <h1 class="title">Usuarios</h1>
+            <div class="tabela-responsiva">
+                <table class="tabelacustomizada2" style="min-width: 100%;">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="color: #555;">Name</th>
+                        <th scope="col" style="color: #555;">Birthday</th>
+                        <th scope="col" style="color: #555;">Gender</th>
+                        <th scope="col" style="color: #555;">CPF</th>
+                        <th scope="col" style="color: #555;">Phone</th>
+                        <th scope="col" style="color: #555;">Email</th>
+                        <th scope="col" style="color: #555;">Delete</th>
+                        <th scope="col" style="color: #555;">Edit</th>
                     </tr>
-                </c:forEach>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="user" items="${usuarios}">
+                        <tr scope="row" style="text-align: center;">
+                            <td><c:out value="${user.name}"/></td>
+                            <td>${user.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}</td>
+                            <td><c:out value="${user.gender}"/></td>
+                            <td><c:out value="${user.cpf}"/></td>
+                            <td><c:out value="${user.phone}"/></td>
+                            <td><c:out value="${user.login}"/></td>
+                            <td><a href="cadastroCtl?action=delete&id=${user.id}"><img class="imagesize"
+                                                                                       src="resources/images/deleteimg.png"
+                                                                                       title="Delete"/></a></td>
+                            <td><a href="cadastroCtl?action=edit&id=${user.id}"><img class="imagesize"
+                                                                                     src="https://img.icons8.com/dusk/64/000000/edit--v2.png"
+                                                                                     title="Edit"/></a></td>
+                        </tr>
+                    </c:forEach>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -80,6 +91,12 @@
 <script src="resources/js/css-table-16/popper.min.js"></script>
 <script src="resources/js/css-table-16/bootstrap.min.js"></script>
 <script src="resources/js/css-table-16/main.js"></script>
+<script>
+    window.onload = function () {
+        document.getElementById("sessionLogin").value = sessionStorage.getItem("login");
+        document.getElementById("sessionPassword").value = sessionStorage.getItem("password");
+    }
+</script>
 </body>
 </html>
 
