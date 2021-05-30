@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--blue" type="submit" onclick="">Submit</button>
+                        <button class="btn btn--radius-2 btn--blue" type="submit" onclick="saveSession()">Submit</button>
                     </div>
                 </form>
             </div>
