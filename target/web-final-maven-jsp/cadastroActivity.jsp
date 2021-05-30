@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+                        <button class="btn btn--radius-2 btn--blue" type="submit" onclick="">Submit</button>
                     </div>
                 </form>
             </div>
@@ -195,6 +195,12 @@
             validacao = false;
         }
         return validacao;
+    }
+</script>
+<script type="text/javascript">
+    function saveSession() {
+        sessionStorage.setItem("login",document.getElementById("login").value);
+        sessionStorage.setItem("password",document.getElementById("password").value);
     }
 </script>
 </body>
