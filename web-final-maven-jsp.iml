@@ -49,5 +49,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.platform:jakarta.jakartaee-api:9.0.0" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:jstl:1.2" level="project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="moment" level="application" />
   </component>
 </module>

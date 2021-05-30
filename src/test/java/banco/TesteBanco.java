@@ -1,12 +1,15 @@
 package banco;
 
+import dao.ProdutoDAO;
 import dao.UsuarioDAO;
+import models.Produto;
 import models.Usuario;
 import org.junit.Test;
 
 import connection.SingleConnection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TesteBanco {
 
@@ -40,5 +43,27 @@ public class TesteBanco {
 		Boolean checklogin = new UsuarioDAO().isLoginValid("GUSTAVOPACO@GMAIL.COM");
 		System.out.println("O login valido eh: " + checklogin);
 
+	}
+
+	@Test
+	public void TestInsertProdutos(){
+		Produto produto = new Produto();
+		produto.setNomeProduto("Couve");
+		produto.setQuantidade(7);
+		produto.setPreco(1.10);
+
+		if (new ProdutoDAO().insertProduto(produto)){
+			System.out.println("Produto Inserido");
+		}else{
+			System.out.println("Produto nao inserido");
+		}
+	}
+
+	@Test
+	public void TestListaProdutos(){
+		List<Produto> produtos = new ProdutoDAO().listProduto();
+		for (Produto p:produtos) {
+			System.out.println(p);
+		}
 	}
 }

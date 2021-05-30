@@ -26,7 +26,7 @@
 
 <div style="display: flex;justify-content: flex-end;margin-top: 30px; margin-right: 25px;">
     <button style="background-color: transparent;border: none;color: white;">Home</button>
-    <a href="productsActivity.jsp">
+    <a href="produtos?action=listar">
         <button style="background-color: transparent;margin-left: 30px;margin-right: 30px;border: none;color: white;">
             Products
         </button>

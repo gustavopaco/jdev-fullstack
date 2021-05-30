@@ -3,16 +3,16 @@ package models;
 import java.util.Objects;
 
 public class Produto {
-    private int id;
+    private Long id;
     private String nomeProduto;
     private int quantidade;
     private Double preco;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,7 +45,7 @@ public class Produto {
         if (this == o) return true;
         if (!(o instanceof Produto)) return false;
         Produto produto = (Produto) o;
-        return id == produto.id && quantidade == produto.quantidade && Objects.equals(nomeProduto, produto.nomeProduto) && Objects.equals(preco, produto.preco);
+        return quantidade == produto.quantidade && Objects.equals(id, produto.id) && Objects.equals(nomeProduto, produto.nomeProduto) && Objects.equals(preco, produto.preco);
     }
 
     @Override
