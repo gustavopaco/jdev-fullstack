@@ -25,18 +25,10 @@ public class ProdutoServletController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         switch (action) {
-            case "listar":
-                doList(req, resp);
-                break;
-            case "cadastrar":
-                doRegister(req, resp);
-                break;
-            case "delete":
-                doDelete(req, resp);
-                break;
-            case "edit":
-                doEdit(req, resp);
-                break;
+            case "listar" -> doList(req, resp);
+            case "cadastrar" -> doRegister(req, resp);
+            case "delete" -> doDelete(req, resp);
+            case "edit" -> doEdit(req, resp);
         }
     }
 

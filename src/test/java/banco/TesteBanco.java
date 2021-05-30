@@ -34,13 +34,13 @@ public class TesteBanco {
 
 	@Test
 	public void TestValidaCPFBanco(){
-		Boolean checkCPF = new UsuarioDAO().isCPFValid("107.775.376-48");
+		boolean checkCPF = new UsuarioDAO().isCPFValid("107.775.376-48");
 		System.out.println("O CPF valido eh: " + checkCPF);
 	}
 
 	@Test
 	public void TestValidaLoginBanco(){
-		Boolean checklogin = new UsuarioDAO().isLoginValid("GUSTAVOPACO@GMAIL.COM");
+		boolean checklogin = new UsuarioDAO().isLoginValid("GUSTAVOPACO@GMAIL.COM");
 		System.out.println("O login valido eh: " + checklogin);
 
 	}

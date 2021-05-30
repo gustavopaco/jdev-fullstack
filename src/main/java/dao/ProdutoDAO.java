@@ -39,7 +39,7 @@ public class ProdutoDAO {
     }
 
     public List<Produto> listProduto() {
-        List<Produto> produtos = new ArrayList<Produto>();
+        List<Produto> produtos = new ArrayList<>();
         try {
             String sql = "select * from produto";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
