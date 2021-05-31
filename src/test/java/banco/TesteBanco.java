@@ -4,9 +4,9 @@ import dao.ProdutoDAO;
 import dao.UsuarioDAO;
 import models.Produto;
 import models.Usuario;
-import org.junit.Test;
 
 import connection.SingleConnection;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,8 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
     <!-- Main CSS-->
-    <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
-    <link href="resources/css/mainreg.css" rel="stylesheet" media="all">
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
+    <link href="resources/css/register-css/mainreg.css" rel="stylesheet" media="all">
 
     <title>Title</title>
 </head>
@@ -143,13 +143,13 @@
 </div>
 
 <!-- Jquery JS-->
-<script src="resources/vendor/colorlib-regform-4/jquery/jquery.min.js"></script>
+<script src="resources/vendor/register-vendor/jquery/jquery.min.js"></script>
 <!-- Vendor JS-->
-<script src="resources/vendor/colorlib-regform-4/select2/select2.min.js"></script>
-<script src="resources/vendor/colorlib-regform-4/datepicker/moment.min.js"></script>
-<script src="resources/vendor/colorlib-regform-4/datepicker/daterangepicker.js"></script>
+<script src="resources/vendor/register-vendor/select2/select2.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/moment.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/daterangepicker.js"></script>
 <!-- Main JS-->
-<script src="resources/js/globalreg.js"></script>
+<script src="resources/js/register-js/globalreg.js"></script>
 <script type="text/javascript">
     document.getElementById('phone').addEventListener('input', function (e) {
         var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);

@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/fonts/css-table-16/icomoon/style.css">
+    <link rel="stylesheet" href="resources/fonts/icomoon/style.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/css/css-table-16/owl.carousel.min.css">
+    <link rel="stylesheet" href="resources/css/table-css/owl.carousel.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/css/css-table-16/style.css">
+    <link rel="stylesheet" href="resources/css/table-css/style.css">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/css/mainreg.css">
+    <link rel="stylesheet" href="resources/css/register-css/mainreg.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/tabelaresponsiva.css">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
@@ -27,7 +27,6 @@
     <title>Insert title here</title>
 </head>
 <body class="bg-gra-02">
-
 <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-right: 25px;">
     <form action="login" method="post">
         <input type="hidden" name="login" id="sessionLogin">
@@ -87,10 +86,10 @@
         </div>
     </div>
 </div>
-<script src="resources/js/css-table-16/jquery-3.3.1.min.js"></script>
-<script src="resources/js/css-table-16/popper.min.js"></script>
-<script src="resources/js/css-table-16/bootstrap.min.js"></script>
-<script src="resources/js/css-table-16/main.js"></script>
+<script src="resources/js/table-js/jquery-3.3.1.min.js"></script>
+<script src="resources/js/table-js/popper.min.js"></script>
+<script src="resources/js/table-js/bootstrap.min.js"></script>
+<script src="resources/js/table-js/main.js"></script>
 <script>
     window.onload = function () {
         document.getElementById("sessionLogin").value = sessionStorage.getItem("login");

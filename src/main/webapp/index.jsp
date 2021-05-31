@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/util.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/login-css/main.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/login-css/util.css">
     <!--===============================================================================================-->
 </head>
 <body>
@@ -41,6 +41,7 @@
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
                 </div>
+                    <h6 style="color: red; margin-left: 20px;">${msg1}</h6>
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn" type="submit" onclick="sessao()">
@@ -69,21 +70,21 @@
 </div>
 
 <!--===============================================================================================-->
-<script src="resources/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="resources/vendor/login-vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-<script src="resources/vendor/bootstrap/js/popper.js"></script>
-<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="resources/vendor/login-vendor/bootstrap/js/popper.js"></script>
+<script src="resources/vendor/login-vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-<script src="resources/vendor/select2/select2.min.js"></script>
+<script src="resources/vendor/login-vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-<script src="resources/vendor/tilt/tilt.jquery.min.js"></script>
+<script src="resources/vendor/login-vendor/tilt/tilt.jquery.min.js"></script>
 <script >
     $('.js-tilt').tilt({
         scale: 1.1
     })
 </script>
 <!--===============================================================================================-->
-<script src="resources/js/main.js"></script>
+<script src="resources/js/login-js/main.js"></script>
 <script type="text/javascript">
     function sessao() {
         var login = document.getElementById("login").value;

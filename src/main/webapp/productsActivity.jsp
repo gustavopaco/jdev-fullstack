@@ -16,11 +16,11 @@
     <!--===============================================================================================-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/fonts/css-table-16/icomoon/style.css">
+    <link rel="stylesheet" href="resources/fonts/icomoon/style.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="resources/css/css-table-16/owl.carousel.min.css">
+    <link rel="stylesheet" href="resources/css/table-css/owl.carousel.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="resources/css/tabelaresponsiva.css">
     <!--===============================================================================================-->
@@ -29,7 +29,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/estilo.css">
     <!--===============================================================================================-->
-    <link href="resources/css/mainreg.css" rel="stylesheet" media="all">
+    <link href="resources/css/register-css/mainreg.css" rel="stylesheet" media="all">
     <!--===============================================================================================-->
     <title>Title</title>
 </head>

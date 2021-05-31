@@ -12,12 +12,12 @@
     <meta name="keywords" content="Colorlib Templates">
     <title>SIGN Up</title>
 
-    <link rel="icon" type="image/png" href="resources/images/icons/favicon.ico"/>
+    <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
     <!-- Main CSS-->
-    <link href="resources/css/mainreg.css" rel="stylesheet" media="all">
+    <link href="resources/css/register-css/mainreg.css" rel="stylesheet" media="all">
 </head>
 <body>
 <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
@@ -115,13 +115,13 @@
 </div>
 
 <!-- Jquery JS-->
-<script src="resources/vendor/colorlib-regform-4/jquery/jquery.min.js"></script>
+<script src="resources/vendor/register-vendor/jquery/jquery.min.js"></script>
 <!-- Vendor JS-->
-<script src="resources/vendor/colorlib-regform-4/select2/select2.min.js"></script>
-<script src="resources/vendor/colorlib-regform-4/datepicker/moment.min.js"></script>
-<script src="resources/vendor/colorlib-regform-4/datepicker/daterangepicker.js"></script>
+<script src="resources/vendor/register-vendor/select2/select2.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/moment.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/daterangepicker.js"></script>
 <!-- Main JS-->
-<script src="resources/js/globalreg.js"></script>
+<script src="resources/js/register-js/globalreg.js"></script>
 <script type="text/javascript">
     window.onload = function (){
        sexo()

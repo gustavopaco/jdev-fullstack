@@ -19,11 +19,8 @@ public class SingleConnection {
 	}
 	
 	private static void conectar() {
-		
 		if(connection == null) {
-			
 			try {
-				
 				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(banco, user, password);
 				connection.setAutoCommit(false);
@@ -33,12 +30,8 @@ public class SingleConnection {
 			}
 			
 		}
-		
 	}
-	
 	public static Connection getConnection() {
 		return connection;
 	}
-	
-	
 }
