@@ -52,21 +52,21 @@
         <div class="card card-4">
             <div class="card-body">
                 <h2 class="title">Products registration</h2>
-                <form action="produtos" method="post">
+                <form action="produtos" method="post" onsubmit="return validaCampos()">
                     <input type="hidden" name="action" value="cadastrar">
                     <input type="hidden" name="id" value="${produto.id}">
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Product Name</label>
-                                <input class="input--style-4" type="text" name="productName" value="${produto.nomeProduto}">
+                                <input class="input--style-4" type="text" name="productName" id="productName" value="${produto.nomeProduto}">
                                 <h6 style="color: red">${msg1}</h6>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Quantity</label>
-                                <input class="input--style-4" type="text" name="quantity" value="${produto.quantidade}">
+                                <input class="input--style-4" type="text" name="quantity" id="quantity" value="${produto.quantidade}">
                             </div>
                         </div>
                     </div>
@@ -157,6 +157,32 @@
 </script>
 <script type="text/javascript">
     $("#price").maskMoney({prefix: '$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false});
+</script>
+<script type="text/javascript">
+    function validaCampos() {
+        var imprime = "";
+        var check = true;
+
+        if(document.getElementById("productName").value === ""){
+            imprime += "Nome do produto\n";
+            check = false;
+        }
+        if(document.getElementById("quantity").value === ""){
+            imprime += "Quantidade de produto\n";
+            check = false;
+        }
+        if(document.getElementById("price").value === ""){
+            imprime += "Preco\n";
+            check = false;
+        }
+
+        if(imprime !== ""){
+            var notificacao = "Preencha os campos:\n" + imprime;
+            alert(notificacao);
+            check = false;
+        }
+        return check;
+    }
 </script>
 </body>
 </html>
