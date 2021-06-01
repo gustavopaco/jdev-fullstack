@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" %>
 <html>
 <head>
     <!-- Required meta tags-->
@@ -27,21 +27,21 @@
                 <h2 class="title">Edit Form</h2>
                 <form action="cadastroCtl" method="post" onsubmit="return validaCampos()">
                     <input id="action" name="action" value="update" type="hidden"/>
-                    <input id="id" name="id" value="${user.id}" type="hidden"/>
-                    <input type="hidden" name="oldpassword" id="oldpassword" value="${user.password}">
+                    <input id="id" name="id" value="${sessionScope.usuarioEscolhido.id}" type="hidden"/>
+                    <input type="hidden" name="oldpassword" id="oldpassword" value="${sessionScope.usuarioEscolhido.password}">
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">first name</label>
                                 <input class="input--style-4" type="text" name="first_name" id="first_name"
-                                       value="${user.name.substring(0,user.name.indexOf(" "))}">
+                                       value="${sessionScope.usuarioEscolhido.name.substring(0,sessionScope.usuarioEscolhido.name.indexOf(" "))}">
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">last name</label>
                                 <input class="input--style-4" type="text" name="last_name" id="last_name"
-                                       value="${user.name.substring(user.name.indexOf(" ")+1)}">
+                                       value="${sessionScope.usuarioEscolhido.name.substring(sessionScope.usuarioEscolhido.name.indexOf(" ")+1)}">
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                                 <div class="input-group-icon">
                                     <input class="input--style-4 js-datepicker" type="text" name="birthday"
                                            id="birthday"
-                                           value="${user.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}">
+                                           value="${sessionScope.usuarioEscolhido.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}">
                                     <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                 </div>
                             </div>
@@ -77,21 +77,13 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">CPF</label>
-                                <input class="input--style-4" type="text" name="cpf" id="cpf" value="${user.cpf}" readonly>
+                                <input class="input--style-4" type="text" name="cpf" id="cpf" value="${sessionScope.usuarioEscolhido.cpf}" readonly>
                             </div>
                         </div>
-                    </div>
-                    <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Email</label>
-                                <input class="input--style-4" type="email" name="login" value="${user.login}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="input-group">
-                                <label class="label">Phone Number</label>
-                                <input class="input--style-4" type="text" name="phone" id="phone" value="${user.phone}">
+                                <input class="input--style-4" type="email" name="login" value="${sessionScope.usuarioEscolhido.login}" readonly>
                             </div>
                         </div>
                     </div>
@@ -151,12 +143,6 @@
 <!-- Main JS-->
 <script src="resources/js/register-js/globalreg.js"></script>
 <script type="text/javascript">
-    document.getElementById('phone').addEventListener('input', function (e) {
-        var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
-        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-    });
-</script>
-<script type="text/javascript">
     document.getElementById('cpf').addEventListener('input', function (e) {
         var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
         e.target.value = !x[2] ? x[1] : x[1] + '.' + (!x[3] ? x[2] : x[2] + '.') + (!x[4] ? x[3] : x[3] + '-') + (x[4] ? x[4] : '');
@@ -166,7 +152,7 @@
     window.onload = function (){
         document.getElementById("divshowpass").style.display = "none";
         document.getElementById("btnhidepass").style.display = "none";
-        selectGender()
+        selectGender();
     }
 
     function ShowHide(a) {
@@ -185,7 +171,7 @@
     }
 
     function selectGender() {
-        var gender = '${user.gender}';
+        var gender = '${sessionScope.usuarioEscolhido.gender}';
         if(gender === 'Masculino'){
             document.getElementById("genderM").checked = true
         }else{
@@ -213,10 +199,6 @@
         }
         if (document.getElementById("cpf").value === "") {
             imprime += "CPF\n";
-            validacao = false;
-        }
-        if (document.getElementById("phone").value === "") {
-            imprime += "Phone\n";
             validacao = false;
         }
         if (document.getElementById("divshowpass").style.display === "block") {

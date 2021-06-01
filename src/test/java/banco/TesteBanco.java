@@ -2,6 +2,7 @@ package banco;
 
 import dao.ProdutoDAO;
 import dao.UsuarioDAO;
+import models.Endereco;
 import models.Produto;
 import models.Usuario;
 
@@ -65,5 +66,19 @@ public class TesteBanco {
 		for (Produto p:produtos) {
 			System.out.println(p);
 		}
+	}
+
+	@Test
+	public void TestInsertEndereco(){
+		Endereco endereco = new Endereco();
+		endereco.setEnd_cep("35030765");
+		endereco.setEnd_rua("Sargento Johnny da Silva");
+		endereco.setEnd_numero(404);
+		endereco.setEnd_complemento("Bloco 1, Apt 201");
+		endereco.setEnd_bairro("Betania");
+		endereco.setEnd_cidade("Belo Horizonte");
+		endereco.setEnd_estado("MG");
+		endereco.setId_usuario(72L);
+		new UsuarioDAO().insertEndereco(endereco);
 	}
 }

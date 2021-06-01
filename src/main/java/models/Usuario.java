@@ -12,7 +12,6 @@ public class Usuario {
     private LocalDate birthday;
     private String gender;
     private String cpf;
-    private String phone;
 
     public Long getId() {
         return id;
@@ -70,25 +69,17 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Usuario)) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) && Objects.equals(login, usuario.login) && Objects.equals(password, usuario.password) && Objects.equals(name, usuario.name) && Objects.equals(birthday, usuario.birthday) && Objects.equals(gender, usuario.gender) && Objects.equals(cpf, usuario.cpf) && Objects.equals(phone, usuario.phone);
+        return Objects.equals(id, usuario.id) && Objects.equals(login, usuario.login) && Objects.equals(password, usuario.password) && Objects.equals(name, usuario.name) && Objects.equals(birthday, usuario.birthday) && Objects.equals(gender, usuario.gender) && Objects.equals(cpf, usuario.cpf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, name, birthday, gender, cpf, phone);
+        return Objects.hash(id, login, password, name, birthday, gender, cpf);
     }
 
     @Override
@@ -98,10 +89,9 @@ public class Usuario {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", localDate=" + birthday +
+                ", birthday=" + birthday +
                 ", gender='" + gender + '\'' +
                 ", cpf='" + cpf + '\'' +
-                ", phone='" + phone + '\'' +
                 '}';
     }
 }

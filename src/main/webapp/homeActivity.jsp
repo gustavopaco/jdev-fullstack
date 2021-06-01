@@ -1,10 +1,11 @@
+<jsp:useBean id="usuarioSession" scope="session" type="models.Usuario"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@page isELIgnored="false" %>
+<%@page isELIgnored="false" pageEncoding="UTF-8" %>
 <html>
 <head>
     <!--===============================================================================================-->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
     <!--===============================================================================================-->
@@ -29,9 +30,10 @@
 <body class="bg-gra-02">
 <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-right: 25px;">
     <form action="login" method="post">
-        <input type="hidden" name="login" id="sessionLogin">
-        <input type="hidden" name="password" id="sessionPassword">
-        <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home</button>
+        <input type="hidden" name="login" id="sessionLogin" value="${usuarioSession.login}">
+        <input type="hidden" name="password" id="sessionPassword" value="${usuarioSession.password}">
+        <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home
+        </button>
     </form>
     <a href="produtos?action=listar">
         <button style="background-color: transparent; margin-left: 30px; margin-right: 30px; border: none; color: white; font-size: 20px;">
@@ -56,8 +58,9 @@
                         <th scope="col" style="color: #555;">Birthday</th>
                         <th scope="col" style="color: #555;">Gender</th>
                         <th scope="col" style="color: #555;">CPF</th>
-                        <th scope="col" style="color: #555;">Phone</th>
                         <th scope="col" style="color: #555;">Email</th>
+                        <th scope="col" style="color: #555;">Address</th>
+                        <th scope="col" style="color: #555;">Phone</th>
                         <th scope="col" style="color: #555;">Delete</th>
                         <th scope="col" style="color: #555;">Edit</th>
                     </tr>
@@ -69,8 +72,11 @@
                             <td>${user.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}</td>
                             <td><c:out value="${user.gender}"/></td>
                             <td><c:out value="${user.cpf}"/></td>
-                            <td><c:out value="${user.phone}"/></td>
                             <td><c:out value="${user.login}"/></td>
+                            <td><a href="address?action=listar"><img class="imagesize" src="resources/images/address.png" alt="Address"
+                                                title="Address"></a></td>
+                            <td><a href="phone?action=listar"><img class="imagesize" src="resources/images/telephone.png" alt="Telephone"
+                                                title="Telephone"></a></td>
                             <td><a href="cadastroCtl?action=delete&id=${user.id}"><img class="imagesize"
                                                                                        src="resources/images/deleteimg.png"
                                                                                        title="Delete"/></a></td>
@@ -90,12 +96,7 @@
 <script src="resources/js/table-js/popper.min.js"></script>
 <script src="resources/js/table-js/bootstrap.min.js"></script>
 <script src="resources/js/table-js/main.js"></script>
-<script>
-    window.onload = function () {
-        document.getElementById("sessionLogin").value = sessionStorage.getItem("login");
-        document.getElementById("sessionPassword").value = sessionStorage.getItem("password");
-    }
-</script>
+
 </body>
 </html>
 

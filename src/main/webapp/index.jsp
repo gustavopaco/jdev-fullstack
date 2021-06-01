@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page isELIgnored="false" %>
+<%@page isELIgnored="false" pageEncoding="UTF-8" %>
 <html lang="en">
 <head>
     <title>Login</title>
@@ -44,7 +44,7 @@
                     <h6 style="color: red; margin-left: 20px;">${msg1}</h6>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" type="submit" onclick="sessao()">
+                    <button class="login100-form-btn" type="submit">
                         Login
                     </button>
                 </div>
@@ -85,13 +85,13 @@
 </script>
 <!--===============================================================================================-->
 <script src="resources/js/login-js/main.js"></script>
-<script type="text/javascript">
-    function sessao() {
-        var login = document.getElementById("login").value;
-        var password = document.getElementById("password").value;
-        sessionStorage.setItem("login",login);
-        sessionStorage.setItem("password",password);
-    }
-</script>
+<%--<script type="text/javascript">--%>
+<%--    function sessao() {--%>
+<%--        var login = document.getElementById("login").value;--%>
+<%--        var password = document.getElementById("password").value;--%>
+<%--        sessionStorage.setItem("login",login);--%>
+<%--        sessionStorage.setItem("password",password);--%>
+<%--    }--%>
+<%--</script>--%>
 </body>
 </html>
