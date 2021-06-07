@@ -98,4 +98,18 @@ public class Endereco {
         return Objects.hash(id_endereco, end_cep, end_rua, end_numero, end_complemento, end_bairro, end_cidade, end_estado, id_usuario);
     }
 
+    @Override
+    public String toString() {
+        return "Endereco{" +
+                "id_endereco=" + id_endereco +
+                ", end_cep='" + end_cep + '\'' +
+                ", end_rua='" + end_rua + '\'' +
+                ", end_numero=" + end_numero +
+                ", end_complemento='" + end_complemento + '\'' +
+                ", end_bairro='" + end_bairro + '\'' +
+                ", end_cidade='" + end_cidade + '\'' +
+                ", end_estado='" + end_estado + '\'' +
+                ", id_usuario=" + id_usuario +
+                '}';
+    }
 }

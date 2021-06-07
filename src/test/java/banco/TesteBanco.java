@@ -81,4 +81,14 @@ public class TesteBanco {
 		endereco.setId_usuario(72L);
 		new UsuarioDAO().insertEndereco(endereco);
 	}
+
+	@Test
+	public void TestListEnderecos(){
+		List<Endereco> enderecos = new UsuarioDAO().listEndereco(71L);
+
+		for (Endereco end :
+				enderecos) {
+			System.out.println(end);
+		}
+	}
 }
