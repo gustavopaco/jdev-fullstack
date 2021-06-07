@@ -36,8 +36,8 @@
 <body class="bg-gra-02">
 <div style="display: flex;justify-content: flex-end;margin-top: 30px; margin-right: 25px;">
     <form action="login" method="post">
-        <input type="hidden" name="login" id="sessionLogin">
-        <input type="hidden" name="password" id="sessionPassword">
+        <input type="hidden" name="login" id="sessionLogin" value="${sessionScope.usuarioSession.login}">
+        <input type="hidden" name="password" id="sessionPassword" value="${sessionScope.usuarioSession.password}">
     <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home</button>
     </form>
     <a href="produtos?action=listar">
@@ -137,8 +137,6 @@
     window.onload = function () {
         var s = '${acao}';
         redirect(s);
-        document.getElementById("sessionLogin").value = sessionStorage.getItem("login");
-        document.getElementById("sessionPassword").value = sessionStorage.getItem("password");
     }
 
     function redirect(s) {

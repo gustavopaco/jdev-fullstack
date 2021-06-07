@@ -38,7 +38,10 @@ public class LoginServletController extends HttpServlet {
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("homeActivity.jsp");
 			requestDispatcher.forward(req, resp);
 		}else {	// Acesso Negado
+			usuario.setLogin(login);
+			usuario.setPassword(password);
 			req.setAttribute("msg1","Login ou Senha incorretos.");
+			req.setAttribute("usuario",usuario);
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
 			requestDispatcher.forward(req, resp);
 		}

@@ -30,8 +30,8 @@
 <body class="bg-gra-02">
 <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-right: 25px;">
     <form action="login" method="post">
-        <input type="hidden" name="login" id="sessionLogin" value="${usuarioSession.login}">
-        <input type="hidden" name="password" id="sessionPassword" value="${usuarioSession.password}">
+        <input type="hidden" name="login" id="sessionLogin" value="${sessionScope.usuarioSession.login}">
+        <input type="hidden" name="password" id="sessionPassword" value="${sessionScope.usuarioSession.password}">
         <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home
         </button>
     </form>
@@ -73,9 +73,9 @@
                             <td><c:out value="${user.gender}"/></td>
                             <td><c:out value="${user.cpf}"/></td>
                             <td><c:out value="${user.login}"/></td>
-                            <td><a href="address?action=listar"><img class="imagesize" src="resources/images/address.png" alt="Address"
+                            <td><a href="address?action=ownerAddress&id_usuario=${user.id}"><img class="imagesize" src="resources/images/address.png" alt="Address"
                                                 title="Address"></a></td>
-                            <td><a href="phone?action=listar"><img class="imagesize" src="resources/images/telephone.png" alt="Telephone"
+                            <td><a href="phone?action=ownerPhone&id_usuario=${user.id}"><img class="imagesize" src="resources/images/telephone.png" alt="Telephone"
                                                 title="Telephone"></a></td>
                             <td><a href="cadastroCtl?action=delete&id=${user.id}"><img class="imagesize"
                                                                                        src="resources/images/deleteimg.png"
@@ -85,7 +85,6 @@
                                                                                      title="Edit"/></a></td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
                 </table>
             </div>

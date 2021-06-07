@@ -27,7 +27,7 @@
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                    <input class="input100" type="text" name="login" id="login" placeholder="Email">
+                    <input class="input100" type="text" name="login" id="login" placeholder="Email" value="${usuario.login}">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
-                    <input class="input100" type="password" name="password" id="password" placeholder="Password">
+                    <input class="input100" type="password" name="password" id="password" placeholder="Password" value="${usuario.password}">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -85,13 +85,5 @@
 </script>
 <!--===============================================================================================-->
 <script src="resources/js/login-js/main.js"></script>
-<%--<script type="text/javascript">--%>
-<%--    function sessao() {--%>
-<%--        var login = document.getElementById("login").value;--%>
-<%--        var password = document.getElementById("password").value;--%>
-<%--        sessionStorage.setItem("login",login);--%>
-<%--        sessionStorage.setItem("password",password);--%>
-<%--    }--%>
-<%--</script>--%>
 </body>
 </html>
