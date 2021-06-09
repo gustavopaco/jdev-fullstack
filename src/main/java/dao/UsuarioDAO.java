@@ -358,5 +358,134 @@ public class UsuarioDAO {
     }
 
     //<<=============================Telefone====================================================>
+    public boolean insertTelefone(Telefone telefone){
+        try {
+            String sql = " insert into telefone (tel_numero, tel_tipo, id_usuario) values (?,?,?) ";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,telefone.getTel_numero());
+            preparedStatement.setString(2,telefone.getTel_tipo());
+            preparedStatement.setLong(3,telefone.getId_usuario());
+            preparedStatement.executeUpdate();
+            connection.commit();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 
+    public List<Telefone> getListTelefone(Long id_usuario){
+        ArrayList<Telefone> telefones = new ArrayList<>();
+        try {
+            String sql = "select * from telefone where id_usuario = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1,id_usuario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Telefone telefone = new Telefone();
+                telefone.setId_telefone(resultSet.getLong("id_telefone"));
+                telefone.setTel_numero(resultSet.getString("tel_numero"));
+                telefone.setTel_tipo(resultSet.getString("tel_tipo"));
+                telefone.setId_usuario(id_usuario);
+                telefones.add(telefone);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return telefones;
+    }
+
+    public boolean deleteTelefone(Long id_telefone){
+        try {
+            String sql = "delete from telefone where id_telefone = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1,id_telefone);
+            preparedStatement.executeUpdate();
+            connection.commit();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public Telefone pesquisarByTelefoneID(Long id_telefone){
+        Telefone telefone = new Telefone();
+        try {
+            String sql = "select * from telefone where id_telefone = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1,id_telefone);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                telefone.setId_telefone(id_telefone);
+                telefone.setTel_numero(resultSet.getString("tel_numero"));
+                telefone.setTel_tipo(resultSet.getString("tel_tipo"));
+                telefone.setId_usuario(resultSet.getLong("id_usuario"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return telefone;
+    }
+
+    public boolean updateTelefone(Telefone telefone){
+        try {
+            String sql = "update telefone set tel_numero = ?, tel_tipo = ? where id_telefone = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,telefone.getTel_numero());
+            preparedStatement.setString(2,telefone.getTel_tipo());
+            preparedStatement.setLong(3,telefone.getId_telefone());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean isTelefoneInsertAlreadyExist(Telefone telefone){
+        try {
+            String sql = "select * from telefone where tel_numero = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,telefone.getTel_numero());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isTelefoneUpdateAlreadyExist(Telefone telefone){
+        try {
+            String sql = "select * from telefone where tel_numero = ? and id_telefone <> ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,telefone.getTel_numero());
+            preparedStatement.setLong(2,telefone.getId_telefone());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
 }
