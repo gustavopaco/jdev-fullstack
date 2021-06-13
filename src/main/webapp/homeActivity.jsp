@@ -1,4 +1,3 @@
-<jsp:useBean id="usuarioSession" scope="session" type="models.Usuario"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@page isELIgnored="false" pageEncoding="UTF-8" %>
@@ -54,6 +53,8 @@
                 <table class="tabelacustomizada2" style="min-width: 100%;">
                     <thead>
                     <tr>
+                        <th scope="col" style="color: #555;">Image</th>
+                        <th scope="col" style="color: #555;">Curriculo</th>
                         <th scope="col" style="color: #555;">Name</th>
                         <th scope="col" style="color: #555;">Birthday</th>
                         <th scope="col" style="color: #555;">Gender</th>
@@ -68,16 +69,45 @@
                     <tbody>
                     <c:forEach var="user" items="${usuarios}">
                         <tr scope="row" style="text-align: center;">
+                            <c:choose>
+                                <c:when test="${!user.miniaturaprofile.isEmpty() && user.miniaturaprofile != null}">
+                                    <td><a href="cadastroCtl?action=download&ft=img&id_usuario=${user.id}"><img
+                                            src="${user.miniaturaprofile}" width="32px" height="32px"
+                                            alt="Imagem Usuario" title="Imagem Usuario"></a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><img src="resources/images/defaultuser.png" alt="Default Image"
+                                             title="Default Image" width="32px;" height="32px;"></td>
+                                </c:otherwise>
+                            </c:choose>
+
+                            <c:choose>
+                                <c:when test="${!user.curriculo.isEmpty() && user.curriculo != null}">
+                                    <td><a href="cadastroCtl?action=download&ft=curriculo&id_usuario=${user.id}"><img
+                                            src="resources/images/AttachFile2.png" alt="Curriculo" title="Curriculo"
+                                            width="32px" height="32px"></a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><img src="resources/images/emptyFile.png" alt="Empty" title="Empty" width="32px"
+                                             height="32px"></td>
+                                </c:otherwise>
+                            </c:choose>
+
                             <td><c:out value="${user.name}"/></td>
                             <td>${user.birthday.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))}</td>
                             <td><c:out value="${user.gender}"/></td>
                             <td><c:out value="${user.cpf}"/></td>
                             <td><c:out value="${user.login}"/></td>
-                            <td><a href="address?action=ownerAddress&id_usuario=${user.id}"><img class="imagesize" src="resources/images/address.png" alt="Address"
-                                                title="Address"></a></td>
-                            <td><a href="phone?action=ownerPhone&id_usuario=${user.id}"><img class="imagesize" src="resources/images/telephone.png" alt="Telephone"
-                                                title="Telephone"></a></td>
-                            <td><a href="cadastroCtl?action=delete&id=${user.id}"><img class="imagesize"
+                            <td><a href="address?action=ownerAddress&id_usuario=${user.id}"><img class="imagesize"
+                                                                                                 src="resources/images/address.png"
+                                                                                                 alt="Address"
+                                                                                                 title="Address"></a>
+                            </td>
+                            <td><a href="phone?action=ownerPhone&id_usuario=${user.id}"><img class="imagesize"
+                                                                                             src="resources/images/telephone.png"
+                                                                                             alt="Telephone"
+                                                                                             title="Telephone"></a></td>
+                            <td><a href="cadastroCtl?action=delete&id=${user.id}"  onclick="return confirm('Tem certeza que deseja deletar esse Usuario?');"><img class="imagesize"
                                                                                        src="resources/images/deleteimg.png"
                                                                                        title="Delete"/></a></td>
                             <td><a href="cadastroCtl?action=edit&id=${user.id}"><img class="imagesize"
@@ -92,10 +122,7 @@
     </div>
 </div>
 <script src="resources/js/table-js/jquery-3.3.1.min.js"></script>
-<script src="resources/js/table-js/popper.min.js"></script>
-<script src="resources/js/table-js/bootstrap.min.js"></script>
 <script src="resources/js/table-js/main.js"></script>
-
 </body>
 </html>
 

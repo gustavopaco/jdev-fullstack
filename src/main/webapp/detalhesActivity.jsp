@@ -10,13 +10,19 @@
     <meta name="author" content="Colorlib">
     <meta name="keywords" content="Colorlib Templates">
 
+    <!-- Icons font CSS-->
+    <link href="resources/vendor/register-vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="resources/vendor/register-vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Vendor CSS-->
+    <link href="resources/vendor/register-vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="resources/vendor/register-vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
     <!-- Main CSS-->
     <link rel="icon" type="image/png" href="resources/images/favicon.ico"/>
     <link href="resources/css/register-css/mainreg.css" rel="stylesheet" media="all">
-
+    <link href="resources/css/estilo.css" rel="stylesheet">
     <title>Title</title>
 </head>
 <body>
@@ -25,10 +31,11 @@
         <div class="card card-4">
             <div class="card-body">
                 <h2 class="title">Edit Form</h2>
-                <form action="cadastroCtl" method="post" onsubmit="return validaCampos()">
+                <form action="cadastroCtl" method="post" onsubmit="return validaCampos()" enctype="multipart/form-data">
                     <input id="action" name="action" value="update" type="hidden"/>
                     <input id="id" name="id" value="${sessionScope.usuarioEscolhido.id}" type="hidden"/>
-                    <input type="hidden" name="oldpassword" id="oldpassword" value="${sessionScope.usuarioEscolhido.password}">
+                    <input type="hidden" name="oldpassword" id="oldpassword"
+                           value="${sessionScope.usuarioEscolhido.password}">
                     <div class="row row-space">
                         <div class="col-2">
                             <div class="input-group">
@@ -62,11 +69,11 @@
                                 <label class="label">Gender</label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45">Male
-                                            <input type="radio" checked="checked" name="gender" id="genderM" value="1">
+                                        <input type="radio" checked="checked" name="gender" id="genderM" value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container">Female
-                                            <input type="radio" name="gender" id="genderF" value="2">
+                                        <input type="radio" name="gender" id="genderF" value="2">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -77,55 +84,73 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">CPF</label>
-                                <input class="input--style-4" type="text" name="cpf" id="cpf" value="${sessionScope.usuarioEscolhido.cpf}" readonly>
+                                <input class="input--style-4" type="text" name="cpf" id="cpf"
+                                       value="${sessionScope.usuarioEscolhido.cpf}" readonly>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Email</label>
-                                <input class="input--style-4" type="email" name="login" value="${sessionScope.usuarioEscolhido.login}" readonly>
+                                <input class="input--style-4" type="email" name="login"
+                                       value="${sessionScope.usuarioEscolhido.login}" readonly>
                             </div>
                         </div>
                     </div>
-                        <div class="row row-space" style="margin-bottom: 10px;">
-                            <div class="p-t-15">
-                                <button class="btn btn--radius-2 btn--blue" type="button" id="btnshowpass" onclick="ShowHide(1)" style="background-color: red" >Edit Password</button>
-                            </div>
-                            <div class="p-t-15">
-                                <button class="btn btn--radius-2 btn--blue" type="button" id="btnhidepass" onclick="ShowHide(0)" style="background-color: red">Hide Password</button>
-                            </div>
+                    <div class="row row-space" style="margin-bottom: 20px;">
+                        <div class="p-t-15">
+                                <label class="label">Foto</label>
+                                <input class="btnupload btn--radius-2 btn--green" type="file" name="foto" id="foto">
                         </div>
+                        <div class="p-t-15">
+                                <label class="label">Curriculo</label>
+                                <input class="btnupload btn--radius-2 btn--green" type="file" name="curriculo" id="curriculo" onchange="this.style.width = '100%';">
+                        </div>
+                    </div>
+                    <div class="row row-space" style="margin-bottom: 100px;">
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue" type="button" id="btnshowpass"
+                                    onclick="ShowHide(1)" style="background-color: red">Edit Password
+                            </button>
+                        </div>
+                        <div class="p-t-15">
+                            <button class="btn btn--radius-2 btn--blue" type="button" id="btnhidepass"
+                                    onclick="ShowHide(0)" style="background-color: red">Hide Password
+                            </button>
+                        </div>
+                    </div>
                     <div id="divshowpass">
-                    <div class="row row-space">
-                        <div class="col-2">
-                            <div class="input-group">
-                                <label class="label">Old Password</label>
-                                <input class="input--style-4" type="password" name="oldfinalpassword"
-                                       id="oldfinalpassword">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Old Password</label>
+                                    <input class="input--style-4" type="password" name="oldfinalpassword"
+                                           id="oldfinalpassword">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col-2">
-                            <div class="input-group">
-                                <label class="label"> New Password</label>
-                                <input class="input--style-4" type="password" name="password" id="password">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label"> New Password</label>
+                                    <input class="input--style-4" type="password" name="password" id="password">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Confirm Password</label>
+                                    <input class="input--style-4" type="password" name="password2" id="password2">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <div class="input-group">
-                                <label class="label">Confirm Password</label>
-                                <input class="input--style-4" type="password" name="password2" id="password2">
-                            </div>
-                        </div>
-                    </div>
                     </div>
                     <div class="row row-space">
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
                         </div>
                         <div class="p-t-15">
-                                <a href="cadastroCtl?action=home"><button class="btn btn--radius-2 btn--blue" type="button">Cancel</button></a>
+                            <a href="cadastroCtl?action=home">
+                                <button class="btn btn--radius-2 btn--blue" type="button">Cancel</button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -149,18 +174,18 @@
     });
 </script>
 <script type="text/javascript">
-    window.onload = function (){
+    window.onload = function () {
         document.getElementById("divshowpass").style.display = "none";
         document.getElementById("btnhidepass").style.display = "none";
         selectGender();
     }
 
     function ShowHide(a) {
-        if(a === 1){
+        if (a === 1) {
             document.getElementById("btnshowpass").style.display = "none";
             document.getElementById("divshowpass").style.display = "block";
             document.getElementById("btnhidepass").style.display = "block";
-        }else{
+        } else {
             document.getElementById("btnshowpass").style.display = "block";
             document.getElementById("divshowpass").style.display = "none";
             document.getElementById("btnhidepass").style.display = "none";
@@ -172,9 +197,9 @@
 
     function selectGender() {
         var gender = '${sessionScope.usuarioEscolhido.gender}';
-        if(gender === 'Masculino'){
+        if (gender === 'Masculino') {
             document.getElementById("genderM").checked = true
-        }else{
+        } else {
             document.getElementById("genderF").checked = true;
         }
     }

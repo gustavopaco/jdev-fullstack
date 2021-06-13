@@ -70,7 +70,7 @@
                                 <label class="label">Gender</label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45">Male
-                                        <input type="radio" checked="checked" name="gender" id="genderM" value="1">
+                                        <input type="radio" name="gender" id="genderM" value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container">Female
@@ -92,9 +92,9 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Zip-Code</label>
-                                <input type="text" class="input--style-4" name="zipcode" id="zipcode"
+                                <input type="text" class="input--style-4" name="zipcode" id="zipcode" value="${endereco.end_cep}"
                                        onblur="searchZipCode()">
-                                <h6 style="color: red" id="invalid-zip-code"></h6>
+                                <h6 style="color: red" id="invalid-zip-code">${msg3}</h6>
                             </div>
                         </div>
                     </div>
@@ -102,16 +102,17 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Phone</label>
-                                <input class="input--style-4" type="text" name="phone" id="phone" value="${user.phone}">
+                                <input class="input--style-4" type="text" name="phone" id="phone" value="${telefone.tel_numero}">
+                                <h6 style="color: red">${msg4}</h6>
                             </div>
                         </div>
                         <div class="input-group">
                             <label class="label">Subject</label>
                             <div class="rs-select2 js-select-simple select--no-search">
                                 <select name="phone_type" id="phone_type">
-                                    <option selected="selected">Cell</option>
-                                    <option>Home</option>
-                                    <option>Work</option>
+                                    <option ${telefone.tel_tipo == 'Cell' ? 'selected' : ''}>Cell</option>
+                                    <option ${telefone.tel_tipo == 'Home' ? 'selected' : ''}>Home</option>
+                                    <option ${telefone.tel_tipo == 'Work' ? 'selected' : ''}>Work</option>
                                 </select>
                                 <div class="select-dropdown"></div>
                             </div>
@@ -121,14 +122,14 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Address</label>
-                                <input type="text" class="input--style-4" name="address" id="address"
+                                <input type="text" class="input--style-4" name="address" id="address" value="${endereco.end_rua}"
                                        style="width: 400px;" readonly>
                             </div>
                         </div>
                         <div>
                             <div class="input-group">
                                 <label class="label">Number</label>
-                                <input type="text" class="input--style-4" name="number" id="number" maxlength="4"
+                                <input type="text" class="input--style-4" name="number" id="number" maxlength="4" value="${endereco.end_numero}"
                                        style="width: 100px;">
                             </div>
                         </div>
@@ -137,14 +138,14 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Address 2</label>
-                                <input type="text" class="input--style-4" style="width: 400px;" name="address2"
+                                <input type="text" class="input--style-4" style="width: 400px;" name="address2" value="${endereco.end_complemento}"
                                        id="address2" placeholder="Apt, Unit, Block">
                             </div>
                         </div>
                         <div>
                             <div class="input-group">
                                 <label class="label">State</label>
-                                <input type="text" class="input--style-4" name="state" id="state" style="width: 100px;" readonly>
+                                <input type="text" class="input--style-4" name="state" id="state" style="width: 100px;" readonly value="${endereco.end_estado}">
                             </div>
                         </div>
                     </div>
@@ -152,14 +153,14 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Neighborhood</label>
-                                <input type="text" class="input--style-4" name="neighborhood" id="neighborhood"
+                                <input type="text" class="input--style-4" name="neighborhood" id="neighborhood" value="${endereco.end_bairro}"
                                        readonly>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">City</label>
-                                <input type="text" class="input--style-4" name="city" id="city" readonly>
+                                <input type="text" class="input--style-4" name="city" id="city" readonly value="${endereco.end_cidade}">
                             </div>
                         </div>
                     </div>
@@ -188,7 +189,7 @@
                         </div>
                     </div>
                     <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--blue" type="submit" onclick="saveSession()">Submit
+                        <button class="btn btn--radius-2 btn--blue" type="submit">Submit
                         </button>
                     </div>
                 </form>
@@ -247,6 +248,10 @@
         }
         if (document.getElementById("birthday").value === "") {
             imprime += "Pick up a date\n";
+            validacao = false;
+        }
+        if ((document.getElementById("genderM").checked === false) && (document.getElementById("genderF").checked === false)) {
+            imprime += "Gender\n";
             validacao = false;
         }
         if (document.getElementById("cpf").value === "") {
@@ -346,12 +351,6 @@
             //cep sem valor, limpa formulário.
             limpa_formulario_cep();
         }
-    }
-</script>
-<script type="text/javascript">
-    function saveSession() {
-        sessionStorage.setItem("login", document.getElementById("login").value);
-        sessionStorage.setItem("password", document.getElementById("password").value);
     }
 </script>
 </body>

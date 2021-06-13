@@ -91,4 +91,14 @@ public class TesteBanco {
 			System.out.println(end);
 		}
 	}
+
+	@Test
+	public void TestStringSplit(){
+		String texto = "image/jpg";
+		String texto2 = "data:image/jpg;Base64,/9598212313245646";
+		System.out.println("Tipo da Imagem usando string split: " + texto.split("/")[1]);
+		System.out.println("Tipo da Imagem usando substring: " + texto.substring(texto.indexOf("/")+1));
+		System.out.println("Tipo da Imagem usando substring: " + texto2.substring(0,texto2.indexOf(";")).substring(texto2.indexOf(":")+1));
+		System.out.println("Tipo da Imagem usando string split: " + texto2.split(";")[0].split(":")[1]);
+	}
 }

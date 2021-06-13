@@ -45,7 +45,7 @@ public class ProdutoServletController extends HttpServlet {
         }else {
             String productName = req.getParameter("productName");
             String quantity = req.getParameter("quantity");
-            String price = req.getParameter("price").replace("$", "").replace(".", "").replace(",", ".");
+            String price = req.getParameter("price").replace("$", "").replaceAll("\\.", "").replace(",", ".");
 
             produto = new Produto();
             produtoDAO = new ProdutoDAO();
@@ -95,7 +95,7 @@ public class ProdutoServletController extends HttpServlet {
         String id = req.getParameter("id");
         String nomeProduto = req.getParameter("productName");
         String quantity = req.getParameter("quantity");
-        String price = req.getParameter("price").replace("$","").replace(".","").replace(",",".");
+        String price = req.getParameter("price").replace("$","").replaceAll("\\.","").replace(",",".");
 
         produto = new Produto();
         produtoDAO = new ProdutoDAO();

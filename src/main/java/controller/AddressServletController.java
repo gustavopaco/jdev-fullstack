@@ -141,12 +141,11 @@ public class AddressServletController extends HttpServlet {
         if (!usuarioDAO.isAddressAlreadyExist(endereco)) {
             usuarioDAO.updateEndereco(endereco);
             System.out.println("Endereco alterado com sucesso");
-            doList(req,resp);
         }else{
             System.out.println("Nao foi possivel alterar o endereco");
             req.setAttribute("endereco", endereco);
             req.setAttribute("msg1","Endereco ja cadastrado");
-            doList(req,resp);
         }
+        doList(req,resp);
     }
 }

@@ -99,3 +99,17 @@ h1,h2,h3,h4,h5,h6,
     border: none;
     color: white;
 }
+
+.btnupload {
+    display: inline-block;
+    line-height: 50px;
+    padding: 0 5px;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+}

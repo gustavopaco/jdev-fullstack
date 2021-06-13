@@ -7,6 +7,7 @@ public class Produto {
     private String nomeProduto;
     private int quantidade;
     private Double preco;
+    private String precoFormatado;
 
     public Long getId() {
         return id;
@@ -38,6 +39,10 @@ public class Produto {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public String getPrecoFormatado() {
+        return preco.toString().replace(".",",");
     }
 
     @Override
