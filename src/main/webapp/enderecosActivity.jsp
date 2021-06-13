@@ -161,7 +161,7 @@
                             <td><c:out value="${endereco.end_bairro}"/></td>
                             <td><c:out value="${endereco.end_cidade}"/></td>
                             <td><c:out value="${endereco.end_estado}"/></td>
-                            <td><a href="address?action=delete&id_endereco=${endereco.id_endereco}">
+                            <td><a href="address?action=delete&id_endereco=${endereco.id_endereco}"  onclick="return confirm('Tem certeza que deseja deletar esse Endereco?');">
                                 <button type="button"><img src="resources/images/deleteimg.png" title="Delete"
                                                            class="imagesize"></button>
                             </a></td>

@@ -54,7 +54,7 @@
         <div class="card card-4">
             <div class="card-body">
                 <h2 class="title">Phone Registration</h2>
-                <form action="phone" method="post" autocomplete="off">
+                <form action="phone" method="post" autocomplete="off" onsubmit="return validaCamposTelefone();">
                     <input type="hidden" name="action" value="cadastrar">
                     <input type="hidden" name="TOKEN" value="${sessionScope.TOKEN}">
                     <input type="hidden" name="id_telefone" value="${telefone.id_telefone}">
@@ -64,7 +64,7 @@
                                 <label class="label">Phone</label>
                                 <input class="input--style-4" type="text" name="phone" id="phone"
                                        value="${telefone.tel_numero}">
-                                <h6 style="color: red">${msg1}</h6>
+                                <h6 style="color: red" id="invalid-phone">${msg1}</h6>
                             </div>
                         </div>
                         <div class="col-2">
@@ -115,7 +115,7 @@
                         <tr scope="row" style="text-align: center;">
                             <td><c:out value="${telefone.tel_numero}"/></td>
                             <td><c:out value="${telefone.tel_tipo}"/></td>
-                            <td><a href="phone?action=delete&id_telefone=${telefone.id_telefone}">
+                            <td><a href="phone?action=delete&id_telefone=${telefone.id_telefone}"  onclick="return confirm('Tem certeza que deseja deletar esse Telefone?');">
                                 <button type="button"><img src="resources/images/deleteimg.png" title="Delete"
                                                            class="imagesize"></button>
                             </a></td>
@@ -145,6 +145,16 @@
         var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     });
+</script>
+<script type="text/javascript">
+    function validaCamposTelefone() {
+        var check = true;
+        if (document.getElementById("phone").value === ""){
+            document.getElementById("invalid-phone").innerHTML = "Inform your phone number.";
+            check = false;
+        }
+        return check;
+    }
 </script>
 </body>
 </html>

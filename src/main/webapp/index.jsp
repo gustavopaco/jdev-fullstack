@@ -10,6 +10,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
+    <link rel="stylesheet" href="resources/css/register-css/mainreg.css">
+    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="resources/css/login-css/main.css">
     <link rel="stylesheet" type="text/css" href="resources/css/login-css/util.css">
     <!--===============================================================================================-->
@@ -25,7 +27,6 @@
 					<span class="login100-form-title">
 						Member Login
 					</span>
-
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                     <input class="input100" type="text" name="login" id="login" placeholder="Email" value="${usuario.login}">
                     <span class="focus-input100"></span>
@@ -33,7 +34,6 @@
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
                 </div>
-
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
                     <input class="input100" type="password" name="password" id="password" placeholder="Password" value="${usuario.password}">
                     <span class="focus-input100"></span>
@@ -42,13 +42,11 @@
 						</span>
                 </div>
                     <h6 style="color: red; margin-left: 20px;">${msg1}</h6>
-
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn" type="submit">
                         Login
                     </button>
                 </div>
-
                 <div class="text-center p-t-12">
 						<span class="txt1">
 							Forgot
@@ -57,7 +55,6 @@
                         Username / Password?
                     </a>
                 </div>
-
                 <div class="text-center p-t-136">
                     <a class="txt2" href="cadastroActivity.jsp">
                         Create your Account

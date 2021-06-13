@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: gusta
@@ -66,7 +67,8 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Quantity</label>
-                                <input class="input--style-4" type="text" name="quantity" id="quantity" value="${produto.quantidade}">
+                                <input class="input--style-4" type="text" name="quantity" id="quantity" value="${produto.quantidade}"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                         </div>
                     </div>
@@ -74,7 +76,7 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Price</label>
-                                <input class="input--style-4" type="text" id="price" name="price" value="${produto.preco}">
+                                <input class="input--style-4" type="text" id="price" name="price" value="${produto.precoFormatado}">
                             </div>
                         </div>
                     </div>
@@ -112,8 +114,8 @@
                         <tr scope="row" style="text-align: center;">
                             <td><c:out value="${produtos.nomeProduto}"/></td>
                             <td><c:out value="${produtos.quantidade}"/></td>
-                            <td><c:out value="$${produtos.preco}"/></td>
-                            <td><a href="produtos?action=delete&id=${produtos.id}"><button type="button" ><img src="resources/images/deleteimg.png" title="Delete" class="imagesize"></button></a></td>
+                            <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${produtos.preco}" currencySymbol="$"/></td>
+                            <td><a href="produtos?action=delete&id=${produtos.id}" onclick="return confirm('Tem certeza que deseja deletar esse produto?');"><button type="button" ><img src="resources/images/deleteimg.png" title="Delete" class="imagesize"></button></a></td>
                             <td><a href="produtos?action=edit&id=${produtos.id}"><button type="button"><img src="https://img.icons8.com/dusk/64/000000/edit--v2.png" title="Edit" class="imagesize"></button></a></td>
                         </tr>
                     </c:forEach>

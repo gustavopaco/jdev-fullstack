@@ -56,7 +56,7 @@ public class TelefoneServletController extends HttpServlet {
                 telefone.setTel_numero(phone);
                 telefone.setTel_tipo(phone_type);
 
-                if (!usuarioDAO.isTelefoneInsertAlreadyExist(telefone)) {
+                if (usuarioDAO.isTelefoneInsertValid(telefone)) {
                     if (usuarioDAO.insertTelefone(telefone)) {
                         System.out.println("Telefone cadastrado com sucesso.");
                     } else {
