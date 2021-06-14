@@ -10,7 +10,7 @@ body {
 
 	<!-- Mini curso front-end -->
 
-	<form action="" method="post" onsubmit="return validarDados()? true : false">
+	<form action="bobodaCorte" method="post" onsubmit="return validarDados()? true : false">
 		<table style="background: #E8E8E8;">
 
 			<tr>
@@ -42,21 +42,31 @@ body {
 	
 	<script type="text/javascript">
 		function validarDados() {
-			var nome = document.getElementById("txt_nome").value;
-			var login = document.getElementById("txt_login").value;
-			var senha = document.getElementById("txt_password").value;
+			var validacao = true;
+			var imprime = "";
 			
-			if(nome == ""){
-				alert("Informe o Nome");
-				return false;
-			}else if(login == ""){
-				alert("Informe o Login")
-				return false;
-			}else if(senha == ""){
-				alert("Informe a Senha")
-				return false;
+			if(document.getElementById("txt_nome").value == ""){
+				// alert("Informe o Nome");
+				imprime += "Nome\n";
+				validacao = false;
 			}
-				return true;
+			if(document.getElementById("txt_login").value == ""){
+				// alert("Informe o Login")
+				imprime += "Login\n";
+				validacao = false;
+			}
+			if(document.getElementById("txt_password").value == ""){
+				// alert("Informe a Senha")
+				imprime += "Senha\n";
+				validacao = false;
+			}
+
+			if(imprime != ""){
+				var notificacao = "Favor preencher os campos:\n" + imprime;
+				alert(notificacao);
+				validacao = false;
+			}
+				return validacao;
 		}
 	</script>
 </body>
