@@ -85,23 +85,50 @@ public class UsuarioDAO {
         connection.commit();
     }
 
-    public List<Usuario> listarUsuarios() {
+    public List<Usuario> listarUsuariosPorNome(String nome_usuario){
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        nome_usuario = "%"+nome_usuario+"%";
+        try {
+            String sql = "select * from usuario where name ilike(?) and login <> 'admin'";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,nome_usuario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            consultaUsuarios(usuarios, resultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return usuarios;
+    }
 
+    private void consultaUsuarios(ArrayList<Usuario> usuarios, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()){
+            Usuario usuario = new Usuario();
+            usuario.setId(resultSet.getLong("id"));
+            usuario.setLogin(resultSet.getString("login"));
+            usuario.setPassword(resultSet.getString("password"));
+            usuario.setName(resultSet.getString("name"));
+            usuario.setBirthday(resultSet.getObject("birthday", LocalDate.class));
+            usuario.setGender(resultSet.getString("gender"));
+            usuario.setCpf(resultSet.getString("cpf"));
+            usuario.setProfileImage(resultSet.getString("imageprofile"));
+            usuario.setContentType(resultSet.getString("contenttype"));
+            usuario.setCurriculo(resultSet.getString("curriculo"));
+            usuario.setCurriculoContentType(resultSet.getString("curriculocontenttype"));
+            usuario.setMiniaturaprofile(resultSet.getString("miniaturaprofile"));
+
+            usuarios.add(usuario);
+        }
+    }
+
+    public List<Usuario> listarUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<>();
 
-        try {
 
+        try {
             String sql = "select * from usuario where login <> 'admin'";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setId(resultSet.getLong("id"));
-                getDadosUsuarios(usuario, resultSet);
-
-                usuarios.add(usuario);
-            }
+            consultaUsuarios(usuarios, resultSet);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -145,25 +172,8 @@ public class UsuarioDAO {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                usuario.setId(id);
-                getDadosUsuarios(usuario, resultSet);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return usuario;
-    }
-
-    public Usuario pesquisarUsuarioByLogin(String login) {
-        Usuario usuario = new Usuario();
-        try {
-            String sql = "select * from usuario where login = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
                 usuario.setId(resultSet.getLong("id"));
-                usuario.setLogin(login);
+                usuario.setLogin(resultSet.getString("login"));
                 usuario.setPassword(resultSet.getString("password"));
                 usuario.setName(resultSet.getString("name"));
                 usuario.setBirthday(resultSet.getObject("birthday", LocalDate.class));
@@ -181,18 +191,31 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    private void getDadosUsuarios(Usuario usuario, ResultSet resultSet) throws SQLException {
-        usuario.setLogin(resultSet.getString("login"));
-        usuario.setPassword(resultSet.getString("password"));
-        usuario.setName(resultSet.getString("name"));
-        usuario.setBirthday(resultSet.getObject("birthday", LocalDate.class));
-        usuario.setGender(resultSet.getString("gender"));
-        usuario.setCpf(resultSet.getString("cpf"));
-        usuario.setProfileImage(resultSet.getString("imageprofile"));
-        usuario.setContentType(resultSet.getString("contenttype"));
-        usuario.setCurriculo(resultSet.getString("curriculo"));
-        usuario.setCurriculoContentType(resultSet.getString("curriculocontenttype"));
-        usuario.setMiniaturaprofile(resultSet.getString("miniaturaprofile"));
+    public Usuario pesquisarUsuarioByLogin(String login) {
+        Usuario usuario = new Usuario();
+        try {
+            String sql = "select * from usuario where login = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                usuario.setId(resultSet.getLong("id"));
+                usuario.setLogin(resultSet.getString("login"));
+                usuario.setPassword(resultSet.getString("password"));
+                usuario.setName(resultSet.getString("name"));
+                usuario.setBirthday(resultSet.getObject("birthday", LocalDate.class));
+                usuario.setGender(resultSet.getString("gender"));
+                usuario.setCpf(resultSet.getString("cpf"));
+                usuario.setProfileImage(resultSet.getString("imageprofile"));
+                usuario.setContentType(resultSet.getString("contenttype"));
+                usuario.setCurriculo(resultSet.getString("curriculo"));
+                usuario.setCurriculoContentType(resultSet.getString("curriculocontenttype"));
+                usuario.setMiniaturaprofile(resultSet.getString("miniaturaprofile"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return usuario;
     }
 
     public boolean updateUsuario(Usuario usuario) {

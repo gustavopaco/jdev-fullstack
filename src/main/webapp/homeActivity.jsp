@@ -44,6 +44,34 @@
     </a>
 </div>
 
+<div style="margin-left: auto; margin-right: auto; display: flex;">
+    <div class="wrapper">
+        <div class="card card-4">
+            <div class="card-body">
+                <form action="search" method="post" onsubmit="return validaBusca()">
+                    <input type="hidden" id="action" name="action" value="searchUser">
+                    <table>
+                        <div style="position: relative;">
+                            <tr>
+                                <td><label class="label">Busca Usuarios</label>
+                                    <input class="input--style-4" type="text" name="busca_usuario"
+                                           placeholder="Informe o nome"
+                                           id="busca_usuario">
+                                </td>
+                                <td>
+                                    <button class="btn--radius-2 btn--green" type="submit"
+                                            style="width: 120px; height: 50px; margin-left: 10px; margin-top: 25px;">
+                                        Enviar
+                                    </button>
+                                </td>
+                            </tr>
+                        </div>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="p-t-100" style="display: block; background-color: transparent; position: relative;">
     <div class="card card-4 wrapper" style="max-width: 1440px; min-width: 1440px;">
@@ -107,9 +135,11 @@
                                                                                              src="resources/images/telephone.png"
                                                                                              alt="Telephone"
                                                                                              title="Telephone"></a></td>
-                            <td><a href="cadastroCtl?action=delete&id=${user.id}"  onclick="return confirm('Tem certeza que deseja deletar esse Usuario?');"><img class="imagesize"
-                                                                                       src="resources/images/deleteimg.png"
-                                                                                       title="Delete"/></a></td>
+                            <td><a href="cadastroCtl?action=delete&id=${user.id}"
+                                   onclick="return confirm('Tem certeza que deseja deletar esse Usuario?');"><img
+                                    class="imagesize"
+                                    src="resources/images/deleteimg.png"
+                                    title="Delete"/></a></td>
                             <td><a href="cadastroCtl?action=edit&id=${user.id}"><img class="imagesize"
                                                                                      src="https://img.icons8.com/dusk/64/000000/edit--v2.png"
                                                                                      title="Edit"/></a></td>
@@ -123,6 +153,16 @@
 </div>
 <script src="resources/js/table-js/jquery-3.3.1.min.js"></script>
 <script src="resources/js/table-js/main.js"></script>
+<script type="text/javascript">
+    function validaBusca() {
+        var check = true;
+        if (document.getElementById("busca_usuario").value === "") {
+            alert("Informe qualquer nome antes de enviar");
+            check = false;
+        }
+        return check;
+    }
+</script>
 </body>
 </html>
 
