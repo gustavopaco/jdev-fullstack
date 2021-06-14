@@ -1,12 +1,14 @@
 package servlet;
 
-import java.io.IOException;
-
 import bean.BeanUsuario;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -18,7 +20,6 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(jakarta.servlet.http.HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		doPost(request, response);
 	}
 
