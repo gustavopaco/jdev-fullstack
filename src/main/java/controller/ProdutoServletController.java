@@ -35,6 +35,7 @@ public class ProdutoServletController extends HttpServlet {
     protected void doList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         produtoDAO = new ProdutoDAO();
         req.setAttribute("produtos", produtoDAO.listProduto());
+        req.setAttribute("categorias",produtoDAO.listarCategoriasProdutos());
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("productsActivity.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -46,6 +47,7 @@ public class ProdutoServletController extends HttpServlet {
             String productName = req.getParameter("productName");
             String quantity = req.getParameter("quantity");
             String price = req.getParameter("price").replace("$", "").replaceAll("\\.", "").replace(",", ".");
+            String categoria_type = req.getParameter("categoria_type");
 
             produto = new Produto();
             produtoDAO = new ProdutoDAO();
@@ -53,6 +55,7 @@ public class ProdutoServletController extends HttpServlet {
             produto.setNomeProduto(productName);
             produto.setQuantidade(Integer.parseInt(quantity));
             produto.setPreco(Double.parseDouble(price));
+            produto.setId_categoria(Long.parseLong(categoria_type));
 
             if (!produtoDAO.isProdutoExist(produto.getNomeProduto())) {
                 produtoDAO.insertProduto(produto);
@@ -83,6 +86,7 @@ public class ProdutoServletController extends HttpServlet {
         produtoDAO = new ProdutoDAO();
 
         produto = produtoDAO.pesquisarProduto(Long.parseLong(id));
+        req.setAttribute("categorias",produtoDAO.listarCategoriasProdutos());
         req.setAttribute("produto",produto);
         req.setAttribute("produtos", produtoDAO.listProduto());
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("productsActivity.jsp");
@@ -96,6 +100,7 @@ public class ProdutoServletController extends HttpServlet {
         String nomeProduto = req.getParameter("productName");
         String quantity = req.getParameter("quantity");
         String price = req.getParameter("price").replace("$","").replaceAll("\\.","").replace(",",".");
+        String categoria_type = req.getParameter("categoria_type");
 
         produto = new Produto();
         produtoDAO = new ProdutoDAO();
@@ -104,6 +109,7 @@ public class ProdutoServletController extends HttpServlet {
         produto.setNomeProduto(nomeProduto);
         produto.setQuantidade(Integer.parseInt(quantity));
         produto.setPreco(Double.parseDouble(price));
+        produto.setId_categoria(Long.parseLong(categoria_type));
 
         if (!produtoDAO.isProdutoUpdateExist(produto)){
         produtoDAO.updateProduto(produto);

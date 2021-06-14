@@ -28,6 +28,15 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
     <!--===============================================================================================-->
+    <!-- Icons font CSS-->
+    <link href="resources/vendor/register-vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet"
+          media="all">
+    <link href="resources/vendor/register-vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet"
+          media="all">
+    <!-- Vendor CSS-->
+    <link href="resources/vendor/register-vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="resources/vendor/register-vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <!--===============================================================================================-->
     <link rel="stylesheet" href="resources/css/estilo.css">
     <!--===============================================================================================-->
     <link href="resources/css/register-css/mainreg.css" rel="stylesheet" media="all">
@@ -39,14 +48,17 @@
     <form action="login" method="post">
         <input type="hidden" name="login" id="sessionLogin" value="${sessionScope.usuarioSession.login}">
         <input type="hidden" name="password" id="sessionPassword" value="${sessionScope.usuarioSession.password}">
-    <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home</button>
+        <button type="submit" style="background-color: transparent; border: none; color: white; font-size: 20px;">Home
+        </button>
     </form>
     <a href="produtos?action=listar">
         <button style="background-color: transparent; margin-left: 30px; margin-right: 30px; border: none; color: white; font-size: 20px;">
             Products
         </button>
     </a>
-    <a href="index.jsp"><button style="background-color: transparent; border: none; color: white; font-size: 20px;">Logout</button></a>
+    <a href="index.jsp">
+        <button style="background-color: transparent; border: none; color: white; font-size: 20px;">Logout</button>
+    </a>
 </div>
 <div class="p-t-100 font-poppins" style="position: relative;">
     <div class="wrapper wrapper--w680">
@@ -60,14 +72,16 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Product Name</label>
-                                <input class="input--style-4" type="text" name="productName" id="productName" value="${produto.nomeProduto}">
+                                <input class="input--style-4" type="text" name="productName" id="productName"
+                                       value="${produto.nomeProduto}">
                                 <h6 style="color: red">${msg1}</h6>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Quantity</label>
-                                <input class="input--style-4" type="text" name="quantity" id="quantity" value="${produto.quantidade}"
+                                <input class="input--style-4" type="text" name="quantity" id="quantity"
+                                       value="${produto.quantidade}"
                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                         </div>
@@ -76,7 +90,21 @@
                         <div class="col-2">
                             <div class="input-group">
                                 <label class="label">Price</label>
-                                <input class="input--style-4" type="text" id="price" name="price" value="${produto.precoFormatado}">
+                                <input class="input--style-4" type="text" id="price" name="price"
+                                       value="${produto.precoFormatado}">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Subject</label>
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select name="categoria_type" id="categoria_type">
+                                        <c:forEach items="${categorias}" var="categoria">
+                                            <option value="${categoria.id_categoria}" ${categoria.id_categoria == produto.id_categoria ? 'selected' : ''}>${categoria.nome_categoria}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,7 +113,9 @@
                             <button class="btn btn--radius-2 btn--blue" type="submit">Save</button>
                         </div>
                         <div class="p-t-15">
-                            <a href="produtos?action=listar"><button class="btn btn--radius-2 btn--blue" type="button">Cancel</button></a>
+                            <a href="produtos?action=listar">
+                                <button class="btn btn--radius-2 btn--blue" type="button">Cancel</button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -105,6 +135,7 @@
                         <th scope="col" style="color: #555;">Name</th>
                         <th scope="col" style="color: #555;">Quantity</th>
                         <th scope="col" style="color: #555">Price</th>
+                        <th scope="col" style="color: #555">Category</th>
                         <th scope="col" style="color: #555">Delete</th>
                         <th scope="col" style="color: #555">Edit</th>
                     </tr>
@@ -114,9 +145,22 @@
                         <tr scope="row" style="text-align: center;">
                             <td><c:out value="${produtos.nomeProduto}"/></td>
                             <td><c:out value="${produtos.quantidade}"/></td>
-                            <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${produtos.preco}" currencySymbol="$"/></td>
-                            <td><a href="produtos?action=delete&id=${produtos.id}" onclick="return confirm('Tem certeza que deseja deletar esse produto?');"><button type="button" ><img src="resources/images/deleteimg.png" title="Delete" class="imagesize"></button></a></td>
-                            <td><a href="produtos?action=edit&id=${produtos.id}"><button type="button"><img src="https://img.icons8.com/dusk/64/000000/edit--v2.png" title="Edit" class="imagesize"></button></a></td>
+                            <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${produtos.preco}"
+                                                  currencySymbol="$"/></td>
+                            <c:forEach items="${categorias}" var="cat">
+                                <c:if test="${produtos.id_categoria == cat.id_categoria}">
+                                    <td><c:out value="${cat.nome_categoria}"/></td>
+                                </c:if>
+                            </c:forEach>
+                            <td><a href="produtos?action=delete&id=${produtos.id}"
+                                   onclick="return confirm('Tem certeza que deseja deletar esse produto?');">
+                                <button type="button"><img src="resources/images/deleteimg.png" title="Delete"
+                                                           class="imagesize"></button>
+                            </a></td>
+                            <td><a href="produtos?action=edit&id=${produtos.id}">
+                                <button type="button"><img src="https://img.icons8.com/dusk/64/000000/edit--v2.png"
+                                                           title="Edit" class="imagesize"></button>
+                            </a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -147,9 +191,9 @@
             window.location.href += url;
         }
 
-        if(s === 'delete') {
+        if (s === 'delete') {
             var u = window.location.href;
-             u = u.substring(0,'?');
+            u = u.substring(0, '?');
             url = '?action=listar';
             window.location.href = u + url;
         }
@@ -163,20 +207,20 @@
         var imprime = "";
         var check = true;
 
-        if(document.getElementById("productName").value === ""){
+        if (document.getElementById("productName").value === "") {
             imprime += "Nome do produto\n";
             check = false;
         }
-        if(document.getElementById("quantity").value === ""){
+        if (document.getElementById("quantity").value === "") {
             imprime += "Quantidade de produto\n";
             check = false;
         }
-        if(document.getElementById("price").value === ""){
+        if (document.getElementById("price").value === "") {
             imprime += "Preco\n";
             check = false;
         }
 
-        if(imprime !== ""){
+        if (imprime !== "") {
             var notificacao = "Preencha os campos:\n" + imprime;
             alert(notificacao);
             check = false;
@@ -184,5 +228,13 @@
         return check;
     }
 </script>
+<!-- Jquery JS-->
+<script src="resources/vendor/register-vendor/jquery/jquery.min.js"></script>
+<!-- Vendor JS-->
+<script src="resources/vendor/register-vendor/select2/select2.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/moment.min.js"></script>
+<script src="resources/vendor/register-vendor/datepicker/daterangepicker.js"></script>
+<!-- Main JS-->
+<script src="resources/js/register-js/globalreg.js"></script>
 </body>
 </html>

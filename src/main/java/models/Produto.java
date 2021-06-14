@@ -8,6 +8,7 @@ public class Produto {
     private int quantidade;
     private Double preco;
     private String precoFormatado;
+    private Long id_categoria;
 
     public Long getId() {
         return id;
@@ -43,6 +44,14 @@ public class Produto {
 
     public String getPrecoFormatado() {
         return preco.toString().replace(".",",");
+    }
+
+    public Long getId_categoria() {
+        return id_categoria;
+    }
+
+    public void setId_categoria(Long id_categoria) {
+        this.id_categoria = id_categoria;
     }
 
     @Override
