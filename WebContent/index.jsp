@@ -1,14 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false" info="Decodejava.com is an online portal An online portal that provides
+easy tutorials of Java programming language." %>
 
-<%@ taglib prefix="myprefix" uri="WEB-INF/testetag.tld"%>
+<%@ taglib prefix="myprefix" uri="/WEB-INF/testetag.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -56,7 +58,6 @@
 		<input id="nomePessoa" type="text" name="nomePessoa" />
 		<button id="btn_salvar" type="submit">Salvar</button>
 	</form>
-
 	<!-- -----------------------Criando codigo JAVA dentro do JSP------------------------------------- -->
 
 	<%!int cont = 2;
@@ -77,7 +78,6 @@
 
 	<h3>-----Application:-----</h3>
 	<%=application.getInitParameterNames().nextElement()%>
-
 	<br>
 	<%=application.getInitParameter("estado")%>
 
@@ -85,7 +85,7 @@
 
 	<h3>-----Session:-----</h3>
 	<%
-	session.setAttribute("idCurso", "Curso de JSP");
+		request.getSession().setAttribute("idCurso", "Curso de JSP");
 	%>
 
 	<!-- -----------------------Directivas------------------------------------- -->
@@ -98,7 +98,8 @@
 	<%@ page info="Directivas, Pagina do Curso de Java JSP."%>
 
 	<br>
-	<%=getServletInfo()%>
+	<%=application.getServerInfo()%>
+<%--	<%=.getServletInfo()%>--%>
 
 	<%@ page errorPage="errorActivity.jsp"%>
 
@@ -136,13 +137,13 @@
 		<table>
 			<tr>
 				<td><label>Nome:</label>
-				<td><input id="nome" type="text" name="nome"
+				<td><input id="nomePessoa1" type="text" name="nome"
 					style="margin-left: 10px;" />
 			</tr>
 
 			<tr>
 				<td><label>Data:</label>
-				<td><input id="ano" type="text" name="ano"
+				<td><input id="anoPessoa1" type="text" name="ano"
 					style="margin-left: 10px;" />
 			</tr>
 
@@ -154,7 +155,7 @@
 
 			<tr>
 				<td>
-				<td><button id="btn_enviar" type="submit" name="btn_enviar"
+				<td><button id="btn_enviarPessoa1" type="submit" name="btn_enviar"
 						style="margin: 10px;">Enviar</button>
 			</tr>
 		</table>
@@ -188,8 +189,8 @@
 		</table>
 	</form>
 
-	<% session.setAttribute("user", "gustavopaco@gmail.com");
-		session.setAttribute("password", "123456");
+	<% request.getSession().setAttribute("user", "gustavopaco@gmail.com");
+		request.getSession().setAttribute("password", "123456");
 	%>
 		
 

@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -63,10 +64,10 @@
 	<!-- ------------Objeto Implicito Session, Obtendo atributo da Session ------------------------ -->
 	
 	</br></br>
-	<%= "Valor do atributo da Session: " + session.getAttribute("idCurso") %>
+	<%= "Valor do atributo da Session: " + request.getSession().getAttribute("idCurso") %>
 	
 	</br>
-	<%= "Valor da ID da Session: " + session.getId() %>
+	<%= "Valor da ID da Session: " + request.getSession().getId() %>
 	
 	<form action="terceiraActivity.jsp" id="form_id" style="margin: 20px;">
 		<button id="btn_enviar" type="submit">Ir para Proxima Tela</button>
