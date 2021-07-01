@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:view>
+    <h:head>
+        <script type="text/javascript">
+            function propertiesID() {
+                var valor = document.getElementById('formRedirect:nome');
+                alert(valor.value);
+                valor.value = "Eu cliquei no campo;"
+            }
+        </script>
+
+        <title>JSF Page</title>
+    </h:head>
+    <h:body>
+        <h1>Pagina Inicial Index</h1>
+        <h:form id="formRedirect">
+            <h:inputText id="nome" onclick="this.value = 'troquei o valor'" onchange="this.value = this.value.toUpperCase()"/>
+            <h:commandButton value="Clique Aqui" id="properties" onclick="propertiesID()"/>
+            <br/>
+            <h:commandButton value="Navegar"
+                             action="home?faces-redirect=true"/> <!-- Exemplo de redirecionamento de pagina usando design Pattern PRG no JSF -->
+            <h:commandButton value="Navegacao Explicita"
+                             action="explicita"/> <!-- Comando de Navegacao vindo do faces-config.xml -->
+        </h:form>
+    </h:body>
+</f:view>
+
+</html>
