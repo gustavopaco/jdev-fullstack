@@ -5,6 +5,7 @@
              version="3.0">
     <persistence-unit name="mvn-jpa-hibernate">
         <class>model.Usuario</class>
+        <class>model.TelefoneUsuario</class>
         <properties>
             <!-- Dados de conexao com o banco -->
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>

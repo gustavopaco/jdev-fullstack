@@ -24,4 +24,8 @@ public class HibernateConexaoUtil {
     public static EntityManager getEntityManager(){
         return factory.createEntityManager(); // Prove a parte de persistencia
     }
+
+    public static Object getPrimaryKey(Object object){ // Metodo que retorna somente um objeto mapeado com sua respectiva Primary Key
+        return factory.getPersistenceUnitUtil().getIdentifier(object);
+    }
 }

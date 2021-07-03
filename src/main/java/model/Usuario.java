@@ -1,12 +1,14 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public class Usuario {
+@NamedQueries({
+        @NamedQuery(name = "Usuario.findAll", query = "select u from Usuario u"),
+        @NamedQuery(name = "Usuario.findByName", query = "select u from Usuario u where u.nome_usuario =: nome")
+})
+public class Usuario{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +19,9 @@ public class Usuario {
     private String email_usuario;
     private String password_usuario;
     private int idade;
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<TelefoneUsuario> telefoneUsuarios;
 
     public Long getId_usuario() {
         return id_usuario;
@@ -64,5 +69,26 @@ public class Usuario {
 
     public void setIdade(int idade) {
         this.idade = idade;
+    }
+
+    public List<TelefoneUsuario> getTelefoneUsuarios() {
+        return telefoneUsuarios;
+    }
+
+    public void setTelefoneUsuarios(List<TelefoneUsuario> telefoneUsuarios) {
+        this.telefoneUsuarios = telefoneUsuarios;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id_usuario=" + id_usuario +
+                ", nome_usuario='" + nome_usuario + '\'' +
+                ", sobrenome_usuario='" + sobrenome_usuario + '\'' +
+                ", email_usuario='" + email_usuario + '\'' +
+                ", password_usuario='" + password_usuario + '\'' +
+                ", idade=" + idade +
+                ", telefoneUsuarios=" + telefoneUsuarios +
+                '}';
     }
 }
