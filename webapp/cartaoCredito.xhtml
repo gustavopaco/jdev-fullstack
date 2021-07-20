@@ -1,44 +1,44 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"-->
-<!--        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
-<!--<html xmlns="http://www.w3.org/1999/xhtml"-->
-<!--      xmlns:h="http://xmlns.jcp.org/jsf/html"-->
-<!--      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"-->
-<!--      xmlns:f="http://xmlns.jcp.org/jsf/core"-->
-<!--      xmlns:p="http://primefaces.org/ui">-->
-<!--<f:view>-->
-<!--    <h:head>-->
-<!--        <title>Cartao de Credito</title>-->
-<!--    </h:head>-->
-<!--    <h:body>-->
-<!--        <div class="card" style="padding: 5px; border: 1px solid green; width: 100%;">-->
-<!--            <div class="card" align="center" style="border: 1px solid blue;">-->
-<!--                <h:form>-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>Cartao de Credito</title>
+    </h:head>
+    <h:body>
+        <div class="card" style="padding: 5px; border: 1px solid green; width: 100%;">
+            <div class="card" align="center" style="border: 1px solid blue;">
+                <h:form>
 
-<!--                    <p:panelGrid columns="2" layout="grid"-->
-<!--                                 columnClasses="ui-g-5 ui-md-6 ui-lg-3 ui-md-offset-2, ui-g-5 ui-md-6 ui-lg-3"-->
-<!--                                 styleClass="showcase-text-align-center">-->
+                    <p:panelGrid columns="2" layout="grid"
+                                 columnClasses="ui-g-5 ui-md-6 ui-lg-3 ui-md-offset-2, ui-g-5 ui-md-6 ui-lg-3"
+                                 styleClass="showcase-text-align-center">
 
-<!--                        <p:growl id="growlCredito"/>-->
-<!--                        <p:column/>-->
-<!--                        <p:outputLabel value="Cartao" for="cartao"/>-->
-<!--                        <p:inputText id="cartao" value="#{registerBean.cartaoCredito.numero_cartao}"/>-->
+                        <p:growl id="growlCredito"/>
+                        <p:column/>
+                        <p:outputLabel value="Cartao" for="cartao"/>
+                        <p:inputText id="cartao" value="#{registerBean.cartaoCredito.numero_cartao}"/>
 
-<!--                        <p:outputLabel value="Validade" for="validade"/>-->
-<!--                        <p:inputText id="validade" value="#{registerBean.cartaoCredito.validade}"/>-->
+                        <p:outputLabel value="Validade" for="validade"/>
+                        <p:inputText id="validade" value="#{registerBean.cartaoCredito.validade}"/>
 
-<!--                        <p:outputLabel value="CVV" for="cvv"/>-->
-<!--                        <p:inputText id="cvv" value="#{registerBean.cartaoCredito.cvv}"/>-->
+                        <p:outputLabel value="CVV" for="cvv"/>
+                        <p:inputText id="cvv" value="#{registerBean.cartaoCredito.cvv}"/>
 
-<!--                        <p:commandButton value="Cadastrar" action="#{registerBean.registrarCartao}"/>-->
-<!--                        <p:commandButton value="Limpar" action="#{registerBean.fecharDialogo}"/>-->
-<!--                    </p:panelGrid>-->
-<!--                </h:form>-->
-<!--            </div>-->
-<!--            <div>-->
+                        <p:commandButton value="Cadastrar" action="#{registerBean.registrarCartao}"/>
+                        <p:commandButton value="Limpar" action="#{registerBean.fecharDialogo}"/>
+                    </p:panelGrid>
+                </h:form>
+            </div>
+            <div>
 
-<!--            </div>-->
-<!--        </div>-->
-<!--    </h:body>-->
-<!--</f:view>-->
-<!--</html>-->
+            </div>
+        </div>
+    </h:body>
+</f:view>
+</html>
