@@ -15,6 +15,7 @@ public class HibernateConexaoUtil {
         try{
             if (factory == null){
                 factory = Persistence.createEntityManagerFactory("mvn-jpa-hibernate");
+                System.out.println("Banco conectado com sucesso...");
             }
         }catch (Exception e){
             e.printStackTrace();
