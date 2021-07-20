@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:include src="head.xhtml"/>
+    <h:body>
+        <!--   INICIO - Content Header     -->
+        <ui:include src="contentHeader.xhtml"/>
+        <!--   FIM - Content Header     -->
+        <div style="clear: both; margin-top: 5px; padding: 5px;">
+            <!--   INICIO - Body Div     -->
+            <div style="width: 100%; margin: 0 auto; padding: 5px;">
+                <div align="center" class="card" style="width: 80%; margin: 0 auto;">
+                    <h:form id="formRegister" onkeypress="if (event.keyCode === 13) { return false; }">
+                        <p:panelGrid id="panelRegister" columns="3" layout="grid"
+                                     columnClasses="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-3, ui-g-12 ui-md-6 ui-lg-3, ui-g-12 ui-md-6 ui-lg-3"
+                                     styleClass="showcase-text-align-center">
+
+                            <f:facet name="header"><h3>Registro Usuario</h3></f:facet>
+
+                            <p:growl id="growl" globalOnly="true"/>
+                            <p:column/>
+                            <p:column/>
+
+                            <p:outputLabel for="nome" value="Nome:"/>
+                            <p:inputText id="nome" value="#{registerBean.pessoa.nome}"
+                                         placeholder="Digite o nome"/>
+                            <p:message for="nome"/>
+
+                            <p:outputLabel for="sobrenome" value="Sobrenome:"/>
+                            <p:inputText id="sobrenome"
+                                         value="#{registerBean.pessoa.sobrenome}"/>
+                            <p:message for="sobrenome"/>
+
+                            <p:outputLabel value="Sexo" for="sexo"/>
+                            <p:selectOneRadio id="sexo" value="#{registerBean.pessoa.sexo}">
+                                <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                                <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                            </p:selectOneRadio>
+                            <p:message for="sexo"/>
+
+                            <p:outputLabel for="idade" value="Idade:"/>
+                            <p:inputNumber id="idade" value="#{registerBean.pessoa.idade}"
+                                           decimalPlaces="0"
+                                           emptyValue="press"/>
+                            <p:message for="idade"/>
+
+                            <p:outputLabel for="email" value="Email:"/>
+                            <p:inputText id="email" value="#{registerBean.pessoa.email}"/>
+                            <p:message for="email"/>
+
+                            <p:outputLabel for="password" value="Password:"/>
+                            <p:password id="password" value="#{registerBean.pessoa.password}"/>
+                            <p:message for="password"/>
+
+                            <p:outputLabel for="login" value="Login:"/>
+                            <p:inputText id="login" value="#{registerBean.pessoa.login}"/>
+                            <p:message for="login"/>
+
+                            <p:outputLabel value="CEP" for="cep"/>
+                            <p:inputText id="cep" value="#{registerBean.pessoa.cep}">
+                                <p:ajax event="blur" listener="#{registerBean.pesquisarCep}"
+                                        update="growl endereco complemento bairro localidade uf"/>
+                            </p:inputText>
+                            <p:message for="cep"/>
+
+                            <p:outputLabel value="Endereco" for="endereco"/>
+                            <p:inputText id="endereco" value="#{registerBean.pessoa.logradouro}"
+                                         readonly="true"/>
+                            <p:message for="endereco"/>
+
+                            <p:outputLabel value="Complemento" for="complemento"/>
+                            <p:inputText id="complemento"
+                                         value="#{registerBean.pessoa.complemento}"/>
+                            <p:message for="complemento"/>
+
+                            <p:outputLabel value="Bairro" for="bairro"/>
+                            <p:inputText id="bairro" value="#{registerBean.pessoa.bairro}"
+                                         readonly="true"/>
+                            <p:message for="bairro"/>
+
+                            <p:outputLabel value="Cidade" for="localidade"/>
+                            <p:inputText id="localidade" value="#{registerBean.pessoa.localidade}"
+                                         readonly="true"/>
+                            <p:message for="localidade"/>
+
+                            <p:outputLabel value="Estado" for="uf"/>
+                            <p:inputText id="uf" value="#{registerBean.pessoa.uf}"
+                                         readonly="true"/>
+                            <p:message for="uf"/>
+
+                            <p:outputLabel value="Salario" for="salario"/>
+                            <p:inputNumber id="salario" value="#{registerBean.pessoa.salario}"
+                                           decimalPlaces="2"
+                                           symbol="R$" symbolPosition="p"/>
+                            <p:message for="salario"/>
+
+                        </p:panelGrid>
+
+                        <p:panelGrid id="panelUpload" columns="1" layout="grid"
+                                     columnClasses="ui-g-12 ui-md-6 ui-lg-6 ui-md-offset-3"
+                                     styleClass="showcase-text-align-center">
+
+                            <p:fileUpload mode="advanced" multiple="false"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                          invalidFileMessage="Apenas gif | jpg | jpeg | png eh permitido"
+                                          listener="#{registerBean.upload}"
+                                          previewWidth="50" update="imagemCompleta"/>
+
+                            <h:graphicImage id="imagemCompleta" value="#{registerBean.pessoa.perfilImagemCompleta}"
+                                            height="100" width="100"/>
+
+                            <p:commandButton value="Download" ajax="false"
+                                             onclick="PrimeFaces.monitorDownload(start,stop);"
+                                             icon="pi pi-arrow-down" styleClass="p-mr-2" process="@this"
+                                             immediate="true" rendered="#{registerBean.pessoa.id != null}">
+                                <p:fileDownload value="#{registerBean.fileDownload}"/>
+                            </p:commandButton>
+                        </p:panelGrid>
+
+                        <p:panelGrid id="panelBtn" columns="2" layout="grid"
+                                     columnClasses="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-3, ui-g-12 ui-md-6 ui-lg-3"
+                                     styleClass="showcase-text-align-center">
+
+                            <p:commandButton value="Registrar" action="#{registerBean.registrar}"
+                                             binding="#{registerBean.btnRegistrar}" update="@form formList"/>
+                            <p:commandButton value="Limpar" binding="#{registerBean.btnLimpar}" update="@form"
+                                             resetValues="true"/>
+                            <p:commandButton value="Editar" action="#{registerBean.editar}"
+                                             binding="#{registerBean.btnEditar}" update="@form formList"
+                                             rendered="false"/>
+                            <p:commandButton value="Cancelar" actionListener="#{registerBean.cancelar}" rendered="false"
+                                             binding="#{registerBean.btnCancelar}" update="formRegister"
+                                             immediate="true" resetValues="true"/>
+                        </p:panelGrid>
+
+
+                    </h:form>
+                </div>
+            </div>
+            <div align="center" style="margin: 50px auto; clear:both;">
+                <h:form id="formList">
+                    <p:outputLabel id="labelList" value="Nao existem usuario registrados no sistema"
+                                   style="font-size: large"
+                                   rendered="#{empty registerBean.pessoas}"/>
+                    <p:dataTable id="dtPessoas" value="#{registerBean.pessoas}" var="pes" stripedRows="true"
+                                 widgetVar="dtPessoas" rendered="#{not empty registerBean.pessoas}"
+                                 filteredValue="#{registerBean.pessoas}" allowUnsorting="true"
+                                 globalFilterFunction="#{registerBean.globalFilterFunction}"
+                    rows="5" paginator="true" lazy="true" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink}">
+
+                        <f:facet name="header">
+                            <div class="p-d-flex p-ai-center p-jc-between">
+                                <span>Lista de Usuarios</span>
+                                <div align="right">
+                                    <p:inputText id="globalFilter" placeholder="Enter Keyword" style="width:15rem;"
+                                                 onkeyup="PF('dtPessoas').filter()"/>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="ID" filterBy="#{pes.id}" filterMatchMode="exact" sortBy="#{pes.id}">
+                            <h:outputText value="#{pes.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Imagem">
+                            <h:graphicImage value="#{pes.perfilImagemMiniatura64}" height="100" width="100"
+                                            style="float: left" rendered="#{pes.perfilImagem64 != null}"/>
+                            <p:commandButton onclick="PrimeFaces.monitorDownload(start,stop);" ajax="false"
+                                             icon="pi pi-arrow-down" styleClass="p-mr-2" process="@this"
+                                             immediate="true" image="#{pes.perfilImagemMiniatura64}"
+                                             rendered="#{pes.perfilImagem64 != null}"
+                                             style="width: 25px; height: 100px;">
+                                <f:setPropertyActionListener target="#{registerBean.pessoa}" value="#{pes}"/>
+                                <p:fileDownload value="#{registerBean.fileDownload}"/>
+                            </p:commandButton>
+                            <h:graphicImage value="resources/images/defaultuser.png" height="100" width="100"
+                                            rendered="#{pes.perfilImagem64 == null}"/>
+                        </p:column>
+
+                        <p:column headerText="Nome" filterable="false" sortBy="#{pes.nome}">
+                            <h:outputText value="#{pes.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="Email" filterable="false" sortBy="#{pes.email}">
+                            <h:outputText value="#{pes.email}"/>
+                        </p:column>
+
+                        <p:column headerText="Idade" filterable="false" sortBy="#{pes.idade}">
+                            <h:outputText value="#{pes.idade}"/>
+                        </p:column>
+
+                        <p:column headerText="Telefones">
+                            <h:commandButton image="resources/images/telefoneIcon.jpg"
+                                             style="height: 25px; width: 25px;"
+                                             action="#{registerBean.irPaginaTelefone}">
+                                <f:setPropertyActionListener target="#{registerBean.pessoa}" value="#{pes}"/>
+                            </h:commandButton>
+                        </p:column>
+
+                        <p:column headerText="CC">
+                            <p:commandLink id="btnCartao" update=":formDialog:dialogCartao"
+                                           oncomplete="PF('dialogCartao').show()">
+                                <p:graphicImage value="resources/images/credit_card.png" height="25" width="25"/>
+                                <f:setPropertyActionListener target="#{registerBean.pessoa}" value="#{pes}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                        <p:column headerText="Edit">
+                            <h:commandButton action="#{registerBean.esconderBtnRegistro}"
+                                             image="resources/images/edit2.png"
+                                             style="width: 25px; height: 25px;">
+                                <f:setPropertyActionListener target="#{registerBean.pessoa}" value="#{pes}"/>
+                            </h:commandButton>
+                        </p:column>
+
+                        <p:column headerText="Delete">
+                            <p:commandLink id="btnDelete" action="#{registerBean.deletarPessoa}"
+                                           update="@form formRegister contentHead">
+                                <p:graphicImage value="resources/images/deleteimg.png" height="25" width="25"/>
+                                <f:setPropertyActionListener target="#{registerBean.pessoa}" value="#{pes}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formDialog">
+                    <p:dialog header="Cartao de Credito" id="dialogCartao" modal="true" widgetVar="dialogCartao"
+                              width="800px">
+
+                        <div class="card" style="padding: 5px; width: 100%;">
+                            <div class="card" align="center">
+                                <p:panelGrid columns="2" layout="grid"
+                                             columnClasses="ui-g-5 ui-md-6 ui-lg-3 ui-md-offset-2, ui-g-5 ui-md-6 ui-lg-3"
+                                             styleClass="showcase-text-align-center">
+
+                                    <p:outputLabel value="Cartao" for="cartao"/>
+                                    <p:inputText id="cartao" value="#{registerBean.cartaoCredito.numero_cartao}"/>
+
+                                    <p:outputLabel value="Validade" for="validade"/>
+                                    <p:inputText id="validade" value="#{registerBean.cartaoCredito.validade}"/>
+
+                                    <p:outputLabel value="CVV" for="cvv"/>
+                                    <p:inputText id="cvv" value="#{registerBean.cartaoCredito.cvv}"/>
+
+                                    <p:commandButton value="Cadastrar" actionListener="#{registerBean.registrarCartao}"
+                                                     update="cartao validade cvv dtcartoes formRegister:growl">
+                                    </p:commandButton>
+                                    <p:commandButton value="Limpar" type="reset"/>
+                                </p:panelGrid>
+                            </div>
+                            <div style="margin-top: 5px;">
+                                <p:dataTable id="dtcartoes" value="#{registerBean.pessoa.cartoesCredito}" var="cat"
+                                             stripedRows="true" emptyMessage="Nenhum Cartao cadastrado">
+
+                                    <p:column headerText="ID">
+                                        <h:outputText value="#{cat.id}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Numero">
+                                        <h:outputText value="#{cat.numero_cartao}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Validade">
+                                        <h:outputText value="#{cat.validade}"/>
+                                    </p:column>
+
+                                    <p:column headerText="CVV">
+                                        <h:outputText value="#{cat.cvv}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Deletar">
+                                        <p:commandLink action="#{registerBean.deletarCartao}"
+                                                       update="dtcartoes formRegister:growl">
+                                            <p:graphicImage value="resources/images/deleteimg.png" height="25"
+                                                            width="25"/>
+                                            <f:setPropertyActionListener target="#{registerBean.cartaoCredito}"
+                                                                         value="#{cat}"/>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                        </div>
+                        <p:ajax event="close" listener="#{registerBean.renovarPessoaFechandoDialog}"
+                                update="dialogCartao formRegister"/>
+                    </p:dialog>
+                </h:form>
+            </div>
+            <!--   FIM - Body Div     -->
+        </div>
+    </h:body>
+</f:view>
+</html>
