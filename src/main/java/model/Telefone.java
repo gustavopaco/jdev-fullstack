@@ -52,8 +52,7 @@ public class Telefone implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Telefone)) return false;
-        Telefone telefone = (Telefone) o;
+        if (!(o instanceof Telefone telefone)) return false;
         return Objects.equals(id, telefone.id);
     }
 

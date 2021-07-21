@@ -51,7 +51,7 @@ public class SpringDataTest {
         usuario.ifPresent(user -> System.out.println("=== Usuario encontrado ==="));
         usuario.ifPresent(user -> System.out.println("Nome:" + user.getNome()));
         usuario.ifPresent(user -> System.out.println("Email: " + user.getEmail()));
-        usuario.get().getTelefones().forEach(System.out::println);
+        usuario.ifPresent(user -> user.getTelefones().forEach(System.out::println));
     }
 
     @Test
@@ -72,9 +72,11 @@ public class SpringDataTest {
 
         Optional<Usuario> usuario = iUsuarioDaoRepository.findById(6L);
 
-        usuario.get().setLogin("Patricia");
+        Usuario user = usuario.orElse(null);
+        assert user != null;
+        user.setLogin("Patricia");
 
-        iUsuarioDaoRepository.save(usuario.get());
+        iUsuarioDaoRepository.save(user);
 
 //        Posso setar uma variavel do tipo do Objeto ao inves de ficar utilizando a classe Optional e ter que ficar utilizando usuario.get()
 //        Usuario user = usuario.get();
@@ -84,12 +86,12 @@ public class SpringDataTest {
     public void deleteUsuario() {
 
         /* Deletando por ID da Entidade */
-        iUsuarioDaoRepository.deleteById(7L);
+//        iUsuarioDaoRepository.deleteById(7L);
 
         Optional<Usuario> user = iUsuarioDaoRepository.findById(1L);
 
         /* Deletando pelo Objeto inteiro */
-//        iUsuarioDaoRepository.delete(user.get());
+        iUsuarioDaoRepository.delete(user.get());
     }
 
     @Test
