@@ -1,11 +1,11 @@
 package br.com.webmvnspringboot.controller;
 
+import br.com.webmvnspringboot.model.Usuario;
 import br.com.webmvnspringboot.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/usuario/")
@@ -26,5 +26,15 @@ public class UsuarioController {
     @GetMapping(path = "description")
     public String getDescription() {
         return usuarioService.getDescription();
+    }
+
+    @GetMapping(path = "usuarios")
+    public List<Usuario> getUsuarios() {
+        return usuarioService.getUsuarios();
+    }
+
+    @PostMapping(path = "register")
+    public void registerUsuario(@RequestBody Usuario usuario) {
+        usuarioService.registerUsuario(usuario);
     }
 }
