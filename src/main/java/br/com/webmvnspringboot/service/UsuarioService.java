@@ -32,8 +32,8 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public void registerUsuario(Usuario usuario) {
-        usuarioRepository.save(usuario);
+    public Usuario registerUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     public void deleteUsuario(Long id) {

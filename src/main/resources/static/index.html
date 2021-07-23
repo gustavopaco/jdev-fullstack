@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<form action="" id="registerForm" style="padding: 20px;">
+    <h1>Ola Spring Boot Index page alo Beltrano</h1>
+    <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="text" class="form-control" id="id" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Digit your name">
+    </div>
+    <div class="mb-3">
+        <label for="dob" class="form-label">Date of Birthday</label>
+        <input type="date" class="form-control" id="dob">
+    </div>
+    <button type="reset" class="btn btn-secondary">New User</button>
+    <button type="button" class="btn btn-primary" onclick="registerUser()">Save</button>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Search
+    </button>
+    <button type="button" class="btn btn-danger" onclick="deletarUsuario($('#id').val())">Delete</button>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pesquisar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="userName" placeholder="Inform user name">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="findUserByName()">Find</button>
+                </form>
+
+                <div style="height: 300px; overflow: scroll">
+                    <table class="table" id="tabelaUsuarios">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function registerUser() {
+        let imprime = "";
+        const id = $("#id").val();
+        const name = $("#name").val();
+        const birthday = $("#dob").val();
+        $(birthday).datepicker({dateFormat: "yy-mm-dd"}).val()
+
+        if (name.trim() === "") {
+            imprime += "Name\n";
+            $("#name").focus();
+        }
+        if (birthday === "") {
+            imprime = imprime + "Birthday\n";
+            $("#dob").focus();
+        }
+        if (imprime !== "") {
+            alert("Fill fields:\n" + imprime)
+        } else {
+            $.ajax({
+                method: "POST",
+                url: "api/v1/usuario/register",
+                data: JSON.stringify({
+                    id: id,
+                    name: name,
+                    dob: birthday
+                }),
+                contentType: "application/json; charset-utf-8",
+                success: function (response) {
+                    alert("Salvo com sucesso");
+                    $("#id").val(response.id);
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Erro ao salvar usuario: " + xhr.responseText);
+            });
+        }
+    }
+
+    function findUserByName() {
+        const userName = $("#userName").val();
+
+        if (userName.trim() !== "") {
+            $.ajax({
+                method: "GET",
+                url: "api/v1/usuario/containsName",
+                data: "name=" + userName,
+                success: function (response) {
+                    $("#tabelaUsuarios > tbody tr").remove();
+                    for (let i = 0; i < response.length; i++) {
+                        $("#tabelaUsuarios > tbody")
+                            .append('<tr id="' + response[i].id + '"><td>' + response[i].id + '</td><td>' + response[i].name + '</td><td>' + response[i].age + '</td><td><button type="button" class="btn btn-info" onclick="colocarEmEdicao(' + response[i].id + ')">Info</button></td><td><button type="button" class="btn btn-danger" onclick="deletarUsuario(' + response[i].id + ')">Delete</button></td></tr>');
+
+                    }
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Erro ao buscar usuario por nome: " + xhr.responseText);
+            });
+        }
+    }
+
+    function colocarEmEdicao(id) {
+        $.ajax({
+            method: "GET",
+            url: "api/v1/usuario/usuario",
+            data: "id=" + id,
+            success: function (response) {
+                $("#id").val(response.id);
+                $("#name").val(response.name);
+                const birthday = response.dob
+                $(birthday).datepicker({dateFormat: "dd/mm/yy"}).val()
+                $("#dob").val(birthday);
+                $("#exampleModal").modal('hide');
+            }
+        }).fail(function (xhr, status, errorThrown) {
+            alert("Erro ao buscar usuario por id: " + xhr.responseText);
+        });
+    }
+
+    function deletarUsuario(id) {
+
+        if (confirm("Deseja realmente deletar?")) {
+            if (id !== null && id !== "") {
+                $.ajax({
+                    method: "DELETE",
+                    url: "api/v1/usuario/" + id,
+                    success: function (response) {
+                        alert("Usuario Deletado com sucesso");
+                        $("#" + id).remove();
+                        document.getElementById("registerForm").reset();
+                    }
+                }).fail(function (xhr, status, errorThrown) {
+                    alert("Erro ao deletar usuario por id: " + xhr.responseText);
+                });
+            }
+        }
+    }
+</script>
+</body>
+</html>

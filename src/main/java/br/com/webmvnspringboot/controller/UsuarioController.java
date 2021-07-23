@@ -44,8 +44,8 @@ public class UsuarioController {
     }
 
     @PostMapping(path = "register")
-    public void registerUsuario(@RequestBody Usuario usuario) {
-        usuarioService.registerUsuario(usuario);
+    public Usuario registerUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.registerUsuario(usuario);
     }
 
     @PutMapping(path = "update")
