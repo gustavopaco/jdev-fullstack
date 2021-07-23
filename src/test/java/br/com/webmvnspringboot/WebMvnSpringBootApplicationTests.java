@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class WebMvnSpringBootApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+//    @Test
+ //   void contextLoads() {
+//    }
 
 }
