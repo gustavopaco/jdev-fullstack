@@ -19,7 +19,7 @@ public class UsuarioController {
     }
 
     @GetMapping(path = "{name}")
-    public String getWelcome(@PathVariable String name) {
+    public String getWelcome(@PathVariable(name = "name") String name) {
         return usuarioService.getWelcome(name);
     }
 
@@ -28,13 +28,33 @@ public class UsuarioController {
         return usuarioService.getDescription();
     }
 
+    @GetMapping(path = "usuario", params = "id")
+    public Usuario findUsuario(@RequestParam(value = "id") Long id) {
+        return usuarioService.findUsuario(id);
+    }
+
     @GetMapping(path = "usuarios")
     public List<Usuario> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 
+    @GetMapping(path = "containsName", params = "name")
+    public List<Usuario> findByPartName(@RequestParam(value = "name") String name) {
+        return usuarioService.findByPartName(name);
+    }
+
     @PostMapping(path = "register")
     public void registerUsuario(@RequestBody Usuario usuario) {
         usuarioService.registerUsuario(usuario);
+    }
+
+    @PutMapping(path = "update")
+    public Usuario updateUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.updateUsuario(usuario);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteUsuario(@PathVariable(name = "id") Long id) {
+        usuarioService.deleteUsuario(id);
     }
 }
