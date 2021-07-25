@@ -4,6 +4,7 @@ import br.com.webmvnspringbootthymeleaf.model.Pessoa;
 import br.com.webmvnspringbootthymeleaf.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
 public class PessoaService {
@@ -26,5 +27,11 @@ public class PessoaService {
             return "redirect:/pessoa/inicial";
         }
             return "index";
+    }
+
+    public ModelAndView getPessoas() {
+        ModelAndView mav = new ModelAndView("cadastro/cadastropessoa");
+        mav.addObject("pessoas", pessoaRepository.findAll());
+        return mav;
     }
 }

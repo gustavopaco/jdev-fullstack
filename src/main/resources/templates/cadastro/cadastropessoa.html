@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,10 +11,21 @@
 <form action="cadastrar" method="post">
     <label for="nome" id="lbl_nome">Nome</label>
     <input type="text" name="nome" id="nome"/>
-    <br/>
+    <br>
     <label for="sobrenome" id="lbl_sobrenome">Sobrenome</label>
     <input type="text" name="sobrenome" id="sobrenome"/>
+    <br>
+    <label for="dta" id="lbl_dta">Data Nascimento</label>
+    <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd"/>
+    <br>
     <button type="submit" name="btn_salvar" id="btn_salvar">Salvar</button>
 </form>
+<table>
+<tr th:each="pessoa : ${pessoas}">
+    <td th:text="${pessoa.id}"></td>
+    <td th:text="${pessoa.nome}"></td>
+    <td th:text="${pessoa.idade}"></td>
+</tr>
+</table>
 </body>
 </html>

@@ -1,7 +1,11 @@
 package br.com.webmvnspringbootthymeleaf.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 @Table
@@ -19,6 +23,13 @@ public class Pessoa implements Serializable {
 
     @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "dta", nullable = false)
+    private LocalDate dta;
+
+    @Transient
+    private Integer idade;
 
     public Long getId() {
         return id;
@@ -44,6 +55,22 @@ public class Pessoa implements Serializable {
         this.sobrenome = sobrenome;
     }
 
+    public LocalDate getDta() {
+        return dta;
+    }
+
+    public void setDta(LocalDate dta) {
+        this.dta = dta;
+    }
+
+    public Integer getIdade() {
+        return Period.between(this.dta,LocalDate.now()).getYears();
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,6 +90,8 @@ public class Pessoa implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", sobrenome='" + sobrenome + '\'' +
+                ", dta=" + dta +
+                ", idade=" + idade +
                 '}';
     }
 }

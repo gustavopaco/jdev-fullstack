@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(path = "pessoa")
@@ -27,5 +28,10 @@ public class PessoaController {
     @PostMapping(path = "cadastrar")
     public String cadastrarPessoa(Pessoa pessoa) {
         return pessoaService.cadastrarPessoa(pessoa);
+    }
+
+    @GetMapping(path = "listapessoas")
+    public ModelAndView getPessoas() {
+        return pessoaService.getPessoas();
     }
 }
