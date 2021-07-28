@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Objects;
 
 @Table
@@ -30,6 +31,9 @@ public class Pessoa implements Serializable {
 
     @Transient
     private Integer idade;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.MERGE)
+    private List<Telefone> telefones;
 
     public Long getId() {
         return id;
@@ -71,6 +75,14 @@ public class Pessoa implements Serializable {
         this.idade = idade;
     }
 
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,6 +104,7 @@ public class Pessoa implements Serializable {
                 ", sobrenome='" + sobrenome + '\'' +
                 ", dta=" + dta +
                 ", idade=" + idade +
+                ", telefones=" + telefones +
                 '}';
     }
 }

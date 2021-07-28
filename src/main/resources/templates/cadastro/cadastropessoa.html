@@ -4,28 +4,85 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
 </head>
 <body>
-<h1>Tela de Cadastro de pessoa</h1>
-<form action="cadastrar" method="post">
-    <label for="nome" id="lbl_nome">Nome</label>
-    <input type="text" name="nome" id="nome"/>
-    <br>
-    <label for="sobrenome" id="lbl_sobrenome">Sobrenome</label>
-    <input type="text" name="sobrenome" id="sobrenome"/>
-    <br>
-    <label for="dta" id="lbl_dta">Data Nascimento</label>
-    <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd"/>
-    <br>
-    <button type="submit" name="btn_salvar" id="btn_salvar">Salvar</button>
-</form>
-<table>
-<tr th:each="pessoa : ${pessoas}">
-    <td th:text="${pessoa.id}"></td>
-    <td th:text="${pessoa.nome}"></td>
-    <td th:text="${pessoa.idade}"></td>
-</tr>
+<h3>SpringBoot + Thymeleaf + Materialize Design</h3>
+<h5>Cadastro de pessoas</h5>
+<div class="row">
+    <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${usuario}" class="col s12" id="formRegister">
+        <div class="row">
+            <div class="input-field col s6">
+                <label class="active" for="id" id="lbl_id">ID</label>
+                <input type="text" id="id" readonly th:field="*{id}">
+            </div>
+            <div class="input-field col s6">
+                <label class="active" for="nome" id="lbl_nome">Nome</label>
+                <input type="text" name="nome" id="nome" th:field="*{nome}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <label class="active" for="sobrenome" id="lbl_sobrenome">Sobrenome</label>
+                <input type="text" name="sobrenome" id="sobrenome" th:field="*{sobrenome}"/>
+            </div>
+            <div class="input-field col s6">
+                <label class="active" for="dta" id="lbl_dta">Data Nascimento</label>
+                <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd" th:field="*{dta}"
+                       placeholder="dd/mm/aaaa"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s2">
+                <button class="waves-effect waves-light btn" onclick="document.getElementById('formRegister').reset()">
+                    Novo
+                </button>
+                <button class="waves-effect waves-light btn" type="submit">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <form th:action="@{/pessoa/findPessoa}" class="col s12">
+        <div class="row">
+            <div class="input-field col s3">
+                <label class="active" for="find" id="lbl_find">Pesquisa</label>
+                <input type="text" id="find" name="find"/>
+            </div>
+            <div class="col s3" style="margin-top: 25px;">
+                <button class="waves-effect waves-light btn" type="submit">Pesquisar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Idade</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pessoa : ${pessoas}">
+        <td th:text="${pessoa.id}"></td>
+        <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pessoa.id})}"><span th:text="${pessoa.nome}"></span></a></td>
+        <td th:text="${pessoa.sobrenome}"></td>
+        <td th:text="${pessoa.idade}"></td>
+        <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pessoa.id})}"><img src="#" th:src="@{/image/edit2.png}" height="25" width="25" alt="Editar"/></a></td>
+        <td><a th:href="@{/pessoa/deletar/{pessoaID}(pessoaID=${pessoa.id})}"><img src="#" th:src="@{/image/delete.png}" height="25" width="25" alt="Deletar"/></a></td>
+    </tr>
+    </tbody>
 </table>
+<script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
 </body>
 </html>
