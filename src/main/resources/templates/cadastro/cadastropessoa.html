@@ -81,8 +81,12 @@
         <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pes.id})}"><span th:text="${pes.nome}"></span></a></td>
         <td th:text="${pes.sobrenome}"></td>
         <td th:text="${pes.idade}"></td>
-        <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/edit2.png}" height="25" width="25" alt="Editar"/></a></td>
-        <td><a th:href="@{/pessoa/deletar/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/delete.png}" height="25" width="25" alt="Deletar"/></a></td>
+        <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/edit2.png}"
+                                                                               height="25" width="25" alt="Editar"/></a>
+        </td>
+        <td><a th:href="@{/pessoa/deletar/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/delete.png}"
+                                                                                height="25" width="25"
+                                                                                alt="Deletar"/></a></td>
     </tr>
     </tbody>
 </table>

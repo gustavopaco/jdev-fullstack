@@ -3,6 +3,7 @@ package br.com.webmvnspringbootthymeleaf.service;
 import br.com.webmvnspringbootthymeleaf.model.Usuario;
 import br.com.webmvnspringbootthymeleaf.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +27,8 @@ public class UsuarioService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario nao foi encontrado");
         }
 
-        return usuario;
+        return new User(usuario.getLogin(), usuario.getPassword(), usuario.isEnabled(),
+                usuario.isAccountNonExpired(), usuario.isCredentialsNonExpired(), usuario.isAccountNonLocked(),
+                usuario.getAuthorities());
     }
 }

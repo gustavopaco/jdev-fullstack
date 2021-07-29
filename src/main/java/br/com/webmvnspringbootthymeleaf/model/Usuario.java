@@ -5,7 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Table
 @Entity(name = "Usuario")
@@ -18,6 +20,15 @@ public class Usuario implements UserDetails, Serializable {
 
     private String login;
     private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_role",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            foreignKey = @ForeignKey(name = "usuario_id", value = ConstraintMode.CONSTRAINT),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            inverseForeignKey = @ForeignKey(name = "role_id", value = ConstraintMode.CONSTRAINT),
+            uniqueConstraints = @UniqueConstraint(name = "usuario_role_id", columnNames = {"usuario_id","role_id"}))
+    private List<Role> roles = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -39,9 +50,17 @@ public class Usuario implements UserDetails, Serializable {
         this.password = password;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
