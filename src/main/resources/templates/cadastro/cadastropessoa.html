@@ -19,7 +19,7 @@
     <span th:text="${m}"></span>
 </div>
 <div class="row">
-    <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${usuario}" class="col s12" id="formRegister">
+    <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister">
         <div class="row">
             <div class="input-field col s6">
                 <label class="active" for="id" id="lbl_id">ID</label>
@@ -76,13 +76,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="pessoa : ${pessoas}">
-        <td th:text="${pessoa.id}"></td>
-        <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pessoa.id})}"><span th:text="${pessoa.nome}"></span></a></td>
-        <td th:text="${pessoa.sobrenome}"></td>
-        <td th:text="${pessoa.idade}"></td>
-        <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pessoa.id})}"><img src="#" th:src="@{/image/edit2.png}" height="25" width="25" alt="Editar"/></a></td>
-        <td><a th:href="@{/pessoa/deletar/{pessoaID}(pessoaID=${pessoa.id})}"><img src="#" th:src="@{/image/delete.png}" height="25" width="25" alt="Deletar"/></a></td>
+    <tr th:each="pes : ${pessoas}">
+        <td th:text="${pes.id}"></td>
+        <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pes.id})}"><span th:text="${pes.nome}"></span></a></td>
+        <td th:text="${pes.sobrenome}"></td>
+        <td th:text="${pes.idade}"></td>
+        <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/edit2.png}" height="25" width="25" alt="Editar"/></a></td>
+        <td><a th:href="@{/pessoa/deletar/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/delete.png}" height="25" width="25" alt="Deletar"/></a></td>
     </tr>
     </tbody>
 </table>

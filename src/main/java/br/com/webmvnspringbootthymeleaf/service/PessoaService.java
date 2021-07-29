@@ -36,7 +36,7 @@ public class PessoaService {
             bindingResult.getAllErrors().forEach(objectError -> msgs.add(objectError.getDefaultMessage()));
 
             attributes.addFlashAttribute("msg", msgs);
-            attributes.addFlashAttribute("usuario", pessoa);
+            attributes.addFlashAttribute("pessoa", pessoa);
             return "redirect:/pessoa/inicial";
         }
 
@@ -52,7 +52,7 @@ public class PessoaService {
 
     public ModelAndView edicao(Long pessoaID) {
         ModelAndView mav = new ModelAndView("cadastro/cadastropessoa");
-        mav.addObject("usuario", pessoaRepository.findById(pessoaID).orElseThrow(() -> new IllegalStateException("Pessoa nao encontrada")));
+        mav.addObject("pessoa", pessoaRepository.findById(pessoaID).orElseThrow(() -> new IllegalStateException("Pessoa nao encontrada")));
         return mav;
     }
 

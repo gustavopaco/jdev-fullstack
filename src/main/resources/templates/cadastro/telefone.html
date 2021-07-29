@@ -16,7 +16,7 @@
 <h3>SpringBoot + Thymeleaf + Materialize Design</h3>
 <a th:href="@{/pessoa/inicial}">Voltar</a>
 <h5>Cadastro de Telefones</h5>
-<div th:object="${usuario}">
+<div th:object="${pessoa}">
     <div class="row">
         <!--        <p>ID:<span th:text="*{id}"></span></p>-->
         <h5>Bem Vindo, <span th:text="*{nome}"></span></h5>
@@ -29,7 +29,7 @@
     <span th:text="${m}"></span>
 </div>
 <div class="row">
-    <form th:action="@{/telefone/cadastrar/{pessoaID}(pessoaID=${usuario.id})}" method="post" class="col s12"
+    <form th:action="@{/telefone/cadastrar/{pessoaID}(pessoaID=${pessoa.id})}" method="post" class="col s12"
           th:object="${telefone}" onsubmit="return validaCampos()">
         <div class="row">
             <div class="input-field col s3">

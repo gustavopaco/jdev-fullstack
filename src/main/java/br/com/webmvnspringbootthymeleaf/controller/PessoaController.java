@@ -23,7 +23,7 @@ public class PessoaController {
         this.pessoaService = pessoaService;
     }
 
-    @ModelAttribute(name = "usuario")
+    @ModelAttribute(name = "pessoa")
     public Pessoa getPessoa() {
         return new Pessoa();
     }

@@ -35,7 +35,7 @@ public class TelefoneService {
        List<Telefone> telefones = telefoneRepository.findByPessoaID(pessoaID);
 
         return new ModelAndView("cadastro/telefone")
-                .addObject("usuario", pessoa.get())
+                .addObject("pessoa", pessoa.get())
                 .addObject("telefones",telefones);
     }
 
