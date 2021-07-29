@@ -3,6 +3,8 @@ package br.com.webmvnspringbootthymeleaf.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -19,12 +21,15 @@ public class Pessoa implements Serializable {
     @Column(updatable = false)
     private Long id;
 
+    @NotEmpty(message = "Nome nao pode ser vazio")
     @Column(name = "nome", nullable = false)
     private String nome;
 
+    @NotEmpty(message = "Sobrenome nao pode ser vazio")
     @Column(name = "sobrenome", nullable = false)
     private String sobrenome;
 
+    @NotNull(message = "Data de nascimento deve ser selecionada")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dta", nullable = false)
     private LocalDate dta;
@@ -32,7 +37,7 @@ public class Pessoa implements Serializable {
     @Transient
     private Integer idade;
 
-    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Telefone> telefones;
 
     public Long getId() {

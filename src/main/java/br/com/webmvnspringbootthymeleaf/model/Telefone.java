@@ -1,6 +1,7 @@
 package br.com.webmvnspringbootthymeleaf.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Table
@@ -13,9 +14,11 @@ public class Telefone {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @NotEmpty(message = "Campo numero obrigatorio")
     @Column(name = "numero", nullable = false)
     private String numero;
 
+    @NotEmpty(message = "Campo tipo de telefone obrigatorio")
     @Column(name = "tipo", nullable = false)
     private String tipo;
 
@@ -58,9 +61,7 @@ public class Telefone {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Telefone)) return false;
-
-        Telefone telefone = (Telefone) o;
+        if (!(o instanceof Telefone telefone)) return false;
 
         return Objects.equals(id, telefone.id);
     }

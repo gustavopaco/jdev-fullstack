@@ -25,9 +25,12 @@
     </div>
 </div>
 <h5>Telefones</h5>
+<div th:each="m : ${msg}">
+    <span th:text="${m}"></span>
+</div>
 <div class="row">
     <form th:action="@{/telefone/cadastrar/{pessoaID}(pessoaID=${usuario.id})}" method="post" class="col s12"
-          th:object="${telefone}">
+          th:object="${telefone}" onsubmit="return validaCampos()">
         <div class="row">
             <div class="input-field col s3">
                 <label class="active" id="lbl_numero" for="numero">Numero</label>
@@ -47,6 +50,49 @@
         </div>
     </form>
 </div>
+<div class="row">
+    <table class="striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Numero</th>
+            <th>Tipo</th>
+            <th>Dono</th>
+            <th>Deletar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tel : ${telefones}">
+            <td th:text="${tel.id}"></td>
+            <td th:text="${tel.numero}"></td>
+            <td th:text="${tel.tipo}"></td>
+            <td th:text="${tel.pessoa.nome}"></td>
+            <td><a th:href="@{/telefone/deletar/{telefoneID}(telefoneID=${tel.id})}"><img src="#" th:href="@{/image/delete.png}" alt="Deletar" height="25" width="25"/></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function validaCampos() {
+        var check = true;
+        var imprime = "";
+
+        if (document.getElementById("numero").value.trim() === "") {
+            imprime += "Campo Numero\n";
+            check = false
+        }
+        if (document.getElementById("tipo").value.trim() === "") {
+            imprime += "Campo Tipo\n";
+            check = false
+        }
+
+        if (imprime !== "") {
+            alert("Campos obrigatorios\n" + imprime);
+        }
+
+        return check;
+    }
+</script>
 <script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
 </body>
 </html>

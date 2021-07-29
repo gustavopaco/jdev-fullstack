@@ -15,6 +15,9 @@
 <body>
 <h3>SpringBoot + Thymeleaf + Materialize Design</h3>
 <h5>Cadastro de pessoas</h5>
+<div th:each="m : ${msg}">
+    <span th:text="${m}"></span>
+</div>
 <div class="row">
     <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${usuario}" class="col s12" id="formRegister">
         <div class="row">

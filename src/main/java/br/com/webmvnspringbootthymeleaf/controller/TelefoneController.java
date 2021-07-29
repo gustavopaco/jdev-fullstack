@@ -4,14 +4,18 @@ import br.com.webmvnspringbootthymeleaf.model.Telefone;
 import br.com.webmvnspringbootthymeleaf.service.TelefoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(path = "telefone")
 public class TelefoneController {
 
-    private TelefoneService telefoneService;
+    private final TelefoneService telefoneService;
 
     @Autowired
     public TelefoneController(TelefoneService telefoneService) {
@@ -29,7 +33,12 @@ public class TelefoneController {
     }
 
     @PostMapping(path = "cadastrar/{pessoaID}")
-    public String cadastrarTelefone(@PathVariable(name = "pessoaID") Long pessoaID, Telefone telefone) {
-        return telefoneService.cadastrarTelefone(pessoaID, telefone);
+    public String cadastrarTelefone(@PathVariable(name = "pessoaID") Long pessoaID, @Valid Telefone telefone, BindingResult bindingResult, RedirectAttributes attributes) {
+        return telefoneService.cadastrarTelefone(pessoaID, telefone, bindingResult, attributes);
+    }
+
+    @GetMapping(path = "deletar/{telefoneID}")
+    public String deletarTelefone(@PathVariable(name = "telefoneID") Long telefoneID, RedirectAttributes attributes) {
+        return telefoneService.deletarTelefone(telefoneID, attributes);
     }
 }

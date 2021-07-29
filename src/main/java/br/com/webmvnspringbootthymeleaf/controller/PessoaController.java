@@ -4,10 +4,12 @@ import br.com.webmvnspringbootthymeleaf.model.Pessoa;
 import br.com.webmvnspringbootthymeleaf.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -37,8 +39,8 @@ public class PessoaController {
     }
 
     @PostMapping(path = "cadastrar")
-    public String cadastrarPessoa(Pessoa pessoa) {
-        return pessoaService.cadastrarPessoa(pessoa);
+    public String cadastrarPessoa(@Valid Pessoa pessoa, BindingResult bindingResult, RedirectAttributes attributes) {
+        return pessoaService.cadastrarPessoa(pessoa, bindingResult, attributes);
     }
 
     @GetMapping(path = "edicao/{pessoaID}")
@@ -47,8 +49,8 @@ public class PessoaController {
     }
 
     @GetMapping(path = "deletar/{pessoaID}")
-    public String deletarPessoa(@PathVariable(name = "pessoaID") Long pessoaID) {
-        return pessoaService.deletarPessoa(pessoaID);
+    public String deletarPessoa(@PathVariable(name = "pessoaID") Long pessoaID, RedirectAttributes attributes) {
+        return pessoaService.deletarPessoa(pessoaID, attributes);
     }
 
     @GetMapping(path = "findPessoa", params = "find")
