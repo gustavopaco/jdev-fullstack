@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <!--Import Google Icon Font-->
@@ -18,7 +19,7 @@
 <div th:each="m : ${msg}">
     <span th:text="${m}"></span>
 </div>
-<div class="row">
+<div class="row" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
     <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister">
         <div class="row">
             <div class="input-field col s6">
