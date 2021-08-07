@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Title</title>
+</head>
+<body>
+<h3>SpringBoot + Thymeleaf + Materialize Design</h3>
+<h5>Login Form</h5>
+<form th:action="@{/login}" method="post" class="col s8">
+    <div class="row">
+        <div class="input-field col s4">
+            <label for="username">Login</label>
+            <input type="text" name="username" id="username">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s4">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s2">
+            <button class="waves-effect waves-light btn" type="submit">Logar</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
+</body>
+</html>

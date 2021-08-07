@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Table
+@Table(uniqueConstraints = {@UniqueConstraint(name = "login", columnNames = "login")})
 @Entity(name = "Usuario")
 public class Usuario implements UserDetails, Serializable {
 
