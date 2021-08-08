@@ -3,6 +3,8 @@ package br.com.webmvnspringbootthymeleaf.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -34,11 +36,24 @@ public class Pessoa implements Serializable {
     @Column(name = "dta", nullable = false)
     private LocalDate dta;
 
+    @NotBlank(message = "Selecione o sexo da pessoa")
+    @Column(name = "sexo")
+    private String sexo;
+
     @Transient
     private Integer idade;
 
     @OneToMany(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Telefone> telefones;
+
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REMOVE, CascadeType.PERSIST})
+    @JoinTable(name = "pessoa_endereco",
+            joinColumns = @JoinColumn(name = "pessoa_id"),
+            foreignKey = @ForeignKey(name = "pessoa_id", value = ConstraintMode.CONSTRAINT),
+            inverseJoinColumns = @JoinColumn(name = "endereco_id"),
+            inverseForeignKey = @ForeignKey(name = "endereco_id", value = ConstraintMode.CONSTRAINT))
+    @Valid
+    private List<Endereco> enderecos;
 
     public Long getId() {
         return id;
@@ -88,6 +103,22 @@ public class Pessoa implements Serializable {
         this.telefones = telefones;
     }
 
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,8 +139,10 @@ public class Pessoa implements Serializable {
                 ", nome='" + nome + '\'' +
                 ", sobrenome='" + sobrenome + '\'' +
                 ", dta=" + dta +
+                ", sexo='" + sexo + '\'' +
                 ", idade=" + idade +
                 ", telefones=" + telefones +
+                ", enderecos=" + enderecos +
                 '}';
     }
 }

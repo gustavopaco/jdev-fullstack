@@ -10,60 +10,128 @@
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
     <!--Let browser know website is optimized for mobile-->
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.mask.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
 </head>
 <body>
 <h3>SpringBoot + Thymeleaf + Materialize Design</h3>
-<h5>Cadastro de pessoas</h5>
-<div th:each="m : ${msg}">
-    <span th:text="${m}"></span>
-</div>
-<div class="row" sec:authorize="hasAnyRole('ADMIN', 'GERENTE')">
-    <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister">
-        <div class="row">
-            <div class="input-field col s6">
-                <label class="active" for="id" id="lbl_id">ID</label>
-                <input type="text" id="id" readonly th:field="*{id}">
-            </div>
-            <div class="input-field col s6">
-                <label class="active" for="nome" id="lbl_nome">Nome</label>
-                <input type="text" name="nome" id="nome" th:field="*{nome}"/>
-            </div>
+<div class="row" sec:authorize="hasAnyRole('ADMIN' , 'GERENTE')">
+    <fieldset class="col s12">
+        <legend>Cadastro de Pessoas</legend>
+        <div th:each="m : ${msg}">
+            <span th:text="${m}"></span>
         </div>
-        <div class="row">
-            <div class="input-field col s6">
-                <label class="active" for="sobrenome" id="lbl_sobrenome">Sobrenome</label>
-                <input type="text" name="sobrenome" id="sobrenome" th:field="*{sobrenome}"/>
+        <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister">
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="id" id="lbl_id">ID</label>
+                    <input type="text" id="id" readonly th:field="*{id}">
+                </div>
+                <div class="input-field col s6">
+                    <label class="active" for="nome" id="lbl_nome">Nome</label>
+                    <input class="validate" required type="text" name="nome" id="nome" th:field="*{nome}"/>
+                </div>
             </div>
-            <div class="input-field col s6">
-                <label class="active" for="dta" id="lbl_dta">Data Nascimento</label>
-                <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd" th:field="*{dta}"
-                       placeholder="dd/mm/aaaa"/>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="sobrenome" id="lbl_sobrenome">Sobrenome</label>
+                    <input type="text" name="sobrenome" id="sobrenome" th:field="*{sobrenome}"/>
+                </div>
+                <div class="input-field col s6">
+                    <label class="active" for="dta" id="lbl_dta">Data Nascimento</label>
+                    <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd" th:field="*{dta}"
+                           placeholder="dd/mm/aaaa"/>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s2">
-                <button class="waves-effect waves-light btn" onclick="document.getElementById('formRegister').reset()">
-                    Novo
-                </button>
-                <button class="waves-effect waves-light btn" type="submit">Salvar</button>
+            <div class="row">
+                <div class="col s6">
+                    <label class="active" for="selectsexo" id="lbl_sexo">Sexo</label>
+                    <select id="selectsexo" class="browser-default validate" th:field="*{sexo}" required>
+                        <option value="" selected>[Selecione]</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMININO">Feminino</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="row">
+                <div class="input-field col s6" hidden>
+                    <label class="active" for="endereco_id" id="lbl_endereco_id" hidden>ID</label>
+                    <input type="text" name="endereco_id" id="endereco_id" hidden th:field="${pessoa.enderecos[0].id}">
+                </div>
+                <div class="input-field col s6">
+                    <label class="active" id="lbl_cep">Cep</label>
+                    <input type="text" id="cep" th:field="${pessoa.enderecos[0].cep}" required minlength="9"
+                           maxlength="9"
+                           onblur="buscarCEP()"/>
+                    <span id="msgspan"></span>
+                </div>
+                <div class="input-field col s6">
+                    <label for="logradouro" id="lbl_logradouro">Logradouro</label>
+                    <input type="text" name="logradouro" id="logradouro" placeholder="" readonly
+                           th:field="${pessoa.enderecos[0].logradouro}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="complemento" id="lbl_complemento">Complemento</label>
+                    <input type="text" name="complemento" id="complemento"
+                           th:field="${pessoa.enderecos[0].complemento}"/>
+                </div>
+                <div class="input-field col s6">
+                    <label for="bairro" id="lbl_bairro">Bairro</label>
+                    <input type="text" name="bairro" id="bairro" placeholder="" readonly
+                           th:field="${pessoa.enderecos[0].bairro}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="cidade" id="lbl_cidade">Cidade</label>
+                    <input type="text" name="cidade" id="cidade" placeholder="" readonly
+                           th:field="${pessoa.enderecos[0].cidade}"/>
+                </div>
+                <div class="input-field col s6">
+                    <label for="uf" id="lbl_uf">UF</label>
+                    <input type="text" name="uf" placeholder="" id="uf" readonly th:field="${pessoa.enderecos[0].uf}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    <button class="waves-effect waves-light btn" type="button" onclick="resetarPessoa()">
+                        Novo
+                    </button>
+                </div>
+                <div class="col s6">
+                    <button class="waves-effect waves-light btn" type="submit">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
 </div>
 <div class="row">
-    <form th:action="@{/pessoa/findPessoa}" class="col s12">
-        <div class="row">
-            <div class="input-field col s3">
-                <label class="active" for="find" id="lbl_find">Pesquisa</label>
-                <input type="text" id="find" name="find"/>
+    <fieldset class="col s8">
+        <legend>Campos de Pesquisa</legend>
+        <form th:action="@{/pessoa/findPessoa}" class="col s12">
+            <div class="row">
+                <div class="input-field col s3">
+                    <label class="active" for="findname" id="lbl_find">Pesquisa</label>
+                    <input type="text" id="findname" name="findname"/>
+                </div>
+                <div class="input-field col s3">
+                    <label class="active" for="findsexo" id="lbl_findsexo">Sexo</label>
+                    <select class="browser-default" name="findsexo" id="findsexo">
+                        <option value="" selected>[Ambos]</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMININO">Feminino</option>
+                    </select>
+                </div>
+                <div class="col s3" style="margin-top: 25px;">
+                    <button class="waves-effect waves-light btn" type="submit">Pesquisar</button>
+                </div>
             </div>
-            <div class="col s3" style="margin-top: 25px;">
-                <button class="waves-effect waves-light btn" type="submit">Pesquisar</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </fieldset>
 </div>
 <table class="striped">
     <thead>
@@ -91,6 +159,34 @@
     </tr>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#cep").mask('00000-000');
+    });
+</script>
+<script type="text/javascript">
+    function resetarPessoa() {
+        $("#formRegister").attr("action", "[[@{/pessoa/reset}]]").submit();
+    }
+</script>
+<script type="text/javascript">
+    function buscarCEP() {
+        var cepformatado = $("#cep").val().replace("-", "");
+        $.ajax({
+            method: "GET",
+            url: "[[@{/endereco/buscarcep}]]",
+            data: {cep: cepformatado}
+        }).done(function (response) {
+            $("#logradouro").val(response.logradouro);
+            $("#complemento").val(response.complemento);
+            $("#bairro").val(response.bairro);
+            $("#cidade").val(response.cidade);
+            $("#uf").val(response.uf);
+        }).fail(function (xhr, textStatus, errorThrown) {
+            $("#msgspan").text(xhr.responseText);
+        });
+    }
+</script>
 <script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
 </body>
 </html>

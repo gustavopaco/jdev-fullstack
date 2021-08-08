@@ -29,7 +29,7 @@
 <div th:each="m : ${msg}">
     <span th:text="${m}"></span>
 </div>
-<div class="row" sec:authorize="hasAnyRole('USER', 'ADMIN')">
+<div class="row" sec:authorize="hasAnyRole('USER' , 'ADMIN')">
     <form th:action="@{/telefone/cadastrar/{pessoaID}(pessoaID=${pessoa.id})}" method="post" class="col s12"
           th:object="${telefone}" onsubmit="return validaCampos()">
         <div class="row">

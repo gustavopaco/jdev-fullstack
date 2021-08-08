@@ -5,13 +5,9 @@ import br.com.webmvnspringbootthymeleaf.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,13 +66,21 @@ public class PessoaService {
         return pessoaRepository.findAll();
     }
 
-    public ModelAndView findByParameter(String find) {
+    public ModelAndView findByParameter(String findname, String findsexo) {
         ModelAndView mav = new ModelAndView("cadastro/cadastropessoa");
-        if (find == null || find.isBlank()) {
+        if (findname.isBlank() && findsexo.isBlank()) {
             mav.addObject("pessoas", pessoaRepository.findAll());
+        } else if (!findname.isBlank() && findsexo.isBlank()){
+            mav.addObject("pessoas", pessoaRepository.findByName(findname.trim().toLowerCase()));
+        } else if (findname.isBlank() && !findsexo.isBlank()) {
+            mav.addObject("pessoas", pessoaRepository.findBySexo(findsexo));
         } else {
-            mav.addObject("pessoas", pessoaRepository.findByParameter(find.trim().toLowerCase()));
+            mav.addObject("pessoas", pessoaRepository.findByNameSexo(findname.trim().toLowerCase(), findsexo));
         }
         return mav;
+    }
+
+    public String resetForm() {
+        return "redirect:/pessoa/inicial";
     }
 }
