@@ -34,7 +34,7 @@ public class Endereco implements Serializable {
     @Column(name = "uf", nullable = false)
     private String uf;
 
-    @ManyToMany(mappedBy = "enderecos")
+    @ManyToMany(mappedBy = "enderecos", cascade = CascadeType.MERGE)
     private List<Pessoa> pessoas;
 
     public Long getId() {

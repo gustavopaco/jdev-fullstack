@@ -1,6 +1,7 @@
 package br.com.webmvnspringbootthymeleaf.controller;
 
 import br.com.webmvnspringbootthymeleaf.model.Pessoa;
+import br.com.webmvnspringbootthymeleaf.model.Profissao;
 import br.com.webmvnspringbootthymeleaf.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class PessoaController {
     public List<Pessoa> getPessoas() {
         return pessoaService.getPessoas();
     }
+
+    @ModelAttribute(name = "profissoes")
+    public List<Profissao> getProfissoes() { return pessoaService.getProfissoes();}
 
     @GetMapping(path = "inicial")
     public String init() {

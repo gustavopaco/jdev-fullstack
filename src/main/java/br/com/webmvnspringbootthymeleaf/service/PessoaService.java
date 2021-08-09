@@ -1,7 +1,9 @@
 package br.com.webmvnspringbootthymeleaf.service;
 
 import br.com.webmvnspringbootthymeleaf.model.Pessoa;
+import br.com.webmvnspringbootthymeleaf.model.Profissao;
 import br.com.webmvnspringbootthymeleaf.repository.PessoaRepository;
+import br.com.webmvnspringbootthymeleaf.repository.ProfissaoRepository;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGenericoPDFUtil;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGeralGenerico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +26,14 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final RelatorioGenericoPDFUtil relatorioGenericoPDFUtil;
     private final RelatorioGeralGenerico relatorioGeralGenerico;
+    private final ProfissaoRepository profissaoRepository;
 
     @Autowired
-    public PessoaService(PessoaRepository pessoaRepository, RelatorioGenericoPDFUtil relatorioGenericoPDFUtil, RelatorioGeralGenerico relatorioGeralGenerico) {
+    public PessoaService(PessoaRepository pessoaRepository, RelatorioGenericoPDFUtil relatorioGenericoPDFUtil, RelatorioGeralGenerico relatorioGeralGenerico, ProfissaoRepository profissaoRepository) {
         this.pessoaRepository = pessoaRepository;
         this.relatorioGenericoPDFUtil = relatorioGenericoPDFUtil;
         this.relatorioGeralGenerico = relatorioGeralGenerico;
+        this.profissaoRepository = profissaoRepository;
     }
 
     public String init() {
@@ -153,5 +156,9 @@ public class PessoaService {
             pessoas = pessoaRepository.findByNameSexo(findname.trim().toLowerCase(), findsexo);
         }
         return pessoas;
+    }
+
+    public List<Profissao> getProfissoes() {
+        return profissaoRepository.findAll();
     }
 }

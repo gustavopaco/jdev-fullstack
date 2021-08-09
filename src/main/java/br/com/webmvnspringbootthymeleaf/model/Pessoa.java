@@ -45,7 +45,7 @@ public class Pessoa implements Serializable {
     @OneToMany(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Telefone> telefones;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "pessoa_endereco",
             joinColumns = @JoinColumn(name = "pessoa_id"),
             foreignKey = @ForeignKey(name = "pessoa_id", value = ConstraintMode.CONSTRAINT),
@@ -53,6 +53,13 @@ public class Pessoa implements Serializable {
             inverseForeignKey = @ForeignKey(name = "endereco_id", value = ConstraintMode.CONSTRAINT))
     @Valid
     private List<Endereco> enderecos;
+
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profissao_id", foreignKey = @ForeignKey(name = "profissao_id", value = ConstraintMode.CONSTRAINT))
+    private Profissao profissao;
+
+    @Enumerated(value = EnumType.STRING)
+    private Cargo cargo;
 
     public Long getId() {
         return id;
@@ -118,6 +125,22 @@ public class Pessoa implements Serializable {
         this.sexo = sexo;
     }
 
+    public Profissao getProfissao() {
+        return profissao;
+    }
+
+    public void setProfissao(Profissao profissao) {
+        this.profissao = profissao;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,6 +167,8 @@ public class Pessoa implements Serializable {
                 ", idade=" + idade +
                 ", telefones=" + telefones +
                 ", enderecos=" + enderecos +
+                ", profissao=" + profissao +
+                ", cargo=" + cargo +
                 '}';
     }
 }
