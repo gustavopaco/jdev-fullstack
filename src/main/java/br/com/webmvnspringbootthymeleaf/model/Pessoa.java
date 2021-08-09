@@ -31,7 +31,7 @@ public class Pessoa implements Serializable {
     private String sobrenome;
 
     @NotNull(message = "Data de nascimento deve ser selecionada")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "dta", nullable = false)
     private LocalDate dta;
 

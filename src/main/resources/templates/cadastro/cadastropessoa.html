@@ -9,9 +9,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gijgo.min.css}">
     <!--Let browser know website is optimized for mobile-->
     <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.mask.js}"></script>
+    <script type="text/javascript" th:src="@{/js/gijgo.min.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
 </head>
@@ -41,8 +43,7 @@
                 </div>
                 <div class="input-field col s6">
                     <label class="active" for="dta" id="lbl_dta">Data Nascimento</label>
-                    <input type="date" name="dta" id="dta" datatype="yyyy-MM-dd" th:field="*{dta}"
-                           placeholder="dd/mm/aaaa"/>
+                    <input type="date" class="datepicker" name="dta" id="dta" th:field="*{dta}" placeholder="">
                 </div>
             </div>
             <div class="row">
@@ -79,10 +80,10 @@
                     <input type="text" name="endereco_id" id="endereco_id" hidden th:field="${pessoa.enderecos[0].id}">
                 </div>
                 <div class="input-field col s6">
-                    <label class="active" id="lbl_cep">Cep</label>
+                    <label class="active" for="cep" id="lbl_cep">Cep</label>
                     <input type="text" id="cep" th:field="${pessoa.enderecos[0].cep}" required minlength="9"
                            maxlength="9"
-                           onblur="buscarCEP()"/>
+                           onblur="buscarCEP()">
                     <span id="msgspan"></span>
                 </div>
                 <div class="input-field col s6">
@@ -162,14 +163,6 @@
             </div>
         </form>
     </fieldset>
-    <!--    <fieldset>-->
-    <!--        <div class="row">-->
-    <!--            <legend>Relatorio</legend>-->
-    <!--            <form th:action="@{/pessoa/gerarRelatorio}" method="GET">-->
-
-    <!--            </form>-->
-    <!--    </fieldset>-->
-</div>
 </div>
 
 <table class="striped">
@@ -201,6 +194,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#cep").mask('00000-000');
+        $("#dta").datepicker({
+           showOtherMonths : true,
+           format: 'yyyy-mm-dd'
+        });
     });
 </script>
 <script type="text/javascript">
