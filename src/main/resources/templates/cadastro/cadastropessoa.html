@@ -76,7 +76,7 @@
             <div class="row">
                 <div class="input-field col s6">
                     <label class="active" for="complemento" id="lbl_complemento">Complemento</label>
-                    <input type="text" name="complemento" id="complemento"
+                    <input type="text" name="complemento" id="complemento" placeholder=""
                            th:field="${pessoa.enderecos[0].complemento}"/>
                 </div>
                 <div class="input-field col s6">
@@ -110,9 +110,9 @@
     </fieldset>
 </div>
 <div class="row">
-    <fieldset class="col s8">
+    <fieldset class="col s12">
         <legend>Campos de Pesquisa</legend>
-        <form th:action="@{/pessoa/findPessoa}" class="col s12">
+        <form id="formPesquisa" th:action="@{/pessoa/findPessoa}" class="col s12">
             <div class="row">
                 <div class="input-field col s3">
                     <label class="active" for="findname" id="lbl_find">Pesquisa</label>
@@ -126,13 +126,33 @@
                         <option value="FEMININO">Feminino</option>
                     </select>
                 </div>
+                <div class="col s1" style="margin-top: 25px;">
+                    <button class="waves-effect waves-light btn" type="submit" onclick="pesquisarPessoa()">Pesquisar</button>
+                </div>
+                <div class="col s1">
+                    <label class="active" for="formato" id="lbl_formato">Formato</label>
+                    <select class="browser-default" name="formato" id="formato">
+                        <option value=".pdf" selected>PDF</option>
+                        <option value=".xls">EXCEL</option>
+                    </select>
+                </div>
                 <div class="col s3" style="margin-top: 25px;">
-                    <button class="waves-effect waves-light btn" type="submit">Pesquisar</button>
+                    <button class="waves-effect waves-light btn" type="submit" onclick="download()">Download</button>
+                    <span>Relatorio de pessoas e seus enderecos</span>
                 </div>
             </div>
         </form>
     </fieldset>
+<!--    <fieldset>-->
+<!--        <div class="row">-->
+<!--            <legend>Relatorio</legend>-->
+<!--            <form th:action="@{/pessoa/gerarRelatorio}" method="GET">-->
+
+<!--            </form>-->
+<!--    </fieldset>-->
 </div>
+</div>
+
 <table class="striped">
     <thead>
     <tr>
@@ -167,6 +187,14 @@
 <script type="text/javascript">
     function resetarPessoa() {
         $("#formRegister").attr("action", "[[@{/pessoa/reset}]]").submit();
+    }
+</script>
+<script type="text/javascript">
+    function pesquisarPessoa() {
+        $("#formPesquisa").attr("action", "[[@{/pessoa/findPessoa}]]");
+    }
+    function download() {
+        $("#formPesquisa").attr("action", "[[@{/pessoa/gerarRelatorio}]]");
     }
 </script>
 <script type="text/javascript">

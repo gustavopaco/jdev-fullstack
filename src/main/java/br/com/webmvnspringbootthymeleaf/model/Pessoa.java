@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Objects;
 
 @Table
 @Entity(name = "Pessoa")
@@ -122,9 +121,11 @@ public class Pessoa implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Pessoa pessoa)) return false;
+        if (!(o instanceof Pessoa)) return false;
 
-        return Objects.equals(id, pessoa.id);
+        Pessoa pessoa = (Pessoa) o;
+
+        return id != null ? id.equals(pessoa.id) : pessoa.id == null;
     }
 
     @Override

@@ -1,17 +1,16 @@
 package br.com.webmvnspringbootthymeleaf.controller;
 
-import br.com.webmvnspringbootthymeleaf.model.Endereco;
 import br.com.webmvnspringbootthymeleaf.model.Pessoa;
 import br.com.webmvnspringbootthymeleaf.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -64,5 +63,14 @@ public class PessoaController {
     @PostMapping(path = "reset")
     public String resetForm() {
         return pessoaService.resetForm();
+    }
+
+    @GetMapping(path = "gerarRelatorio", params = {"findname", "findsexo","formato"})
+    public void gerarRelatorio(HttpServletRequest request, HttpServletResponse response,
+                               @RequestParam(name = "formato") String formato,
+                               @RequestParam(name = "findname") String findname,
+                               @RequestParam(name = "findsexo") String findsexo) throws Exception {
+//        pessoaService.gerarRelatorio(request, response); - *** Metodo para gerar Relatorio de somente PDF. ***
+        pessoaService.gerarRelatorioFinal(request,response,formato, findname, findsexo);
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2f9c86e-16f3-4a29-ab0c-59815fa57dc7">
+
+    <field name="id" class="java.lang.Long">
+    </field>
+    <field name="dta" class="java.time.LocalDate">
+    </field>
+    <field name="nome" class="java.lang.String">
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="50" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="50" uuid="dc73525d-f7cd-40f9-9c9e-f31074ad9568"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="30"/>
+                </textElement>
+                <text><![CDATA[Relatorio de Pessoas]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="130" height="30" uuid="cfd2d33e-1632-4fdd-9475-ba858ee415c9">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c343273-232d-4f57-83e1-7bf172c9010e"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="130" y="0" width="250" height="30" uuid="cb5a7d29-94be-44e9-b5ec-7e48f333c001">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bfb29104-4fba-4460-8006-f6ad955694a7"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Nome]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="380" y="0" width="175" height="30" uuid="4a679c4a-12cf-402a-922a-a8fccab8b825">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97cb921b-e492-4466-9181-054295992b7a"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Data de Aniversario]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="130" height="30" uuid="48511fc2-7cb1-4ee5-93ff-895ff8dea203">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c343273-232d-4f57-83e1-7bf172c9010e"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="380" y="0" width="175" height="30" uuid="745252ce-a835-47e4-a6e3-a1522a1636e4">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97cb921b-e492-4466-9181-054295992b7a"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{dta}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="130" y="0" width="250" height="30" uuid="41529681-ea3d-42ea-9b08-21971b834e1b">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bfb29104-4fba-4460-8006-f6ad955694a7"/>
+                </reportElement>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>

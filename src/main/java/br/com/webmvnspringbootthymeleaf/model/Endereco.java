@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @Table
 @Entity(name = "Endereco")
@@ -105,9 +104,11 @@ public class Endereco implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Endereco endereco)) return false;
+        if (!(o instanceof Endereco)) return false;
 
-        return Objects.equals(id, endereco.id);
+        Endereco endereco = (Endereco) o;
+
+        return id != null ? id.equals(endereco.id) : endereco.id == null;
     }
 
     @Override

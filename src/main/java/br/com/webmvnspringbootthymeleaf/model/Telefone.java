@@ -2,7 +2,6 @@ package br.com.webmvnspringbootthymeleaf.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
 
 @Table
 @Entity(name = "Telefone")
@@ -61,9 +60,11 @@ public class Telefone {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Telefone telefone)) return false;
+        if (!(o instanceof Telefone)) return false;
 
-        return Objects.equals(id, telefone.id);
+        Telefone telefone = (Telefone) o;
+
+        return id != null ? id.equals(telefone.id) : telefone.id == null;
     }
 
     @Override
