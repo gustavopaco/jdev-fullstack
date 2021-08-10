@@ -9,6 +9,7 @@ import br.com.webmvnspringbootthymeleaf.util.RelatorioGeralGenerico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PessoaService {
@@ -40,7 +43,7 @@ public class PessoaService {
         return "cadastro/cadastropessoa";
     }
 
-    public String cadastrarPessoa(Pessoa pessoa, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String cadastrarPessoa(Pessoa pessoa, MultipartFile file, BindingResult bindingResult, RedirectAttributes attributes) throws Exception {
         if (bindingResult.hasErrors()) {
             ArrayList<String> msgs = new ArrayList<>();
 
@@ -55,6 +58,21 @@ public class PessoaService {
             attributes.addFlashAttribute("msg", "Usuario Cadastrado com sucesso!");
         }else {
             attributes.addFlashAttribute("msg", "Usuario Atualizado com sucesso!");
+        }
+
+        if(!file.isEmpty()) {
+            pessoa.setCurriculo(file.getBytes());
+            pessoa.setFileName(file.getOriginalFilename());
+            pessoa.setFileContentType(file.getContentType());
+        } else if(pessoa.getId() != null) {
+            Optional<Pessoa> pessoaTemp = pessoaRepository.findById(pessoa.getId());
+            pessoaTemp.ifPresent(pes -> {
+                if (pes.getCurriculo() != null) {
+                    pessoa.setCurriculo(pes.getCurriculo());
+                    pessoa.setFileName(pes.getFileName());
+                    pessoa.setFileContentType(pes.getFileContentType());
+                }
+            });
         }
 
         pessoaRepository.save(pessoa);
@@ -160,5 +178,20 @@ public class PessoaService {
 
     public List<Profissao> getProfissoes() {
         return profissaoRepository.findAll();
+    }
+
+    public void downloadCurriculo(Long pessoaID, HttpServletResponse response) throws Exception{
+        Pessoa pessoa = pessoaRepository.getById(pessoaID);
+
+        response.setContentType(pessoa.getFileContentType());
+        response.setContentLength(pessoa.getCurriculo().length);
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename = " + pessoa.getFileName();
+
+        response.setHeader(headerKey,headerValue);
+
+        response.getOutputStream().write(pessoa.getCurriculo());
+        response.getOutputStream().close();
     }
 }

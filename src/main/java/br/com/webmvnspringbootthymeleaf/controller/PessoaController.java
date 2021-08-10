@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,8 +46,11 @@ public class PessoaController {
     }
 
     @PostMapping(path = "cadastrar")
-    public String cadastrarPessoa(@Valid Pessoa pessoa, BindingResult bindingResult, RedirectAttributes attributes) {
-        return pessoaService.cadastrarPessoa(pessoa, bindingResult, attributes);
+    public String cadastrarPessoa(@Valid Pessoa pessoa,
+                                  @RequestParam(name = "file", required = false) MultipartFile file,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes attributes) throws Exception {
+        return pessoaService.cadastrarPessoa(pessoa, file ,bindingResult, attributes);
     }
 
     @GetMapping(path = "edicao/{pessoaID}")
@@ -76,5 +80,11 @@ public class PessoaController {
                                @RequestParam(name = "findsexo") String findsexo) throws Exception {
 //        pessoaService.gerarRelatorio(request, response); - *** Metodo para gerar Relatorio de somente PDF. ***
         pessoaService.gerarRelatorioFinal(request,response,formato, findname, findsexo);
+    }
+
+    @GetMapping(path = "downloadCurriculo/{pessoaID}")
+    public void downloadCurriculo(@PathVariable(name = "pessoaID") Long pessoaID,
+                                  HttpServletResponse response) throws Exception {
+        pessoaService.downloadCurriculo(pessoaID,response);
     }
 }

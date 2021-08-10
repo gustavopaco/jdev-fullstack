@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.List;
 
 @Table
@@ -60,6 +61,14 @@ public class Pessoa implements Serializable {
 
     @Enumerated(value = EnumType.STRING)
     private Cargo cargo;
+
+    @Lob
+    @Column(name = "curriculo")
+    private byte[] curriculo;
+
+    private String fileContentType;
+
+    private String fileName;
 
     public Long getId() {
         return id;
@@ -141,6 +150,30 @@ public class Pessoa implements Serializable {
         this.cargo = cargo;
     }
 
+    public byte[] getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(byte[] curriculo) {
+        this.curriculo = curriculo;
+    }
+
+    public String getFileContentType() {
+        return fileContentType;
+    }
+
+    public void setFileContentType(String fileContentType) {
+        this.fileContentType = fileContentType;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -169,6 +202,8 @@ public class Pessoa implements Serializable {
                 ", enderecos=" + enderecos +
                 ", profissao=" + profissao +
                 ", cargo=" + cargo +
+                ", fileContentType='" + fileContentType + '\'' +
+                ", fileName='" + fileName + '\'' +
                 '}';
     }
 }

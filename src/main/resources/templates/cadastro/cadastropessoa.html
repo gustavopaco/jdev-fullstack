@@ -25,7 +25,8 @@
         <div th:each="m : ${msg}">
             <span th:text="${m}"></span>
         </div>
-        <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister">
+        <form th:action="@{/pessoa/cadastrar}" method="post" th:object="${pessoa}" class="col s12" id="formRegister"
+              enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s6">
                     <label class="active" for="id" id="lbl_id">ID</label>
@@ -69,7 +70,8 @@
                     <select id="selectcargo" class="browser-default validate" th:field="${pessoa.cargo}"
                             required>
                         <option value="" selected aria-invalid="true">[Selecione]</option>
-                        <option th:each="cargo : ${T(br.com.webmvnspringbootthymeleaf.model.Cargo).values()}" th:value="${cargo.key}"
+                        <option th:each="cargo : ${T(br.com.webmvnspringbootthymeleaf.model.Cargo).values()}"
+                                th:value="${cargo.key}"
                                 th:text="${cargo.value}"></option>
                     </select>
                 </div>
@@ -113,6 +115,12 @@
                 <div class="input-field col s6">
                     <label for="uf" id="lbl_uf">UF</label>
                     <input type="text" name="uf" placeholder="" id="uf" readonly th:field="${pessoa.enderecos[0].uf}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label class="active" for="file">Curriculo</label>
+                    <input type="file" id="file" name="file" style="margin-top: 10px;">
                 </div>
             </div>
             <div class="row">
@@ -172,6 +180,7 @@
         <th>Nome</th>
         <th>Sobrenome</th>
         <th>Idade</th>
+        <th>Curriculo</th>
         <th>Editar</th>
         <th>Deletar</th>
     </tr>
@@ -182,6 +191,13 @@
         <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pes.id})}"><span th:text="${pes.nome}"></span></a></td>
         <td th:text="${pes.sobrenome}"></td>
         <td th:text="${pes.idade}"></td>
+        <td>
+            <a th:href="@{/pessoa/downloadCurriculo/{pessoaID}(pessoaID=${pes.id})}" th:if="${pes.fileName}"><img src="#" th:src="@{/image/attachfile.png}" alt="Curriculo"
+                                                     height="25" width="25"></a>
+            <img th:unless="${pes.fileName}" src="#" th:src="@{/image/noattachfile.png}" alt="Curriculo" height="25"
+                 width="25">
+        </td>
+
         <td><a th:href="@{/pessoa/edicao/{pessoaID}(pessoaID=${pes.id})}"><img src="#" th:src="@{/image/edit2.png}"
                                                                                height="25" width="25" alt="Editar"/></a>
         </td>
@@ -192,11 +208,13 @@
     </tbody>
 </table>
 <script type="text/javascript">
+
     $(document).ready(function () {
         $("#cep").mask('00000-000');
         $("#dta").datepicker({
-           showOtherMonths : true,
-           format: 'yyyy-mm-dd'
+            showOtherMonths: true,
+            format: 'yyyy-mm-dd',
+            yearRange: [1900,(new Date().getFullYear())]
         });
     });
 </script>
