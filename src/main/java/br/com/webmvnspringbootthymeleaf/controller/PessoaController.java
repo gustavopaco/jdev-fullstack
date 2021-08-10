@@ -67,8 +67,10 @@ public class PessoaController {
     }
 
     @GetMapping(path = "findPessoa", params = {"findname","findsexo"})
-    public ModelAndView findByParameter(@RequestParam(name = "findname") String findname, @RequestParam(name = "findsexo", required = false) String findsexo) {
-        return pessoaService.findByParameter(findname, findsexo);
+    public ModelAndView findByParameter(@RequestParam(name = "findname") String findname,
+                                        @RequestParam(name = "findsexo", required = false) String findsexo,
+                                        @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
+        return pessoaService.findByParameter(findname, findsexo, pageable);
     }
 
     @PostMapping(path = "reset")
@@ -93,7 +95,9 @@ public class PessoaController {
 
     @GetMapping(path = "pag")
     public ModelAndView paginacaoPessoa(@PageableDefault(size = 5) Pageable pageable,
-                                        ModelAndView modelAndView) {
-        return pessoaService.paginacaoPessoa(pageable,modelAndView);
+                                        ModelAndView modelAndView,
+                                        @RequestParam(name = "findname") String findname,
+                                        @RequestParam(name = "findsexo") String findsexo) {
+        return pessoaService.paginacaoPessoa(pageable,modelAndView,findname, findsexo);
     }
 }

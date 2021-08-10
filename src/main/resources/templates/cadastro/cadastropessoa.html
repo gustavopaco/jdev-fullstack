@@ -16,6 +16,11 @@
     <script type="text/javascript" th:src="@{/js/gijgo.min.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
+    <style>
+        tbody>tr:hover{
+            background-color: yellow;
+        }
+    </style>
 </head>
 <body>
 <h3>SpringBoot + Thymeleaf + Materialize Design</h3>
@@ -125,12 +130,12 @@
             </div>
             <div class="row">
                 <div class="col s6">
-                    <button class="waves-effect waves-light btn" type="button" onclick="resetarPessoa()">
-                        Novo
-                    </button>
+                    <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">save</i>Salvar</button>
                 </div>
                 <div class="col s6">
-                    <button class="waves-effect waves-light btn" type="submit">Salvar</button>
+                    <button class="waves-effect waves-light btn" type="button" onclick="resetarPessoa()">
+                        <i class="material-icons left">person_add</i>Novo
+                    </button>
                 </div>
             </div>
         </form>
@@ -143,18 +148,21 @@
             <div class="row">
                 <div class="input-field col s3">
                     <label class="active" for="findname" id="lbl_find">Pesquisa</label>
-                    <input type="text" id="findname" name="findname"/>
+                    <input type="text" id="findname" name="findname" th:value="${findname}"/>
                 </div>
                 <div class="input-field col s3">
                     <label class="active" for="findsexo" id="lbl_findsexo">Sexo</label>
-                    <select class="browser-default" name="findsexo" id="findsexo">
+                    <select class="browser-default" name="findsexo" id="findsexo" th:value="${findsexo}">
                         <option value="" selected>[Ambos]</option>
-                        <option value="MASCULINO">Masculino</option>
-                        <option value="FEMININO">Feminino</option>
+                        <option value="MASCULINO" th:selected="${findsexo == 'MASCULINO' ? true : false}">Masculino
+                        </option>
+                        <option value="FEMININO" th:selected="${findsexo == 'FEMININO' ? true : false}">Feminino
+                        </option>
                     </select>
                 </div>
-                <div class="col s1" style="margin-top: 25px;">
-                    <button class="waves-effect waves-light btn" type="submit" onclick="pesquisarPessoa()">Pesquisar
+                <div class="col s2" style="margin-top: 25px;">
+                    <button class="waves-effect waves-light btn" type="submit" onclick="pesquisarPessoa()">
+                        <i class="material-icons left">find_in_page</i>Pesquisar
                     </button>
                 </div>
                 <div class="col s1">
@@ -165,8 +173,9 @@
                     </select>
                 </div>
                 <div class="col s3" style="margin-top: 25px;">
-                    <button class="waves-effect waves-light btn" type="submit" onclick="download()">Download</button>
-                    <span>Relatorio de pessoas e seus enderecos</span>
+                    <button class="waves-effect waves-light btn" type="submit" onclick="download()">
+                        <i class="material-icons left">cloud_download</i>Download</button>
+                    <span>Relatorio de pessoas</span>
                 </div>
             </div>
         </form>
@@ -175,19 +184,22 @@
 <div th:align="center" class="row">
     <ul class="pagination">
         <li th:if="${pessoas.hasPrevious}">
-            <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size})}"><i class="material-icons">chevron_left</i></a>
+            <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}"><i
+                    class="material-icons">chevron_left</i></a>
         </li>
         <th:block th:each="i : ${#numbers.sequence(0, pessoas.totalPages - 1)}">
-                <li th:classappend="${pessoas.number == i} ? 'active' : ''">
-                    <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size})}">[[ ${i} + 1 ]]</a>
-                </li>
+            <li th:classappend="${pessoas.number == i} ? 'active' : ''">
+                <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}">[[
+                    ${i} + 1 ]]</a>
+            </li>
         </th:block>
         <li th:if="${pessoas.hasNext}">
-            <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size})}"><i class="material-icons">chevron_right</i></a>
+            <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}"><i
+                    class="material-icons">chevron_right</i></a>
         </li>
     </ul>
 </div>
-<table class="striped centered highlight responsive-table">
+<table class="centered responsive-table">
     <thead>
     <tr>
         <th>ID</th>
@@ -224,13 +236,14 @@
 </table>
 <div th:align="center" class="row" style="top: 20px;">
     <span th:if="${pessoas.hasPrevious}">
-        <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size})}"> < </a>
+        <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}"> < </a>
     </span>
     <th:block th:each="i : ${#numbers.sequence(0, pessoas.totalPages - 1)}">
-        <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size})}">[[ ${i} + 1 ]]</a>
+        <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}">[[
+            ${i} + 1 ]]</a>
     </th:block>
     <span th:if="${pessoas.hasNext}">
-        <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size})}"> > </a>
+        <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size}, findname = ${findname}, findsexo = ${findsexo})}"> > </a>
     </span>
 </div>
 <script type="text/javascript">

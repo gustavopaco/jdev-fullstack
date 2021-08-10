@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <!--Import Google Icon Font-->
@@ -12,7 +14,7 @@
 </head>
 <body>
 <h1>Ola Spring Boot</h1>
-<a href="pessoa/inicial">Cadastro Pessoa</a>
+<a th:href="@{/pessoa/inicial}">Cadastro Pessoa</a>
 <script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
 </body>
 </html>

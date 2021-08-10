@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -26,16 +27,21 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Override /* Configura as solicitacoes de acesso por Http */
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable() /* Desativa as configuracoes padroes de memoria do Spring Security */
+        http.csrf().disable() /* Desativa as configuracoes padroes de memoria do Spring Security */
                 .authorizeRequests() /* Permite e restringe acessos */
-                .antMatchers(HttpMethod.GET, "/").permitAll() /* Qualquer usuario acessa a pagina inicial */
-                .antMatchers(HttpMethod.GET,"/pessoa/inicial").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and().formLogin().permitAll() /* Cria Formulario de login permite a qualquer usuario acessar */
-                .loginPage("/login").defaultSuccessUrl("/pessoa/inicial").failureUrl("/login?error=true")
-                .and().logout().logoutSuccessUrl("/login") /* Mapeia URL de Logout e invalida usuario autenticado */
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                    .antMatchers(HttpMethod.GET, "/").permitAll() /* Qualquer usuario acessa a pagina inicial */
+                    .antMatchers(HttpMethod.GET, "/pessoa/inicial").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+                .and()
+                .formLogin() /* Cria Formulario de login permite a qualquer usuario acessar */
+                .loginPage("/login")
+                    .defaultSuccessUrl("/pessoa/inicial")
+                    .permitAll()
+                .and()
+                .logout()
+//                    .logoutSuccessUrl("/login") /* NAO NECESSARIO - Mapeia URL de Logout e invalida usuario autenticado */
+//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) /* NAO NECESSARIO */
+                    .permitAll();
     }
 
     @Override /* Cria autenticacao do usuario com o banco de dados ou em memoria */
@@ -52,6 +58,6 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Override /* Ignora URL especificas */
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**","/js/**","/static/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/static/**");
     }
 }

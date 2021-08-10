@@ -9,32 +9,61 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/materializealert.css}"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Title</title>
+    <style>
+        form {
+            margin-left: 35%;
+            margin-top: 11%;
+        }
+
+        .col {
+            margin-right: 0rem;
+        }
+
+        h3 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h3>SpringBoot + Thymeleaf + Materialize Design</h3>
-<h5>Login Form</h5>
-<form th:action="@{/login}" method="post" class="col s8">
+<div class="container" style="margin-top: 100px;">
     <div class="row">
-        <div class="input-field col s4">
-            <label for="username">Login</label>
-            <input type="text" name="username" id="username">
-        </div>
+        <h3>SpringBoot + Thymeleaf + Materialize Design</h3>
+        <form th:action="@{/login}" method="post">
+            <h5>Login Form</h5>
+            <div class="materialert info" th:if="${param.logout}">
+                <i class="material-icons">info_outline</i> <span>Voce esta deslogado</span>
+            </div>
+            <div class="materialert error" th:if="${param.error}">
+                <div class="material-icons">error_outline</div>
+                Login e/ou Senha errada
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="username">Login</label>
+                    <input th:classappend="${param.error == true ? 'invalid' : 'validate'}" type="text"
+                           name="username" id="username" style="border-radius: 7px;" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="password">Password</label>
+                    <input class="validate" type="password" name="password" id="password"
+                           style="border-radius: 7px;" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left">check_circle</i>Logar</button>
+                </div>
+            </div>
+        </form>
+
     </div>
-    <div class="row">
-        <div class="input-field col s4">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s2">
-            <button class="waves-effect waves-light btn" type="submit">Logar</button>
-        </div>
-    </div>
-</form>
+</div>
 <script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
 </body>
 </html>
