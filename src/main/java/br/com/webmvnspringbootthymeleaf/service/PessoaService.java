@@ -7,6 +7,10 @@ import br.com.webmvnspringbootthymeleaf.repository.ProfissaoRepository;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGenericoPDFUtil;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGeralGenerico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,8 +98,8 @@ public class PessoaService {
         return "redirect:/pessoa/inicial";
     }
 
-    public List<Pessoa> getPessoas() {
-        return pessoaRepository.findAll();
+    public Page<Pessoa> getPessoas() {
+        return pessoaRepository.findAll(PageRequest.of(0,5, Sort.by("nome")));
     }
 
     public ModelAndView findByParameter(String findname, String findsexo) {
@@ -193,5 +196,12 @@ public class PessoaService {
 
         response.getOutputStream().write(pessoa.getCurriculo());
         response.getOutputStream().close();
+    }
+
+    public ModelAndView paginacaoPessoa(Pageable pageable, ModelAndView modelAndView) {
+        Page<Pessoa> pessoaPage = pessoaRepository.findAll(pageable);
+        modelAndView.addObject("pessoas", pessoaPage);
+        modelAndView.setViewName("cadastro/cadastropessoa");
+        return modelAndView;
     }
 }

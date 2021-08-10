@@ -4,6 +4,9 @@ import br.com.webmvnspringbootthymeleaf.model.Pessoa;
 import br.com.webmvnspringbootthymeleaf.model.Profissao;
 import br.com.webmvnspringbootthymeleaf.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +36,7 @@ public class PessoaController {
     }
 
     @ModelAttribute(name = "pessoas")
-    public List<Pessoa> getPessoas() {
+    public Page<Pessoa> getPessoas() {
         return pessoaService.getPessoas();
     }
 
@@ -86,5 +89,11 @@ public class PessoaController {
     public void downloadCurriculo(@PathVariable(name = "pessoaID") Long pessoaID,
                                   HttpServletResponse response) throws Exception {
         pessoaService.downloadCurriculo(pessoaID,response);
+    }
+
+    @GetMapping(path = "pag")
+    public ModelAndView paginacaoPessoa(@PageableDefault(size = 5) Pageable pageable,
+                                        ModelAndView modelAndView) {
+        return pessoaService.paginacaoPessoa(pageable,modelAndView);
     }
 }

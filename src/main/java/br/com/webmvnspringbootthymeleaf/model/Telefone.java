@@ -2,10 +2,11 @@ package br.com.webmvnspringbootthymeleaf.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Table
 @Entity(name = "Telefone")
-public class Telefone {
+public class Telefone implements Serializable {
 
     @Id
     @SequenceGenerator(name = "telefone_sequence", sequenceName = "telefone_sequence", allocationSize = 1)

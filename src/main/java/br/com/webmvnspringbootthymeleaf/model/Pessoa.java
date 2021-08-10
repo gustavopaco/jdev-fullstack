@@ -1,5 +1,6 @@
 package br.com.webmvnspringbootthymeleaf.model;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Arrays;
 import java.util.List;
 
 @Table
@@ -63,6 +63,7 @@ public class Pessoa implements Serializable {
     private Cargo cargo;
 
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     @Column(name = "curriculo")
     private byte[] curriculo;
 

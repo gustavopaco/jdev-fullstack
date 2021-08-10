@@ -172,8 +172,22 @@
         </form>
     </fieldset>
 </div>
-
-<table class="striped">
+<div th:align="center" class="row">
+    <ul class="pagination">
+        <li th:if="${pessoas.hasPrevious}">
+            <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size})}"><i class="material-icons">chevron_left</i></a>
+        </li>
+        <th:block th:each="i : ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+                <li th:classappend="${pessoas.number == i} ? 'active' : ''">
+                    <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size})}">[[ ${i} + 1 ]]</a>
+                </li>
+        </th:block>
+        <li th:if="${pessoas.hasNext}">
+            <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size})}"><i class="material-icons">chevron_right</i></a>
+        </li>
+    </ul>
+</div>
+<table class="striped centered highlight responsive-table">
     <thead>
     <tr>
         <th>ID</th>
@@ -186,14 +200,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="pes : ${pessoas}">
+    <tr th:each="pes : ${pessoas.content}">
         <td th:text="${pes.id}"></td>
         <td><a th:href="@{/telefone/{pessoaID}(pessoaID=${pes.id})}"><span th:text="${pes.nome}"></span></a></td>
         <td th:text="${pes.sobrenome}"></td>
         <td th:text="${pes.idade}"></td>
         <td>
-            <a th:href="@{/pessoa/downloadCurriculo/{pessoaID}(pessoaID=${pes.id})}" th:if="${pes.fileName}"><img src="#" th:src="@{/image/attachfile.png}" alt="Curriculo"
-                                                     height="25" width="25"></a>
+            <a th:href="@{/pessoa/downloadCurriculo/{pessoaID}(pessoaID=${pes.id})}" th:if="${pes.fileName}"><img
+                    src="#" th:src="@{/image/attachfile.png}" alt="Curriculo"
+                    height="25" width="25"></a>
             <img th:unless="${pes.fileName}" src="#" th:src="@{/image/noattachfile.png}" alt="Curriculo" height="25"
                  width="25">
         </td>
@@ -207,6 +222,17 @@
     </tr>
     </tbody>
 </table>
+<div th:align="center" class="row" style="top: 20px;">
+    <span th:if="${pessoas.hasPrevious}">
+        <a th:href="@{/pessoa/pag(page = ${pessoas.number - 1} , size = ${pessoas.size})}"> < </a>
+    </span>
+    <th:block th:each="i : ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+        <a th:href="@{/pessoa/pag(page = ${i} , size = ${pessoas.size})}">[[ ${i} + 1 ]]</a>
+    </th:block>
+    <span th:if="${pessoas.hasNext}">
+        <a th:href="@{/pessoa/pag(page = ${pessoas.number + 1} , size = ${pessoas.size})}"> > </a>
+    </span>
+</div>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -214,7 +240,7 @@
         $("#dta").datepicker({
             showOtherMonths: true,
             format: 'yyyy-mm-dd',
-            yearRange: [1900,(new Date().getFullYear())]
+            yearRange: [1900, (new Date().getFullYear())]
         });
     });
 </script>
