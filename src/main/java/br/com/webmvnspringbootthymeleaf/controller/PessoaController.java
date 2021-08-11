@@ -83,8 +83,8 @@ public class PessoaController {
                                @RequestParam(name = "formato") String formato,
                                @RequestParam(name = "findname") String findname,
                                @RequestParam(name = "findsexo") String findsexo) throws Exception {
-//        pessoaService.gerarRelatorio(request, response); - *** Metodo para gerar Relatorio de somente PDF. ***
-        pessoaService.gerarRelatorioFinal(request,response,formato, findname, findsexo);
+        pessoaService.gerarRelatorio(request, response); /*** Metodo para gerar Relatorio de somente PDF. ***/
+//        pessoaService.gerarRelatorioFinal(request,response,formato, findname, findsexo);
     }
 
     @GetMapping(path = "downloadCurriculo/{pessoaID}")
