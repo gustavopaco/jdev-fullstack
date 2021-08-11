@@ -6,6 +6,7 @@ import br.com.webmvnspringbootthymeleaf.repository.PessoaRepository;
 import br.com.webmvnspringbootthymeleaf.repository.ProfissaoRepository;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGenericoPDFUtil;
 import br.com.webmvnspringbootthymeleaf.util.RelatorioGeralGenerico;
+import br.com.webmvnspringbootthymeleaf.util.RelatorioJDEV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,13 +33,15 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final RelatorioGenericoPDFUtil relatorioGenericoPDFUtil;
     private final RelatorioGeralGenerico relatorioGeralGenerico;
+    private final RelatorioJDEV relatorioJDEV;
     private final ProfissaoRepository profissaoRepository;
 
     @Autowired
-    public PessoaService(PessoaRepository pessoaRepository, RelatorioGenericoPDFUtil relatorioGenericoPDFUtil, RelatorioGeralGenerico relatorioGeralGenerico, ProfissaoRepository profissaoRepository) {
+    public PessoaService(PessoaRepository pessoaRepository, RelatorioGenericoPDFUtil relatorioGenericoPDFUtil, RelatorioGeralGenerico relatorioGeralGenerico, RelatorioJDEV relatorioJDEV, ProfissaoRepository profissaoRepository) {
         this.pessoaRepository = pessoaRepository;
         this.relatorioGenericoPDFUtil = relatorioGenericoPDFUtil;
         this.relatorioGeralGenerico = relatorioGeralGenerico;
+        this.relatorioJDEV = relatorioJDEV;
         this.profissaoRepository = profissaoRepository;
     }
 
@@ -118,17 +121,7 @@ public class PessoaService {
 
         String nomeRelatorio = "relatorio" + ((int) (Math.random() * 100000) + 1);
 
-        List<Pessoa> pessoas;
-
-        if (findname.isBlank() && findsexo.isBlank()) {
-            pessoas = pessoaRepository.findAll();
-        } else if (!findname.isBlank() && findsexo.isBlank()) {
-            pessoas = pessoaRepository.findByName(findname.trim().toLowerCase());
-        } else if (findname.isBlank() && !findsexo.isBlank()) {
-            pessoas = pessoaRepository.findBySexo(findsexo);
-        } else {
-            pessoas = pessoaRepository.findByNameSexo(findname.trim().toLowerCase(), findsexo);
-        }
+        List<Pessoa> pessoas = getPessoasParaRelatorio(findname, findsexo);
 
         String path = relatorioGeralGenerico.gerarRelatorio(pessoas, new HashMap<>(), "relatorio", formato);
         File file = new File(path);
@@ -157,6 +150,20 @@ public class PessoaService {
         if (file.exists()) {
             file.delete();
         }
+    }
+
+    private List<Pessoa> getPessoasParaRelatorio(String findname, String findsexo) {
+        List<Pessoa> pessoas;
+        if (findname.isBlank() && findsexo.isBlank()) {
+            pessoas = pessoaRepository.findAll();
+        } else if (!findname.isBlank() && findsexo.isBlank()) {
+            pessoas = pessoaRepository.findByName(findname.trim().toLowerCase());
+        } else if (findname.isBlank() && !findsexo.isBlank()) {
+            pessoas = pessoaRepository.findBySexo(findsexo);
+        } else {
+            pessoas = pessoaRepository.findByNameSexo(findname.trim().toLowerCase(), findsexo);
+        }
+        return pessoas;
     }
 
     public void gerarRelatorio(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -223,5 +230,22 @@ public class PessoaService {
         modelAndView.addObject("findsexo", findsexo);
         modelAndView.setViewName("cadastro/cadastropessoa");
         return modelAndView;
+    }
+
+    public void gerarRelatorioJDEV(HttpServletRequest request, HttpServletResponse response, String formato, String findname, String findsexo) throws Exception {
+
+        List<Pessoa> pessoas = getPessoasParaRelatorio(findname,findsexo);
+        byte[] pdf = relatorioJDEV.gerarRelatorio(pessoas);
+
+        response.setContentLength(pdf.length);
+        response.setContentType("application/octet-stream");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename = relatorio" + (Math.random() * 10000) + ".pdf";
+
+        response.setHeader(headerKey, headerValue);
+
+        response.getOutputStream().write(pdf);
+        response.getOutputStream().close();
     }
 }

@@ -3,6 +3,7 @@ package br.com.webmvnspringbootthymeleaf.controller;
 import br.com.webmvnspringbootthymeleaf.model.Pessoa;
 import br.com.webmvnspringbootthymeleaf.model.Profissao;
 import br.com.webmvnspringbootthymeleaf.service.PessoaService;
+import com.lowagie.text.pdf.codec.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.InputStream;
 import java.util.List;
 
 @Controller
@@ -84,6 +86,7 @@ public class PessoaController {
                                @RequestParam(name = "findname") String findname,
                                @RequestParam(name = "findsexo") String findsexo) throws Exception {
 //        pessoaService.gerarRelatorio(request, response); /*** Metodo para gerar Relatorio de somente PDF. ***/
+//        pessoaService.gerarRelatorioJDEV(request,response,formato,findname,findsexo);
         pessoaService.gerarRelatorioFinal(request,response,formato, findname, findsexo);
     }
 
