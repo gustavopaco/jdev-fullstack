@@ -14,7 +14,7 @@ class WebMvnSpringBootThymeleafApplicationTests {
     @Test
     public void testCrypto() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String codificacao = encoder.encode("123");
+        String codificacao = encoder.encode("admin");
         System.out.println(codificacao);
     }
 }
