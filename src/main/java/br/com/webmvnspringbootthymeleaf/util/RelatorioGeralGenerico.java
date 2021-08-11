@@ -33,31 +33,36 @@ public class RelatorioGeralGenerico implements Serializable {
         this.resourceLoader = resourceLoader;
     }
 
-    public String gerarRelatorio(List<?> list, HashMap<String,Object> parametros, String nomeRelatorio, String tipoRelatorio) throws Exception {
+    public String gerarRelatorio(List<?> list, HashMap<String, Object> parametros, String nomeRelatorio, String tipoRelatorio) throws Exception {
+        try {
+            JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(list);
 
-        JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(list);
+            String pathReportJRXML = resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator + nomeRelatorio + ".jrxml").getURI().getPath();
+            String caminhoArquivo = resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator).getURI().getPath() + nomeRelatorio + tipoRelatorio;
 
-        String pathReportJRXML = resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator + nomeRelatorio + ".jrxml").getURI().getPath();
-        String caminhoArquivo = resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator).getURI().getPath() + nomeRelatorio + tipoRelatorio;
+            parametros.put(SUBREPORT_DIR, resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator).getURI().getPath());
 
-        parametros.put(SUBREPORT_DIR,resourceLoader.getResource("classpath:" + File.separator + DIRETORIO_FOLDER + File.separator).getURI().getPath());
+            JasperReport jasperReport = JasperCompileManager.compileReport(pathReportJRXML);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, jrBeanCollectionDataSource);
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(pathReportJRXML);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parametros,jrBeanCollectionDataSource);
+            if (tipoRelatorio.equals(".pdf")) {
+                exporter = new JRPdfExporter();
+            } else if (tipoRelatorio.equals(".xls")) {
+                exporter = new JRXlsExporter();
+            }
 
-        if (tipoRelatorio.equals(".pdf")){
-            exporter = new JRPdfExporter();
-        }else if (tipoRelatorio.equals(".xls")) {
-            exporter = new JRXlsExporter();
+            arquivoTemp = new File(caminhoArquivo);
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(arquivoTemp));
+
+            exporter.exportReport();
+            arquivoTemp.deleteOnExit();
+
+            return caminhoArquivo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Separador de arquivos" + File.separator);
         }
-
-        arquivoTemp = new File(caminhoArquivo);
-        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(arquivoTemp));
-
-        exporter.exportReport();
-        arquivoTemp.deleteOnExit();
-
-        return caminhoArquivo;
+        return "";
     }
 }
