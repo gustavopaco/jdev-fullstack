@@ -23,8 +23,8 @@ import java.util.List;
 @Component
 public class RelatorioGeralGenerico implements Serializable {
 
-    private static final String DIRETORIO_FOLDER = "br/com/webmvnspringbootthymeleaf/reports";
-    private static final String SUBREPORT_DIR = "SUBREPORT_DIR"; // Sub relatorio para trabalhar com relatorio 1 para muitos, 1 relatorio dentro de outro.
+//    private static final String DIRETORIO_FOLDER = "br/com/webmvnspringbootthymeleaf/reports";
+//    private static final String SUBREPORT_DIR = "SUBREPORT_DIR"; // Sub relatorio para trabalhar com relatorio 1 para muitos, 1 relatorio dentro de outro.
     private static File arquivoTemp = null;
     private static Exporter exporter = null;
 

@@ -7,6 +7,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +15,12 @@ import java.util.List;
 @Component
 public class RelatorioGenericoPDFUtil implements Serializable {
 
-    private final ResourceLoader resourceLoader;
+//    private final ResourceLoader resourceLoader;
 
-    @Autowired
-    public RelatorioGenericoPDFUtil(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
+//    @Autowired
+//    public RelatorioGenericoPDFUtil(ResourceLoader resourceLoader) {
+//        this.resourceLoader = resourceLoader;
+//    }
 
     public byte[] gerarRelatorio(List<?> list, String nRelatorio) throws Exception {
 
@@ -28,10 +29,11 @@ public class RelatorioGenericoPDFUtil implements Serializable {
         /* Esse jeito tambem funciona para gerar o Relatorio */
 //        File file = ResourceUtils.getFile("classpath:" + File.separator + "reports" + File.separator + "relatorio.jrxml");
 //        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+//        String path = resourceLoader.getResource("classpath:" + File.separator + "br/com/webmvnspringbootthymeleaf/reports" + File.separator + "relatorio.jrxml").getURI().getPath();
 
-        String path = resourceLoader.getResource("classpath:" + File.separator + "br/com/webmvnspringbootthymeleaf/reports" + File.separator + "relatorio.jrxml").getURI().getPath();
+        InputStream in = this.getClass().getResourceAsStream("/relatorio.jrxml");
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(path);
+        JasperReport jasperReport = JasperCompileManager.compileReport(in);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), jrBeanCollectionDataSource);
 
