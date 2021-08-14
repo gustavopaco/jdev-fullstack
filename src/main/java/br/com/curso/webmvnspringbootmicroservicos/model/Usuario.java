@@ -45,6 +45,10 @@ public class Usuario implements Serializable, UserDetails {
             uniqueConstraints = @UniqueConstraint(name = "usuario_role_uq",columnNames = {"usuario_id","role_id"}))
     private List<Role> roles;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "usuario", cascade = {CascadeType.MERGE, CascadeType.REMOVE,CascadeType.PERSIST})
+    private List<Telefone> telefones;
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
