@@ -40,7 +40,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     // IMPORTANT: Retorna oo usuario ao processar a autenticacao
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
 
         Usuario usuario = new ObjectMapper()
                 .readValue(request.getInputStream(), Usuario.class);
@@ -49,13 +49,13 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         User usuario = (User) authentication.getPrincipal();
         new JWTTokenAutenticacaoService(usuarioRepository).addAuthentication(request, response, usuario);
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
             HashMap<String, String> map = new HashMap<>();
             map.put("error", failed.getMessage());
             response.setHeader("error", failed.getMessage());

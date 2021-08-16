@@ -3,6 +3,7 @@ package br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,7 +25,7 @@ public class JWTApiAutenticacaoFilter extends OncePerRequestFilter {
     private final UsuarioRepository usuarioRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest  request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
 
         try {
             Authentication authentication = new JWTTokenAutenticacaoService(usuarioRepository).getAuthentication(request);
