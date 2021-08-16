@@ -21,10 +21,11 @@ public class Usuario implements UserDetails {
     @Id
     @SequenceGenerator(name = "usuario_sequence", sequenceName = "usuario_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sequence")
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @NotBlank(message = "Nome Obrigatorio")
-    @Column(name = "nome", updatable = false)
+    @Column(name = "nome")
     private String nome;
 
     @NotBlank(message = "Username Obrigatorio")

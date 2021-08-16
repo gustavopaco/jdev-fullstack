@@ -6,12 +6,13 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter @Setter @ToString @RequiredArgsConstructor @AllArgsConstructor
 @Table
 @Entity
-public class Telefone {
+public class Telefone implements Serializable {
 
     @Id
     @SequenceGenerator(name = "telefone_sequence", sequenceName = "telefone_sequence", allocationSize = 1)

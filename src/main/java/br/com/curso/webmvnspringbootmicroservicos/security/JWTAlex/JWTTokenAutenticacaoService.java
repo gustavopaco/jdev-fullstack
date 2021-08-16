@@ -1,6 +1,5 @@
 package br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex;
 
-import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

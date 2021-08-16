@@ -22,6 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     private final UsuarioService usuarioService;
     private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,8 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .and()
                 // IMPORTANT: Adicionando filtro para as requisicoes de autenticacao
                 .addFilterBefore(new JWTLoginFilter("/login",
-                        authenticationManager(),
-                        usuarioRepository),
+                        authenticationManager(), usuarioRepository),
                         UsernamePasswordAuthenticationFilter.class)
                 //  IMPORTANT: Filtra as demais requisicoes para verificar a presenca do TOKEN JWT no Header JWT
                 .addFilterBefore(new JWTApiAutenticacaoFilter(usuarioRepository), UsernamePasswordAuthenticationFilter.class);
@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usuarioService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(usuarioService).passwordEncoder(bCryptPasswordEncoder);
 
             // auth
                 // .inMemoryAuthentication()

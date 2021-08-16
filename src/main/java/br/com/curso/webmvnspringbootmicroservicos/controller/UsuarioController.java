@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,13 +19,23 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping
+    @GetMapping(path = "v1")
+    @Deprecated
     ResponseEntity<List<Usuario>> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "v2")
+    ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
+        return usuarioService.getUsuarios();
+    }
+
+    @GetMapping(path = "{id}", headers = "X-API-Version=v1")
     ResponseEntity<Usuario> getUsuario(@PathVariable Long  id) {
+        return usuarioService.getUsuario(id);}
+
+    @GetMapping(path = "{id}", headers = "X-API-Version=v2")
+    ResponseEntity<Usuario> getUsuario(@PathVariable Long  id, HttpServletRequest request) {
         return usuarioService.getUsuario(id);}
 
     @PostMapping

@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @AllArgsConstructor
+@Service
 public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,7 +55,7 @@ public class UsuarioService implements UserDetailsService {
             bindingResult.getAllErrors().forEach(objectError -> strings.add(objectError.getDefaultMessage()));
             return ResponseEntity.badRequest().body(strings);
         }
-        usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+        usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
         Usuario u = usuarioRepository.save(usuario);
         return ResponseEntity.ok(u);
     }
@@ -77,13 +78,11 @@ public class UsuarioService implements UserDetailsService {
             return ResponseEntity.notFound().build();
         }
 
-        BeanUtils.copyProperties(usuario, usuarioConsultado.get(), "id","password");
+        BeanUtils.copyProperties(usuario, usuarioConsultado.get(), "id", "password");
 
-        BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder();
-        if (!cryptPasswordEncoder.matches(usuario.getPassword(), usuarioConsultado.get().getPassword())) {
-            usuarioConsultado.get().setPassword(cryptPasswordEncoder.encode(usuario.getPassword()));
+        if (!bCryptPasswordEncoder.matches(usuario.getPassword(), usuarioConsultado.get().getPassword())) {
+            usuarioConsultado.get().setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
         }
-
         return ResponseEntity.ok(usuarioRepository.save(usuarioConsultado.get()));
     }
 
@@ -91,11 +90,11 @@ public class UsuarioService implements UserDetailsService {
 
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
-       if (usuario.isEmpty()) {
-           return ResponseEntity.notFound().build();
-       }
+        if (usuario.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-       usuarioRepository.delete(usuario.get());
-       return ResponseEntity.noContent().build();
+        usuarioRepository.delete(usuario.get());
+        return ResponseEntity.noContent().build();
     }
 }

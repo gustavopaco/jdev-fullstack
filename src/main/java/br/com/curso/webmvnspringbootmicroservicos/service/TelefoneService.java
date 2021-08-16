@@ -27,7 +27,6 @@ public class TelefoneService {
         return ResponseEntity.ok(telefones);
     }
 
-
     public ResponseEntity<?> getTelefone(Long telefoneID) {
         Optional<Telefone> telefone = telefoneRepository.findById(telefoneID);
 
@@ -79,8 +78,8 @@ public class TelefoneService {
         if (telefone.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
+
         telefoneRepository.delete(telefone.get());
         return ResponseEntity.noContent().build();
-
     }
 }
