@@ -4,6 +4,7 @@ import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//@EnableCaching /* IMPORTANT: Notacao pode ser utilizada a nivel de camada Applicacao(*), Controller e ate Service */
+//@CrossOrigin /* IMPORTANT: Notacao pode ser utilizada em camada WebSecurity(*), Controller e ate Service */
 @AllArgsConstructor
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -45,6 +49,16 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public ResponseEntity<List<Usuario>> getUsuarios() {
+        return ResponseEntity.ok(usuarioRepository.findAll());
+    }
+
+    /* IMPORTANT: Simulacao de processo lento. Caso o metodo receba paremetros como esse, eh preciso passar algum valor
+    *   que sirva como identificador para saber se a chave ja foi consultada antes, utilizei a URI vinda do request. */
+    @Cacheable(value = "getUsuarios", key = "#request.requestURI")
+    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) throws InterruptedException {
+        System.out.println("Metodo chamado sem cache");
+        /* Simulando um processo lento...*/
+        Thread.sleep(6000);
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
 

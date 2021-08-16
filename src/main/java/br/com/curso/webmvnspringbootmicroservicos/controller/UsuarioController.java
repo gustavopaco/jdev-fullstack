@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
-//@CrossOrigin
+//@EnableCaching /* IMPORTANT: Notacao pode ser utilizada a nivel de camada Applicacao(*), Controller e ate Service */
+//@CrossOrigin /* IMPORTANT: Notacao pode ser utilizada em camada WebSecurity(*), Controller e ate Service */
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "usuario")
@@ -21,35 +22,38 @@ public class UsuarioController {
 
     @GetMapping(path = "v1")
     @Deprecated
-    ResponseEntity<List<Usuario>> getUsuarios() {
+    public ResponseEntity<List<Usuario>> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 
+    // IMPORTANT: Supondo que o carregamento de usuarios seja um processo lento e queremos deixar a lista em Cache
     @GetMapping(path = "v2")
-    ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
-        return usuarioService.getUsuarios();
+    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) throws InterruptedException {
+        return usuarioService.getUsuarios(request);
     }
 
     @GetMapping(path = "{id}", headers = "X-API-Version=v1")
-    ResponseEntity<Usuario> getUsuario(@PathVariable Long  id) {
-        return usuarioService.getUsuario(id);}
+    public ResponseEntity<Usuario> getUsuario(@PathVariable Long id) {
+        return usuarioService.getUsuario(id);
+    }
 
     @GetMapping(path = "{id}", headers = "X-API-Version=v2")
-    ResponseEntity<Usuario> getUsuario(@PathVariable Long  id, HttpServletRequest request) {
-        return usuarioService.getUsuario(id);}
+    public ResponseEntity<Usuario> getUsuario(@PathVariable Long id, HttpServletRequest request) {
+        return usuarioService.getUsuario(id);
+    }
 
     @PostMapping
-    ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
+    public ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
         return usuarioService.addUsuario(usuario, bindingResult);
     }
 
     @PutMapping
-    ResponseEntity<?> updateUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
+    public ResponseEntity<?> updateUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
         return usuarioService.updateUsuario(usuario, bindingResult);
     }
 
     @DeleteMapping(path = "{id}")
-    ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         return usuarioService.deleteUsuario(id);
     }
 }
