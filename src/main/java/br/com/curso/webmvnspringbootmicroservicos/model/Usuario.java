@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +16,7 @@ import java.util.Objects;
 @Getter @Setter @ToString @RequiredArgsConstructor @AllArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(name = "username", columnNames = "username"))
 @Entity
-public class Usuario implements Serializable, UserDetails {
+public class Usuario implements UserDetails {
 
     @Id
     @SequenceGenerator(name = "usuario_sequence", sequenceName = "usuario_sequence", allocationSize = 1)

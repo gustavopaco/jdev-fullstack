@@ -6,14 +6,13 @@ import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Getter @Setter @ToString @RequiredArgsConstructor @AllArgsConstructor
 @Table
 @Entity
-public class Role implements Serializable, GrantedAuthority {
+public class Role implements GrantedAuthority {
 
     @Id
     @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence", allocationSize = 1)

@@ -21,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,9 +31,7 @@ public class UsuarioService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario e/ou senha nao existe");
         }
 
-        return new User(usuario.getUsername(), usuario.getPassword(),
-                usuario.isEnabled(), usuario.isAccountNonExpired(), usuario.isCredentialsNonExpired(), usuario.isAccountNonLocked(),
-                usuario.getAuthorities());
+        return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
     }
 
     public ResponseEntity<Usuario> getUsuario(Long id) {

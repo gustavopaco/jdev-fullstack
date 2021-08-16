@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+//@CrossOrigin
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "usuario")
 public class UsuarioController {
 
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @GetMapping
     ResponseEntity<List<Usuario>> getUsuarios() {
