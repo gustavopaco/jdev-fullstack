@@ -5,6 +5,7 @@ import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTApiAutenti
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTLoginFilter;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -29,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
                     .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/usuario").permitAll()
                     .antMatchers("/usuario/**").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()

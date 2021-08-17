@@ -3,6 +3,7 @@ package br.com.curso.webmvnspringbootmicroservicos.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,7 +37,7 @@ public class Usuario implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinTable(name = "usuario_role",
             joinColumns = @JoinColumn(name = "usuario_id"),
             foreignKey = @ForeignKey(name = "usuario_id", value = ConstraintMode.CONSTRAINT),
@@ -48,6 +49,10 @@ public class Usuario implements UserDetails {
     @ToString.Exclude
     @OneToMany(mappedBy = "usuario", cascade = {CascadeType.MERGE, CascadeType.REMOVE,CascadeType.PERSIST})
     private List<Telefone> telefones;
+
+    @Type(type = "text")
+    @Column(name = "jwt")
+    private String jwt;
 
     @JsonIgnore
     @Override

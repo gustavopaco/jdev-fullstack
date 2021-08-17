@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex;
 
+import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -40,6 +41,80 @@ public class JWTTokenAutenticacaoService {
     // IMPORTANT: Gerando Token de autenticacao e adicionando ao cabecalho de resposta Http
     public void addAuthentication(HttpServletRequest request, HttpServletResponse response, User usuario) throws IOException {
 
+        Usuario usuarioConsultado = usuarioRepository.findUsuarioByLogin(usuario.getUsername());
+
+        Map<String, Object> map = generateTokenUser(request, usuarioConsultado);
+        String token = (String) map.get("token");
+        String tokenFormatado = (String) map.get("tokenFormatado");
+
+        // Gravando Token gerado no banco de dados para logo depois gerar resposta Http
+        usuarioConsultado.setJwt(tokenFormatado);
+        usuarioRepository.save(usuarioConsultado);
+
+        // Adicionando Token ao cabecalho Http
+        response.addHeader(HEADER_STRING, token);
+
+        // Escrevendo token como resposta no Corpo Http
+        response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
+    }
+
+    /* IMPORTANT: Retorna o usuario validado com o token ou caso nao seja valido retorna null */
+    public Authentication getAuthentication(HttpServletRequest request) {
+
+        // Pega o token enviado no cabecalho Http
+        String token = request.getHeader(HEADER_STRING);
+
+        if (token != null) {
+
+            String tokenFormatado = token.substring("Bearer ".length());
+
+            // Descriptografa o token objeto o payload
+            Claims claims = Jwts.parser()
+
+                    // Passando o segredo definido para descriptografia
+                    .setSigningKey(SECRET)
+
+                    //  Removendo o Bearer do inicio do token e descriptografando
+                    .parseClaimsJws(tokenFormatado)
+
+                    //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
+                    .getBody();
+
+            String username = claims.getSubject();
+            List<?> list = (List<?>) claims.get("roles");
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            for (Object role : list) {
+                authorities.add(new SimpleGrantedAuthority(role.toString()));
+            }
+
+            if (username != null) {
+
+                Usuario usuarioConsultado = usuarioRepository.findUsuarioByLogin(username);
+
+                if (tokenFormatado.equals(usuarioConsultado.getJwt())) {
+                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
+                }
+            }
+
+            // IMPORTANT: Outro jeito de validar usuario realizando consulta ao banco apos validar o Token possuindo atributo username
+            // if (username != null) {
+            // Pesquisa o usuario no Banco de dados a partir do username
+            // Usuario usuario = usuarioRepository.findUsuarioByLogin(username);
+            //
+            // if (usuario != null) {
+            //  Retorna usuario com seus dados criptografados
+            // return new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
+            // }
+            // }
+        }
+
+        // Usuario nao autorizado
+        return null;
+    }
+
+    // IMPORTANT: Metodo generico de criacao de Token com criptografia HS512
+    public Map<String, Object> generateTokenUser(HttpServletRequest request, Usuario usuario) {
+
         Map<String, Object> map = new HashMap<>();
         map.put("roles", usuario.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         map.put("ip", request.getRemoteAddr());
@@ -67,57 +142,10 @@ public class JWTTokenAutenticacaoService {
         // Juntando Prefixo + JWT
         String token = TOKEN_PREFIX + " " + JWT;
 
-        // Adicionando Token ao cabecalho Http
-        response.addHeader(HEADER_STRING,token);
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("token", token);
+        objectMap.put("tokenFormatado", JWT);
 
-        // Escrevendo token como resposta no Corpo Http
-        response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
-    }
-
-    /* IMPORTANT: Retorna o usuario validado com o token ou caso nao seja valido retorna null */
-    public Authentication getAuthentication(HttpServletRequest request) {
-
-        // Pega o token enviado no cabecalho Http
-        String token = request.getHeader(HEADER_STRING);
-
-        if (token != null) {
-
-            // Descriptografa o token objeto o payload
-            Claims claims = Jwts.parser()
-
-                    // Passando o segredo definido para descriptografia
-                    .setSigningKey(SECRET)
-
-                    //  Removendo o Bearer do inicio do token e descriptografando
-                    .parseClaimsJws(token.substring("Bearer ".length()))
-
-                    //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
-                    .getBody();
-
-            String username = claims.getSubject();
-            List<?> list = (List<?>) claims.get("roles");
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            for (Object role : list) {
-                authorities.add(new SimpleGrantedAuthority(role.toString()));
-            }
-
-            if (username != null) {
-                return new UsernamePasswordAuthenticationToken(username, null, authorities);
-            }
-
-            // IMPORTANT: Outro jeito de validar usuario realizando consulta ao banco apos validar o Token possuindo atributo username
-            // if (username != null) {
-                // Pesquisa o usuario no Banco de dados a partir do username
-                // Usuario usuario = usuarioRepository.findUsuarioByLogin(username);
-                //
-                // if (usuario != null) {
-                //  Retorna usuario com seus dados criptografados
-                        // return new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
-                // }
-            // }
-        }
-
-        // Usuario nao autorizado
-        return null;
+        return objectMap;
     }
 }

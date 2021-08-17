@@ -17,7 +17,6 @@ public class Role implements GrantedAuthority {
     @Id
     @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_sequence")
-    @JsonIgnore
     private Long id;
 
     private String authority;

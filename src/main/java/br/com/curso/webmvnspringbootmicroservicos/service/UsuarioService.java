@@ -2,6 +2,7 @@ package br.com.curso.webmvnspringbootmicroservicos.service;
 
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
+import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTTokenAutenticacaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 //@EnableCaching /* IMPORTANT: Notacao pode ser utilizada a nivel de camada Applicacao(*), Controller e ate Service */
@@ -28,6 +30,7 @@ public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JWTTokenAutenticacaoService jwtTokenAutenticacaoService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,14 +68,20 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @CacheEvict(cacheNames = "usuarios.all", key = "#usuario.id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */
-    public ResponseEntity<?> addUsuario(Usuario usuario, BindingResult bindingResult) {
+    public ResponseEntity<?> addUsuario(Usuario usuario, BindingResult bindingResult, HttpServletRequest request) {
         List<String> strings = new ArrayList<>();
         if (bindingResult.hasErrors()) {
 
             bindingResult.getAllErrors().forEach(objectError -> strings.add(objectError.getDefaultMessage()));
             return ResponseEntity.badRequest().body(strings);
         }
+
+        Map<String, Object> objectMap = jwtTokenAutenticacaoService.generateTokenUser(request, usuario);
+        String tokenFormatado = (String) objectMap.get("tokenFormatado");
+
         usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
+        usuario.setJwt(tokenFormatado);
+
         Usuario u = usuarioRepository.save(usuario);
         return ResponseEntity.ok(u);
     }

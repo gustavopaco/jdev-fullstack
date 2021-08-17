@@ -28,7 +28,7 @@ public class UsuarioController {
 
     // IMPORTANT: Supondo que o carregamento de usuarios seja um processo lento e queremos deixar a lista em Cache
     @GetMapping(path = "v2")
-    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) throws InterruptedException {
+    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
         return usuarioService.getUsuarios(request);
     }
 
@@ -43,8 +43,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
-        return usuarioService.addUsuario(usuario, bindingResult);
+    public ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpServletRequest request) {
+        return usuarioService.addUsuario(usuario, bindingResult, request);
     }
 
     @PutMapping
