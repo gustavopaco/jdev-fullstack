@@ -54,12 +54,15 @@ public class JWTTokenAutenticacaoService {
         // Adicionando Token ao cabecalho Http
         response.addHeader(HEADER_STRING, token);
 
+        // Metodo que da permissao Ajax CORS, implementado abaixo, metodo principal na camada WebSecurity(*)
+        // openCors(response);
+
         // Escrevendo token como resposta no Corpo Http
         response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
     }
 
     /* IMPORTANT: Retorna o usuario validado com o token ou caso nao seja valido retorna null */
-    public Authentication getAuthentication(HttpServletRequest request) {
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
         // Pega o token enviado no cabecalho Http
         String token = request.getHeader(HEADER_STRING);
@@ -108,8 +111,32 @@ public class JWTTokenAutenticacaoService {
             // }
         }
 
+        // Metodo que da permissao Ajax CORS, implementado abaixo, metodo principal na camada WebSecurity(*)
+        // openCors(response);
         // Usuario nao autorizado
         return null;
+    }
+
+    // IMPORTANT: Metodo que da permisao para outras applicacoes  atraves de requisicoes AJAX
+    //  melhor implementacao direto no WebSecurity(*), porem codigo de EXEMPLO aqui.
+    @Deprecated
+    private void openCors(HttpServletResponse response) {
+
+        if (response.getHeader("Acess-Control-Allow-Origin") == null) {
+            response.addHeader("Acess-Control-Allow-Origin", "*");
+        }
+
+        if (response.getHeaders("Access-Control-Allow-Headers") == null) {
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+
+        if (response.getHeader("Access-Control-Request-Headers") == null) {
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+
+        if (response.getHeader("Access-Control-Allow-Methods") == null) {
+            response.addHeader("Access-Control-Allow-Methods", "*");
+        }
     }
 
     // IMPORTANT: Metodo generico de criacao de Token com criptografia HS512

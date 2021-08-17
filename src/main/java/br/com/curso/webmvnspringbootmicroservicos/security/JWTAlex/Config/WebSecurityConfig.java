@@ -5,7 +5,6 @@ import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTApiAutenti
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTLoginFilter;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -16,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.http.HttpMethod.POST;
 
 @AllArgsConstructor
 @EnableWebSecurity
@@ -30,7 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
                     .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**").permitAll()
-                    .antMatchers(HttpMethod.POST,"/usuario").permitAll()
+                    .antMatchers(POST,"/usuario").permitAll()
+                    // .antMatchers(OPTIONS, "/**").permitAll() /* Remover comentario em caso de necessiadade de liberacao por protocolo OPTIONS */
                     .antMatchers("/usuario/**").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
@@ -68,4 +70,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
             // .allowedMethods("GET","POST","PUT","DELETE")
             // .allowedOrigins("www.servidor1.com","www.empresa1.com");
     }
+
+    // IMPORTANT: Metodo de permissao AJAX Cors - createdBy Alex
+    // @Bean
+    // public CorsConfigurationSource corsConfigurationSource() {
+    // CorsConfiguration configuration = new CorsConfiguration();
+    // configuration.setAllowedOrigins(Arrays.asList("*"));
+    // configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+    // configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+    // configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+    // UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", configuration);
+    // return source;
+    // }
 }

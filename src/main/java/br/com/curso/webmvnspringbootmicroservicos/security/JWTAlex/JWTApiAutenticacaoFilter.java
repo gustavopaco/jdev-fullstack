@@ -28,12 +28,12 @@ public class JWTApiAutenticacaoFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest  request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
 
         try {
-            Authentication authentication = new JWTTokenAutenticacaoService(usuarioRepository).getAuthentication(request);
+            Authentication authentication = new JWTTokenAutenticacaoService(usuarioRepository).getAuthentication(request, response);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
             HashMap<String, String> map = new HashMap<>();
             map.put("error", e.getMessage());
-            response.setHeader("error", e.getMessage());
+            response.addHeader("error-messsage", e.getMessage());
             response.setStatus(FORBIDDEN.value());
             response.setContentType(APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), map);
