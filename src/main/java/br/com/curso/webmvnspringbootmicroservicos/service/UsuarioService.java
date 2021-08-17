@@ -4,6 +4,7 @@ import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,6 +40,7 @@ public class UsuarioService implements UserDetailsService {
         return new User(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
     }
 
+    @Cacheable(cacheNames = "usuarios.all", key = "#id") /* Coloca metodo em cache */
     public ResponseEntity<Usuario> getUsuario(Long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
@@ -48,20 +50,21 @@ public class UsuarioService implements UserDetailsService {
         return ResponseEntity.ok(usuario.get());
     }
 
+    @Cacheable(cacheNames = "usuarios.all") /* Coloca metodo em cache */
     public ResponseEntity<List<Usuario>> getUsuarios() {
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
     /* IMPORTANT: Simulacao de processo lento. Caso o metodo receba paremetros como esse, eh preciso passar algum valor
-    *   que sirva como identificador para saber se a chave ja foi consultada antes, utilizei a URI vinda do request. */
-    @Cacheable(value = "getUsuarios", key = "#request.requestURI")
-    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) throws InterruptedException {
-        System.out.println("Metodo chamado sem cache");
+     *   que sirva como identificador para saber se a chave ja foi consultada antes, utilizei a URI vinda do request. */
+    @Cacheable(cacheNames = "usuarios.all", key = "#request.requestURI") /* Coloca metodo em cache */
+    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
         /* Simulando um processo lento...*/
-        Thread.sleep(6000);
+        // Thread.sleep(6000);
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = "usuarios.all", key = "#usuario.id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */
     public ResponseEntity<?> addUsuario(Usuario usuario, BindingResult bindingResult) {
         List<String> strings = new ArrayList<>();
         if (bindingResult.hasErrors()) {
@@ -74,6 +77,7 @@ public class UsuarioService implements UserDetailsService {
         return ResponseEntity.ok(u);
     }
 
+    @CacheEvict(cacheNames = "usuarios.all", key = "#usuario.id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */
     public ResponseEntity<?> updateUsuario(Usuario usuario, BindingResult bindingResult) {
         List<String> strings = new ArrayList<>();
         if (bindingResult.hasErrors()) {
@@ -100,6 +104,7 @@ public class UsuarioService implements UserDetailsService {
         return ResponseEntity.ok(usuarioRepository.save(usuarioConsultado.get()));
     }
 
+    @CacheEvict(cacheNames = "usuarios.all", key = "#id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */
     public ResponseEntity<Void> deleteUsuario(Long id) {
 
         Optional<Usuario> usuario = usuarioRepository.findById(id);
