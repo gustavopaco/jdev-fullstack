@@ -57,7 +57,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
             HashMap<String, String> map = new HashMap<>();
             map.put("error", failed.getMessage());
-            response.setHeader("error", failed.getMessage());
+            response.addHeader("error_message", failed.getMessage());
             response.setStatus(FORBIDDEN.value());
             response.setContentType(APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), map);

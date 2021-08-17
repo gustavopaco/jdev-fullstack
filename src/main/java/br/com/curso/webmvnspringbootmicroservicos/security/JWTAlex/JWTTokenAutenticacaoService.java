@@ -62,33 +62,13 @@ public class JWTTokenAutenticacaoService {
     }
 
     /* IMPORTANT: Retorna o usuario validado com o token ou caso nao seja valido retorna null */
+    @SuppressWarnings(value = "unchecked")
     public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
-        // Pega o token enviado no cabecalho Http
-        String token = request.getHeader(HEADER_STRING);
-
-        if (token != null) {
-
-            String tokenFormatado = token.substring("Bearer ".length());
-
-            // Descriptografa o token objeto o payload
-            Claims claims = Jwts.parser()
-
-                    // Passando o segredo definido para descriptografia
-                    .setSigningKey(SECRET)
-
-                    //  Removendo o Bearer do inicio do token e descriptografando
-                    .parseClaimsJws(tokenFormatado)
-
-                    //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
-                    .getBody();
-
-            String username = claims.getSubject();
-            List<?> list = (List<?>) claims.get("roles");
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            for (Object role : list) {
-                authorities.add(new SimpleGrantedAuthority(role.toString()));
-            }
+        Map<String,Object> objectMap = breakToken(request);
+        String username = (String) objectMap.get("username");
+        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) objectMap.get("roles");
+        String tokenFormatado = (String) objectMap.get("tokenFormatado");
 
             if (username != null) {
 
@@ -99,17 +79,17 @@ public class JWTTokenAutenticacaoService {
                 }
             }
 
-            // IMPORTANT: Outro jeito de validar usuario realizando consulta ao banco apos validar o Token possuindo atributo username
-            // if (username != null) {
-            // Pesquisa o usuario no Banco de dados a partir do username
-            // Usuario usuario = usuarioRepository.findUsuarioByLogin(username);
-            //
-            // if (usuario != null) {
-            //  Retorna usuario com seus dados criptografados
-            // return new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
-            // }
-            // }
-        }
+        // IMPORTANT: Outro jeito de validar usuario realizando consulta ao banco apos validar o Token possuindo atributo username
+        // if (username != null) {
+        // Pesquisa o usuario no Banco de dados a partir do username
+        // Usuario usuario = usuarioRepository.findUsuarioByLogin(username);
+        //
+        // if (usuario != null) {
+        //  Retorna usuario com seus dados criptografados
+        // return new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities());
+        // }
+        // }
+//        }
 
         // Metodo que da permissao Ajax CORS, implementado abaixo, metodo principal na camada WebSecurity(*)
         // openCors(response);
@@ -173,6 +153,42 @@ public class JWTTokenAutenticacaoService {
         objectMap.put("token", token);
         objectMap.put("tokenFormatado", JWT);
 
+        return objectMap;
+    }
+
+    // IMPORTANT: Metodo para quebra de token, valida se esta expirado e retorna Username, Roles e TokenFormatado
+    public Map<String, Object> breakToken(HttpServletRequest request) {
+
+        Map<String,Object> objectMap = new HashMap<>();
+        // Pega o token enviado no cabecalho Http
+        String token = request.getHeader(HEADER_STRING);
+
+        if (token != null) {
+
+            String tokenFormatado = token.substring("Bearer ".length());
+
+            // Descriptografa o token objeto o payload
+            Claims claims = Jwts.parser()
+
+                    // Passando o segredo definido para descriptografia
+                    .setSigningKey(SECRET)
+
+                    //  Removendo o Bearer do inicio do token e descriptografando
+                    .parseClaimsJws(tokenFormatado)
+
+                    //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
+                    .getBody();
+
+            String username = claims.getSubject();
+            List<?> list = (List<?>) claims.get("roles");
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            for (Object role : list) {
+                authorities.add(new SimpleGrantedAuthority(role.toString()));
+            }
+            objectMap.put("username", username);
+            objectMap.put("roles", authorities);
+            objectMap.put("tokenFormatado", tokenFormatado);
+        }
         return objectMap;
     }
 }

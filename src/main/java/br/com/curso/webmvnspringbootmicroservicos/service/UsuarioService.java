@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.service;
 
+import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTO;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTTokenAutenticacaoService;
@@ -24,6 +25,8 @@ import java.util.Optional;
 
 //@EnableCaching /* IMPORTANT: Notacao pode ser utilizada a nivel de camada Applicacao(*), Controller e ate Service */
 //@CrossOrigin /* IMPORTANT: Notacao pode ser utilizada em camada WebSecurity(*), Controller e ate Service */
+/*TODO: Implementar consulta do usuario pelo Token(metodo de quebrar token) e nao por usuario vindo do Formulario.
+ *  nos metodos PUT, POST, DELETE */
 @AllArgsConstructor
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -61,10 +64,15 @@ public class UsuarioService implements UserDetailsService {
     /* IMPORTANT: Simulacao de processo lento. Caso o metodo receba paremetros como esse, eh preciso passar algum valor
      *   que sirva como identificador para saber se a chave ja foi consultada antes, utilizei a URI vinda do request. */
     @Cacheable(cacheNames = "usuarios.all", key = "#request.requestURI") /* Coloca metodo em cache */
-    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios(HttpServletRequest request) {
         /* Simulando um processo lento...*/
         // Thread.sleep(6000);
-        return ResponseEntity.ok(usuarioRepository.findAll());
+        List<UsuarioDTO> usuarioDTOs = new ArrayList<>();
+        usuarioRepository.findAll().forEach(usuario -> {
+            UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+            usuarioDTOs.add(usuarioDTO);
+        });
+        return ResponseEntity.ok(usuarioDTOs);
     }
 
     @CacheEvict(cacheNames = "usuarios.all", key = "#usuario.id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */
@@ -82,8 +90,8 @@ public class UsuarioService implements UserDetailsService {
         usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
         usuario.setJwt(tokenFormatado);
 
-        Usuario u = usuarioRepository.save(usuario);
-        return ResponseEntity.ok(u);
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return ResponseEntity.ok(usuarioSalvo);
     }
 
     @CacheEvict(cacheNames = "usuarios.all", key = "#usuario.id", allEntries = true) /* Remove do cache caso nao seja utilizado ou atualizado */

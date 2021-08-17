@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -53,6 +54,10 @@ public class Usuario implements UserDetails {
     @Type(type = "text")
     @Column(name = "jwt")
     private String jwt;
+
+    @CPF(message = "CPF invalido, por favor informe um CPF corretamente")
+    @Column(name = "cpf")
+    private String cpf;
 
     @JsonIgnore
     @Override

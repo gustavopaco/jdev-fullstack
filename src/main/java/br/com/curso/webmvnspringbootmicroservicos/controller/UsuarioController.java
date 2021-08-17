@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.controller;
 
+import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTO;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import java.util.List;
 
 //@EnableCaching /* IMPORTANT: Notacao pode ser utilizada a nivel de camada Applicacao(*), Controller e ate Service */
 //@CrossOrigin /* IMPORTANT: Notacao pode ser utilizada em camada WebSecurity(*), Controller e ate Service */
+/*TODO: Implementar consulta do usuario pelo Token(metodo de quebrar token) e nao por usuario vindo do Formulario.
+*  nos metodos PUT, POST, DELETE */
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "usuario")
@@ -28,7 +31,7 @@ public class UsuarioController {
 
     // IMPORTANT: Supondo que o carregamento de usuarios seja um processo lento e queremos deixar a lista em Cache
     @GetMapping(path = "v2")
-    public ResponseEntity<List<Usuario>> getUsuarios(HttpServletRequest request) {
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios(HttpServletRequest request) {
         return usuarioService.getUsuarios(request);
     }
 
@@ -48,7 +51,7 @@ public class UsuarioController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
+    public ResponseEntity<?> updateUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpServletRequest request) {
         return usuarioService.updateUsuario(usuario, bindingResult);
     }
 
