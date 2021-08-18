@@ -18,6 +18,7 @@ public class AddressController {
 
     @GetMapping(path = "{cep}")
     public ResponseEntity<AddressResponse> getAddress(@PathVariable String cep) {
-        return addressService.getAddress(cep);
+        return addressService.getAddress2(cep);
     }
+
 }
