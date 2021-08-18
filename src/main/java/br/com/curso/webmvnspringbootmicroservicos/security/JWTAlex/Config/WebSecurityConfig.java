@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
-                    .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**").permitAll()
+                    .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**", "/address/**").permitAll()
                     .antMatchers(POST,"/usuario").hasAnyRole("ADMIN", "ANONYMOUS")
                     // .antMatchers(OPTIONS, "/**").permitAll() /* Remover comentario em caso de necessiadade de liberacao por protocolo OPTIONS */
                     .antMatchers("/usuario/**").hasAnyRole("ADMIN")

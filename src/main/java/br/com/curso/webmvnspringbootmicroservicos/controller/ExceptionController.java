@@ -25,28 +25,28 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
     // IMPORTANT: Tratamento de erros generico a nivel runtime
-    @Override
-    @NonNull @ExceptionHandler(value = {Exception.class, RuntimeException.class, Throwable.class})
-    protected ResponseEntity<Object> handleExceptionInternal(@NonNull Exception exception, Object body, @NonNull HttpHeaders headers,
-                                                             @NonNull HttpStatus status, @NonNull WebRequest request) {
-
-        StringBuilder message = new StringBuilder();
-
-        if (exception instanceof MethodArgumentNotValidException) {
-            List<ObjectError> exceptionObjects = ((MethodArgumentNotValidException) exception).getBindingResult().getAllErrors();
-            for (ObjectError error: exceptionObjects) {
-                message.append(error.getDefaultMessage());
-            }
-        } else {
-            message.append(exception.getMessage());
-        }
-
-        ExceptionObject exceptionObject = new ExceptionObject();
-        exceptionObject.setErro(message.toString());
-        exceptionObject.setCodigo(status.value() + " ==> " + status.getReasonPhrase());
-
-        return new ResponseEntity<>(exceptionObject, headers,status);
-    }
+//    @Override
+//    @NonNull @ExceptionHandler(value = {Exception.class, RuntimeException.class, Throwable.class})
+//    protected ResponseEntity<Object> handleExceptionInternal(@NonNull Exception exception, Object body, @NonNull HttpHeaders headers,
+//                                                             @NonNull HttpStatus status, @NonNull WebRequest request) {
+//
+//        StringBuilder message = new StringBuilder();
+//
+//        if (exception instanceof MethodArgumentNotValidException) {
+//            List<ObjectError> exceptionObjects = ((MethodArgumentNotValidException) exception).getBindingResult().getAllErrors();
+//            for (ObjectError error: exceptionObjects) {
+//                message.append(error.getDefaultMessage());
+//            }
+//        } else {
+//            message.append(exception.getMessage());
+//        }
+//
+//        ExceptionObject exceptionObject = new ExceptionObject();
+//        exceptionObject.setErro(message.toString());
+//        exceptionObject.setCodigo(status.value() + " ==> " + status.getReasonPhrase());
+//
+//        return new ResponseEntity<>(exceptionObject, headers,status);
+//    }
 
     // IMPORTANT: Tratamento de erros a nivel de persistencia de banco de dados
     @ExceptionHandler(value = {DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class})
