@@ -5,6 +5,8 @@ import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTApiAutenti
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTLoginFilter;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,14 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.http.HttpMethod.POST;
 
 @AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     private final UsuarioService usuarioService;
     private final UsuarioRepository usuarioRepository;
@@ -28,17 +28,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        /* IMPORTANT: 2/2 ETAPAS para desabilitar o Cors*/
+        http.cors();
+        http.headers().addHeaderWriter((request, response) -> response.setHeader("Access-Control-Allow-Origin", "*"));
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
                     .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**", "/address/**").permitAll()
-                    .antMatchers(POST,"/usuario").hasAnyRole("ADMIN", "ANONYMOUS")
-                    // .antMatchers(OPTIONS, "/**").permitAll() /* Remover comentario em caso de necessiadade de liberacao por protocolo OPTIONS */
+                    .antMatchers(POST,"/usuario").hasAnyRole("ANONYMOUS")
                     .antMatchers("/usuario/**").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                 // IMPORTANT: Adicionando filtro para as requisicoes de autenticacao
-                .addFilterBefore(new JWTLoginFilter("/login",
-                        authenticationManager(), usuarioRepository),
+                .addFilterBefore(new JWTLoginFilter("/login",authenticationManagerBean(), usuarioRepository),
                         UsernamePasswordAuthenticationFilter.class)
                 //  IMPORTANT: Filtra as demais requisicoes para verificar a presenca do TOKEN JWT no Header JWT
                 .addFilterBefore(new JWTApiAutenticacaoFilter(usuarioRepository), UsernamePasswordAuthenticationFilter.class);
@@ -61,26 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .antMatchers("/static/**");
     }
 
-    // IMPORTANT: CONFIGURACAO GLOBAL Cors - Aceita requisoes AJAX vindo de IP-URLs diferentes onde API esta hospedada
+    @Bean
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-        // Mapeamento customizado
-        // registry.addMapping("/**")
-            // .allowedMethods("GET","POST","PUT","DELETE")
-            // .allowedOrigins("www.servidor1.com","www.empresa1.com");
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
-
-    // IMPORTANT: Metodo de permissao AJAX Cors - createdBy Alex
-    // @Bean
-    // public CorsConfigurationSource corsConfigurationSource() {
-    // CorsConfiguration configuration = new CorsConfiguration();
-    // configuration.setAllowedOrigins(Arrays.asList("*"));
-    // configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    // configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-    // configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-    // UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    // source.registerCorsConfiguration("/**", configuration);
-    // return source;
-    // }
 }

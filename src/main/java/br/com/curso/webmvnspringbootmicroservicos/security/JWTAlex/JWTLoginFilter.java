@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +26,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     // Important: Configurando o construtor da classe
     public JWTLoginFilter(String url, AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository) {
-
-        //  Obrigando ao construtor autenticar a URL
-        super(new AntPathRequestMatcher(url));
-
+        super(url, authenticationManager);
         this.usuarioRepository = usuarioRepository;
-
+        // /*Obrigando ao construtor autenticar a URL
+        // super(new AntPathRequestMatcher(url));
         // Gerenciador de Autenticacao
-        setAuthenticationManager(authenticationManager);
+        // setAuthenticationManager(authenticationManager);*/
     }
 
     // IMPORTANT: Retorna oo usuario ao processar a autenticacao
@@ -44,7 +41,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         Usuario usuario = new ObjectMapper()
                 .readValue(request.getInputStream(), Usuario.class);
 
-            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities()));
+        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword(), usuario.getAuthorities()));
     }
 
     @Override
@@ -55,11 +52,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("error", failed.getMessage());
-            response.addHeader("error_message", failed.getMessage());
-            response.setStatus(FORBIDDEN.value());
-            response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), map);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("error", failed.getMessage());
+        // response.setHeader("error_message", failed.getMessage());
+        // corsConfiguration.addCorsConfiguration(response);
+        response.setStatus(FORBIDDEN.value());
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), map);
     }
 }

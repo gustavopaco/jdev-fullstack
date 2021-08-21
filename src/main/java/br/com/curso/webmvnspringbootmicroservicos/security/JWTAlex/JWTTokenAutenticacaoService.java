@@ -56,6 +56,7 @@ public class JWTTokenAutenticacaoService {
 
         // Metodo que da permissao Ajax CORS, implementado abaixo, metodo principal na camada WebSecurity(*)
         // openCors(response);
+//        corsConfiguration.addCorsConfiguration(response);
 
         // Escrevendo token como resposta no Corpo Http
         response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
@@ -102,8 +103,8 @@ public class JWTTokenAutenticacaoService {
     @Deprecated
     private void openCors(HttpServletResponse response) {
 
-        if (response.getHeader("Acess-Control-Allow-Origin") == null) {
-            response.addHeader("Acess-Control-Allow-Origin", "*");
+        if (response.getHeader("Access-Control-Allow-Origin") == null) {
+            response.addHeader("Access-Control-Allow-Origin", "*");
         }
 
         if (response.getHeaders("Access-Control-Allow-Headers") == null) {
