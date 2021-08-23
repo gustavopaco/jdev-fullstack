@@ -5,7 +5,9 @@ import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTApiAutenti
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTLoginFilter;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,8 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
-import static org.springframework.http.HttpMethod.POST;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @AllArgsConstructor
 @EnableWebSecurity
@@ -29,13 +31,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /* IMPORTANT: 2/2 ETAPAS para desabilitar o Cors*/
-        http.cors();
-        http.headers().addHeaderWriter((request, response) -> response.setHeader("Access-Control-Allow-Origin", "*"));
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable();
+
+        http.headers().addHeaderWriter((request, response) -> {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Headers","*");
+            response.setHeader("Access-Control-Request-Headers","*");
+            response.setHeader("Access-Control-Max-Age","3600");
+            response.setHeader("Access-Control-Allow-Methods","*");
+        });
+        http.cors()
+                .and()
+                    .authorizeRequests()
                     .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**", "/address/**").permitAll()
-                    .antMatchers(POST,"/usuario").hasAnyRole("ANONYMOUS")
-                    .antMatchers("/usuario/**").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.GET, "/usuario/**").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.POST,"/usuario/**").hasAnyRole("ADMIN","ANONYMOUS")
+                    .antMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.DELETE, "/usuario/**").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.OPTIONS, "/usuario/**").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
                 .and()
                 // IMPORTANT: Adicionando filtro para as requisicoes de autenticacao
                 .addFilterBefore(new JWTLoginFilter("/login",authenticationManagerBean(), usuarioRepository),
@@ -59,6 +75,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/static/**");
+    }
+
+    @Bean
+    public WebMvcConfigurer getCorsConfiguration() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .allowedHeaders("*");
+            }
+        };
     }
 
     @Bean

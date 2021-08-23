@@ -1,6 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.controller;
 
-import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTO;
+import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTOGET;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class UsuarioController {
 
     // IMPORTANT: Supondo que o carregamento de usuarios seja um processo lento e queremos deixar a lista em Cache
     @GetMapping(path = "v2")
-    public ResponseEntity<List<UsuarioDTO>> getUsuarios(HttpServletRequest request) {
+    public ResponseEntity<List<UsuarioDTOGET>> getUsuarios(HttpServletRequest request) {
         return usuarioService.getUsuarios(request);
     }
 
@@ -45,9 +46,15 @@ public class UsuarioController {
         return usuarioService.getUsuario(id);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Usuario>> getUsuarioByName(@RequestParam String nome) {
+        return usuarioService.getUsuarioByName(nome);
+    }
+
     @PostMapping
-    public ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult, HttpServletRequest request) {
-        return usuarioService.addUsuario(usuario, bindingResult, request);
+    public ResponseEntity<?> addUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult,
+                                        HttpServletRequest request, HttpServletResponse response) {
+        return usuarioService.addUsuario(usuario, bindingResult, request, response);
     }
 
     @PutMapping

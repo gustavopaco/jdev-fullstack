@@ -5,15 +5,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
-@EnableWebMvc
-public class CorsConfiguration implements WebMvcConfigurer{
+//@Configuration
+//@EnableWebMvc
+public class CorsConfiguration {
 
     // IMPORTANT: CONFIGURACAO GLOBAL Cors - Aceita requisoes AJAX vindo de IP-URLs diferentes onde API esta hospedada
     //     *** 1/2 ETAPAS ***
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
 //                .allowedMethods("GET","POST","PUT","DELETE", "OPTIONS", "HEAD","PATCH","TRACE");
 //                .allowedOrigins("Access-Control-Allow-Origin")
 //                .allowedHeaders("Origin","Content-Type","Accept","authorization")
@@ -23,7 +23,7 @@ public class CorsConfiguration implements WebMvcConfigurer{
                     //  registry.addMapping("/**")
                     // .allowedMethods("GET","POST","PUT","DELETE")
                     // .allowedOrigins("www.servidor1.com","www.empresa1.com");
-    }
+//    }
 
     /*@Deprecated
     public void addCorsConfiguration(HttpServletResponse response) {

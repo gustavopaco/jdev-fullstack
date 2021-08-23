@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex;
 
+import br.com.curso.webmvnspringbootmicroservicos.model.Constantes;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import io.jsonwebtoken.Claims;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static br.com.curso.webmvnspringbootmicroservicos.model.Constantes.*;
+
 @AllArgsConstructor
 @Service
 public class JWTTokenAutenticacaoService {
@@ -30,13 +33,13 @@ public class JWTTokenAutenticacaoService {
     // private static final long EXPIRATION_TIME = 300000;
 
     // IMPORTANT: Senha unica que eh adicionada com outros dados para a autenticacao do JWT
-    private static final String SECRET = "SenhaExtremamenteSecreta";
+    // private static final String SECRET = "SenhaExtremamenteSecreta";
 
     // IMPORTANT: Prefixo que compoe o JWT
-    private static final String TOKEN_PREFIX = "Bearer";
+    // private static final String TOKEN_PREFIX = "Bearer";
 
     // IMPORTANT: Chave do mapa hash Map<Key,Value> para poder ser chamado e identificar o token
-    private static final String HEADER_STRING = "Authorization";
+    // private static final String HEADER_STRING = "Authorization";
 
     // IMPORTANT: Gerando Token de autenticacao e adicionando ao cabecalho de resposta Http
     public void addAuthentication(HttpServletRequest request, HttpServletResponse response, User usuario) throws IOException {
@@ -52,7 +55,7 @@ public class JWTTokenAutenticacaoService {
         usuarioRepository.save(usuarioConsultado);
 
         // Adicionando Token ao cabecalho Http
-        response.addHeader(HEADER_STRING, token);
+        response.setHeader(AUTHORIZATION.getValue(), token);
 
         // Metodo que da permissao Ajax CORS, implementado abaixo, metodo principal na camada WebSecurity(*)
         // openCors(response);
@@ -142,13 +145,13 @@ public class JWTTokenAutenticacaoService {
                 .addClaims(map)
 
                 // Definindo o algoritmo e Senha unica usada para criptografar os dados
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512, SECRET.getValue())
 
                 // Compactacao e algoritmo de geracao de senha
                 .compact();
 
         // Juntando Prefixo + JWT
-        String token = TOKEN_PREFIX + " " + JWT;
+        String token = TOKEN_PREFIX.getValue() + " " + JWT;
 
         Map<String, Object> objectMap = new HashMap<>();
         objectMap.put("token", token);
@@ -162,7 +165,7 @@ public class JWTTokenAutenticacaoService {
 
         Map<String,Object> objectMap = new HashMap<>();
         // Pega o token enviado no cabecalho Http
-        String token = request.getHeader(HEADER_STRING);
+        String token = request.getHeader(AUTHORIZATION.getValue());
 
         if (token != null) {
 
@@ -172,7 +175,7 @@ public class JWTTokenAutenticacaoService {
             Claims claims = Jwts.parser()
 
                     // Passando o segredo definido para descriptografia
-                    .setSigningKey(SECRET)
+                    .setSigningKey(SECRET.getValue())
 
                     //  Removendo o Bearer do inicio do token e descriptografando
                     .parseClaimsJws(tokenFormatado)
