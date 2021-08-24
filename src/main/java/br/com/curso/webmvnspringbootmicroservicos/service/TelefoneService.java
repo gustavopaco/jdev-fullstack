@@ -6,6 +6,7 @@ import br.com.curso.webmvnspringbootmicroservicos.repository.TelefoneRepository;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -72,6 +73,7 @@ public class TelefoneService {
         return ResponseEntity.ok(telefoneAtualizado);
     }
 
+    @CacheEvict(cacheNames = "usuarios.all", key = "#telefoneID", allEntries = true)
     public ResponseEntity<Void> deleteTelefone(Long telefoneID) {
         Optional<Telefone> telefone = telefoneRepository.findById(telefoneID);
 
