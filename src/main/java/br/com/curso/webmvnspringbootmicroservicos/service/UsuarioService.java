@@ -146,6 +146,8 @@ public class UsuarioService implements UserDetailsService {
             throw new ResponseStatusException(BAD_REQUEST, "Usuario nao encontrado");
         }
 
+        usuario.getTelefones().forEach(telefone -> telefone.setUsuario(usuario));
+
         BeanUtils.copyProperties(usuario, usuarioConsultado.get(), "id", "password", "jwt");
 
         if (!usuario.getPassword().equals(usuarioConsultado.get().getPassword())) {

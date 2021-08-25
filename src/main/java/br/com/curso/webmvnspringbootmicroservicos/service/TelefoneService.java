@@ -37,6 +37,7 @@ public class TelefoneService {
         return ResponseEntity.ok(telefone.get());
     }
 
+    @CacheEvict(cacheNames = "usuarios.all", key = "#usuarioID", allEntries = true)
     public ResponseEntity<?> addTelefone(Long usuarioID, Telefone telefone, BindingResult bindingResult) {
         List<String> strings = new ArrayList<>();
 
