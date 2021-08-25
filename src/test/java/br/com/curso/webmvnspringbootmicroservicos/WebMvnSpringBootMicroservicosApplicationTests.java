@@ -24,4 +24,13 @@ class WebMvnSpringBootMicroservicosApplicationTests {
         String password = "123";
         System.out.println(new BCryptPasswordEncoder().matches(password, "$2a$10$px23nFDTwDkZ6gEsE7lHDOf1cjbECHxOLPQaFlKuiUdMiHsvRZ6mm"));
     }
+
+    @Test
+    void distance() {
+        double latitude = -19.960554;
+        double longitude = -43.993486;
+
+        System.out.println("Latitude" + latitude);
+        System.out.println("Longitude" + longitude);
+    }
 }

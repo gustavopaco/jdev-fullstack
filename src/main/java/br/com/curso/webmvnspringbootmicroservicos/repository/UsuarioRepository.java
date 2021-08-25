@@ -1,6 +1,8 @@
 package br.com.curso.webmvnspringbootmicroservicos.repository;
 
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +19,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsUsuarioLogin(Long id, String username);
 
     @Query(value = "select u from Usuario u where upper(u.nome) like %?1%")
-    List<Usuario> findUsuarioByName(String nome);
+    Page<Usuario> findUsuarioByName(String nome, Pageable pageable);
 }

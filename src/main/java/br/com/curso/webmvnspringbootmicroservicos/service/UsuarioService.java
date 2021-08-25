@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,8 +70,9 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @Cacheable(cacheNames = "usuarios.all") /* Coloca metodo em cache */
-    public ResponseEntity<List<Usuario>> getUsuarios() {
-        return ResponseEntity.ok(usuarioRepository.findAll());
+    public ResponseEntity<Page<Usuario>> getUsuarios() {
+        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0,5,Sort.by("nome"))));
+//        return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
     /* IMPORTANT: Simulacao de processo lento. Caso o metodo receba paremetros como esse, eh preciso passar algum valor
@@ -162,12 +166,12 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @Cacheable(cacheNames = "usuarios.all", key = "#nome")
-    public ResponseEntity<List<Usuario>> getUsuarioByName(String nome) {
+    public ResponseEntity<Page<Usuario>> getUsuarioByName(int currentPage, String nome) {
 
         if (nome == null || nome.isBlank()) {
-            return ResponseEntity.ok(usuarioRepository.findAll());
+            return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0,5,Sort.by("nome"))));
         } else {
-            return ResponseEntity.ok(usuarioRepository.findUsuarioByName(nome.trim().toUpperCase()));
+            return ResponseEntity.ok(usuarioRepository.findUsuarioByName(nome.trim().toUpperCase(),PageRequest.of(currentPage,5,Sort.by("nome"))));
         }
     }
 
@@ -182,5 +186,12 @@ public class UsuarioService implements UserDetailsService {
 
         usuarioRepository.delete(usuario.get());
         return ResponseEntity.noContent().build();
+    }
+
+    public ResponseEntity<Page<Usuario>> loadPageableUsers(Integer currentPage) {
+        if (currentPage == null) {
+            throw new ResponseStatusException(BAD_REQUEST,"Erro ao buscar pagina");
+        }
+        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(currentPage, 5 , Sort.by("nome"))));
     }
 }

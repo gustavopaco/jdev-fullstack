@@ -4,6 +4,7 @@ import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTOGET;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class UsuarioController {
 
     @GetMapping(path = "v1")
     @Deprecated
-    public ResponseEntity<List<Usuario>> getUsuarios() {
+    public ResponseEntity<Page<Usuario>> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 
@@ -47,8 +48,14 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuarioByName(@RequestParam String nome) {
-        return usuarioService.getUsuarioByName(nome);
+    public ResponseEntity<Page<Usuario>> getUsuarioByName(@RequestParam int currentPage,
+                                                          @RequestParam String nome) {
+        return usuarioService.getUsuarioByName(currentPage,nome);
+    }
+
+    @GetMapping(path = "page")
+    public ResponseEntity<Page<Usuario>> loadPageableUsers(@RequestParam Integer currentPage) {
+        return usuarioService.loadPageableUsers(currentPage);
     }
 
     @PostMapping
