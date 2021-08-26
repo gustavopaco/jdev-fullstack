@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.dto;
 
+import br.com.curso.webmvnspringbootmicroservicos.model.Profissao;
 import br.com.curso.webmvnspringbootmicroservicos.model.Role;
 import br.com.curso.webmvnspringbootmicroservicos.model.Telefone;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -26,6 +29,9 @@ public class UsuarioDTOGET implements Serializable {
     private String localidade;
     private String uf;
     private String jwt;
+    private LocalDate dataNascimento;
+    private Profissao profissao;
+    private BigDecimal salario;
     private List<Role> roles;
     private List<Telefone> telefones;
 
@@ -44,5 +50,8 @@ public class UsuarioDTOGET implements Serializable {
         this.jwt = usuario.getJwt();
         this.roles = usuario.getRoles();
         this.telefones = usuario.getTelefones();
+        this.dataNascimento = usuario.getDataNascimento();
+        this.profissao = usuario.getProfissao();
+        this.salario = usuario.getSalario();
     }
 }

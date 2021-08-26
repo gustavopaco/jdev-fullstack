@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.dto;
 
+import br.com.curso.webmvnspringbootmicroservicos.model.Profissao;
 import br.com.curso.webmvnspringbootmicroservicos.model.Role;
 import br.com.curso.webmvnspringbootmicroservicos.model.Telefone;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
@@ -11,6 +12,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -27,6 +30,9 @@ public class UsuarioDTOPOST implements Serializable {
     private String bairro;
     private String localidade;
     private String uf;
+    private LocalDate dataNascimento;
+    private Profissao profissao;
+    private BigDecimal salario;
     private List<Role> roles;
     private List<Telefone> telefones;
 
@@ -44,5 +50,8 @@ public class UsuarioDTOPOST implements Serializable {
         this.uf = usuario.getUf();
         this.roles = usuario.getRoles();
         this.telefones = usuario.getTelefones();
+        this.dataNascimento = usuario.getDataNascimento();
+        this.profissao = usuario.getProfissao();
+        this.salario = usuario.getSalario();
     }
 }

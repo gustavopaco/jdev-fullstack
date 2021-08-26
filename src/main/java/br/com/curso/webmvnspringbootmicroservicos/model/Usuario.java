@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -84,6 +86,18 @@ public class Usuario implements UserDetails {
 
     @Column(name = "longitude")
     private Double Longitude;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "data_nascimento")
+    private LocalDate dataNascimento;
+
+    @ManyToOne
+    @JoinColumn(name = "profissao_id", foreignKey = @ForeignKey(name = "profissao_id", value = ConstraintMode.CONSTRAINT))
+    private Profissao profissao;
+
+    @Column(name = "salario")
+    private BigDecimal salario;
 
     @JsonIgnore
     @Override
