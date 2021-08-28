@@ -64,6 +64,11 @@ public class UsuarioController {
         return usuarioService.downloadReport(reportFormat, request, response);
     }
 
+    @GetMapping(path = "chart")
+    public ResponseEntity<?> dataChart() {
+        return usuarioService.dataChart();
+    }
+
     @PostMapping(path = "report")
     public ResponseEntity<?> advancedReport(@RequestParam String reportFormat, @RequestBody ReportDTO reportDTO, HttpServletRequest request, HttpServletResponse response) {
         return usuarioService.advancedReport(reportFormat, reportDTO , request, response);

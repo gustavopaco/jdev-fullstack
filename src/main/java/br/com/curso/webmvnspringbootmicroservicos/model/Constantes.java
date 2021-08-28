@@ -10,9 +10,9 @@ public enum Constantes {
     HTMLCONTENT("text/html; charset=utf-8"),
     REMETENTE("JOverflow"),
     ASSUNTO("Password Recovery"),
-    ANGULARURL("http://localhost:4200/resetPassword/"),
-    EMAIL("Emailxxxxxxxx"),
-    PASSWORD("Passwordxxxxxxxx");
+    ANGULARURL("SETAR-AWS-URL-RESET-PASSWORD http://localhost:4200/resetPassword/"),
+    EMAIL("SETAR-EMAIL"),
+    PASSWORD("SETAR-PASSWORD");
 
     private String value;
 

@@ -1,11 +1,22 @@
 package br.com.curso.webmvnspringbootmicroservicos;
 
+import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
+import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+
 @SpringBootTest
 class WebMvnSpringBootMicroservicosApplicationTests {
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Test
     void contextLoads() {
@@ -32,5 +43,23 @@ class WebMvnSpringBootMicroservicosApplicationTests {
 
         System.out.println("Latitude" + latitude);
         System.out.println("Longitude" + longitude);
+    }
+
+    @Test
+    void testUsuarioSalario() {
+
+        List<Usuario>list = usuarioRepository.findUsuarioBySalarioGreaterThan(new BigDecimal(0));
+
+        List<String> nomes = new ArrayList<>();
+        List<BigDecimal> salarios = new ArrayList<>();
+
+        list.forEach(usuario -> {
+            nomes.add(usuario.getNome());
+            salarios.add(usuario.getSalario());
+        });
+
+        System.out.println(nomes);
+        System.out.println(salarios);
+
     }
 }

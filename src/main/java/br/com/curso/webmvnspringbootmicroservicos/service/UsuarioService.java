@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.service;
 
+import br.com.curso.webmvnspringbootmicroservicos.dto.ChartDTO;
 import br.com.curso.webmvnspringbootmicroservicos.dto.ReportDTO;
 import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTOGET;
 import br.com.curso.webmvnspringbootmicroservicos.model.Role;
@@ -28,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static br.com.curso.webmvnspringbootmicroservicos.model.Constantes.AUTHORIZATION;
@@ -257,5 +259,22 @@ public class UsuarioService implements UserDetailsService {
         file.delete();
 
         return fileBase64;
+    }
+
+    public ResponseEntity<?> dataChart() {
+        List<Usuario> usuarios = usuarioRepository.findUsuarioBySalarioGreaterThan(new BigDecimal(0));
+
+        List<String> nomes = new ArrayList<>();
+        List<BigDecimal> salarios = new ArrayList<>();
+        ChartDTO chartDTO = new ChartDTO();
+
+        usuarios.forEach(usuario -> {
+            nomes.add(usuario.getNome());
+            salarios.add(usuario.getSalario());
+        });
+
+        chartDTO.setNome(nomes);
+        chartDTO.setSalario(salarios);
+        return ResponseEntity.ok(chartDTO);
     }
 }
