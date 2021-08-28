@@ -1,11 +1,13 @@
 package br.com.curso.webmvnspringbootmicroservicos.service;
 
+import br.com.curso.webmvnspringbootmicroservicos.dto.ReportDTO;
 import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTOGET;
 import br.com.curso.webmvnspringbootmicroservicos.model.Role;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.RoleRepository;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import br.com.curso.webmvnspringbootmicroservicos.security.JWTAlex.JWTTokenAutenticacaoService;
+import br.com.curso.webmvnspringbootmicroservicos.util.RelatorioGeralGenerico;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,10 +27,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 import static br.com.curso.webmvnspringbootmicroservicos.model.Constantes.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -46,6 +46,8 @@ public class UsuarioService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTTokenAutenticacaoService jwtTokenAutenticacaoService;
     private final RoleRepository roleRepository;
+    private final RelatorioGeralGenerico report;
+    private static final long EXPIRATION_TIME = 172800000;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -71,7 +73,7 @@ public class UsuarioService implements UserDetailsService {
 
     @Cacheable(cacheNames = "usuarios.all") /* Coloca metodo em cache */
     public ResponseEntity<Page<Usuario>> getUsuarios() {
-        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0,5,Sort.by("nome"))));
+        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
 //        return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
@@ -103,7 +105,7 @@ public class UsuarioService implements UserDetailsService {
             throw new ResponseStatusException(BAD_REQUEST, "Username already taken");
         }
 
-        Map<String, Object> objectMap = jwtTokenAutenticacaoService.generateTokenUser(request, usuario);
+        Map<String, Object> objectMap = jwtTokenAutenticacaoService.generateTokenUser(request, usuario, EXPIRATION_TIME);
         String tokenFormatado = (String) objectMap.get("tokenFormatado");
         String token = (String) objectMap.get("token");
 
@@ -116,7 +118,7 @@ public class UsuarioService implements UserDetailsService {
                 List<Role> roles = new ArrayList<>();
                 roles.add(role);
                 usuario.setRoles(roles);
-            }catch (Exception exception) {
+            } catch (Exception exception) {
                 throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Error ao buscar permissao padrao. Favor criar permissao ROLE_USER");
             }
         }
@@ -169,9 +171,9 @@ public class UsuarioService implements UserDetailsService {
     public ResponseEntity<Page<Usuario>> getUsuarioByName(int currentPage, String nome) {
 
         if (nome == null || nome.isBlank()) {
-            return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0,5,Sort.by("nome"))));
+            return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
         } else {
-            return ResponseEntity.ok(usuarioRepository.findUsuarioByName(nome.trim().toUpperCase(),PageRequest.of(currentPage,5,Sort.by("nome"))));
+            return ResponseEntity.ok(usuarioRepository.findUsuarioByName(nome.trim().toUpperCase(), PageRequest.of(currentPage, 5, Sort.by("nome"))));
         }
     }
 
@@ -190,8 +192,70 @@ public class UsuarioService implements UserDetailsService {
 
     public ResponseEntity<Page<Usuario>> loadPageableUsers(Integer currentPage) {
         if (currentPage == null) {
-            throw new ResponseStatusException(BAD_REQUEST,"Erro ao buscar pagina");
+            throw new ResponseStatusException(BAD_REQUEST, "Erro ao buscar pagina");
         }
-        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(currentPage, 5 , Sort.by("nome"))));
+        return ResponseEntity.ok(usuarioRepository.findAll(PageRequest.of(currentPage, 5, Sort.by("nome"))));
+    }
+
+    public ResponseEntity<?> downloadReport(String reportFormat, HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+
+            String reportPath = report.gerarRelatorio(null, new HashMap<>(), "relatorio", reportFormat);
+
+            String fileBase64 = generateBase64Report(reportPath, request);
+
+            return ResponseEntity.ok(fileBase64);
+
+        } catch (Exception exception) {
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Error during report build, try again later or contact the administrator");
+        }
+    }
+
+    public ResponseEntity<?> advancedReport(String reportFormat, ReportDTO reportDTO, HttpServletRequest request, HttpServletResponse response) {
+        boolean isAfter = reportDTO.getInitDate().isAfter(reportDTO.getEndDate());
+
+        if (isAfter) {
+            throw new ResponseStatusException(BAD_REQUEST, "Init Date must be before than After Date");
+        }
+
+        try {
+
+            HashMap<String, Object> parametro = new HashMap<>();
+            parametro.put("DATA_INICIO", reportDTO.getInitDate().toString());
+            parametro.put("DATA_FIM", reportDTO.getEndDate().toString());
+
+            String path = report.gerarRelatorio(null,parametro,"relatorio-param", reportFormat);
+
+            String fileBase64 = generateBase64Report(path, request);
+
+            return ResponseEntity.ok(fileBase64);
+
+        } catch (Exception exception) {
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Error during report build, try again later or contact the administrator");
+        }
+    }
+
+    private String generateBase64Report(String path, HttpServletRequest request) throws Exception {
+
+        File file = new File(path);
+
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        byte[] bytes = fileInputStream.readAllBytes();
+
+        // Obter o tipo MIME do arquivo
+        String mimeType = request.getServletContext().getMimeType(path);
+        if (mimeType == null) {
+            // Define como tipo binario se mapeamento mime nao for encontrado
+            mimeType = "application/octet-stream";
+        }
+
+        String fileBase64 = "data:" + mimeType + ";base64," + Base64.getEncoder().encodeToString(bytes);
+
+        fileInputStream.close();
+        file.delete();
+
+        return fileBase64;
     }
 }

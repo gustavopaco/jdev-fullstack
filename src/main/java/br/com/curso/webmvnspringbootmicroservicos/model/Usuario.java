@@ -99,6 +99,10 @@ public class Usuario implements UserDetails {
     @Column(name = "salario")
     private BigDecimal salario;
 
+    @Type(type = "text")
+    @Column
+    private String recoveryKey;
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         http.cors()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**", "/address/**", "/profissao/**").permitAll()
+                    .antMatchers("/", "/actuator/**","/profile/**", "/telefone/**", "/address/**", "/profissao/**", "/recovery/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/usuario/**").hasAnyRole("ADMIN")
                     .antMatchers(HttpMethod.POST,"/usuario/**").hasAnyRole("ADMIN","ANONYMOUS")
                     .antMatchers(HttpMethod.PUT, "/usuario/**").hasAnyRole("ADMIN")

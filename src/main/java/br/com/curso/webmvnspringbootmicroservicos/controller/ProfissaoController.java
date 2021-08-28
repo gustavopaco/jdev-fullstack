@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(path = "profissao")
 public class ProfissaoController {
 
-    private ProfissaoService profissaoService;
+    private final ProfissaoService profissaoService;
 
     @GetMapping
     public ResponseEntity<List<Profissao>> getProfissoes() {

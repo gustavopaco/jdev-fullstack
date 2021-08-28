@@ -1,5 +1,6 @@
 package br.com.curso.webmvnspringbootmicroservicos.controller;
 
+import br.com.curso.webmvnspringbootmicroservicos.dto.ReportDTO;
 import br.com.curso.webmvnspringbootmicroservicos.dto.UsuarioDTOGET;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.service.UsuarioService;
@@ -56,6 +57,16 @@ public class UsuarioController {
     @GetMapping(path = "page")
     public ResponseEntity<Page<Usuario>> loadPageableUsers(@RequestParam Integer currentPage) {
         return usuarioService.loadPageableUsers(currentPage);
+    }
+
+    @GetMapping(path = "report")
+    public ResponseEntity<?> downloadReport(@RequestParam String reportFormat, HttpServletRequest request, HttpServletResponse response) {
+        return usuarioService.downloadReport(reportFormat, request, response);
+    }
+
+    @PostMapping(path = "report")
+    public ResponseEntity<?> advancedReport(@RequestParam String reportFormat, @RequestBody ReportDTO reportDTO, HttpServletRequest request, HttpServletResponse response) {
+        return usuarioService.advancedReport(reportFormat, reportDTO , request, response);
     }
 
     @PostMapping

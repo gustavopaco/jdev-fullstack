@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ProfissaoService {
 
-    private ProfissaoRepository profissaoRepository;
+    private final ProfissaoRepository profissaoRepository;
 
     @Cacheable(cacheNames = "profissoes.all")
     public ResponseEntity<List<Profissao>> getProfissoes() {

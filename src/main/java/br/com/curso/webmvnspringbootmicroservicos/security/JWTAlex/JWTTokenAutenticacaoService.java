@@ -4,15 +4,18 @@ import br.com.curso.webmvnspringbootmicroservicos.model.Constantes;
 import br.com.curso.webmvnspringbootmicroservicos.model.Usuario;
 import br.com.curso.webmvnspringbootmicroservicos.repository.UsuarioRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static br.com.curso.webmvnspringbootmicroservicos.model.Constantes.*;
+import static org.springframework.http.HttpStatus.*;
 
 @AllArgsConstructor
 @Service
@@ -46,7 +50,7 @@ public class JWTTokenAutenticacaoService {
 
         Usuario usuarioConsultado = usuarioRepository.findUsuarioByLogin(usuario.getUsername());
 
-        Map<String, Object> map = generateTokenUser(request, usuarioConsultado);
+        Map<String, Object> map = generateTokenUser(request, usuarioConsultado, EXPIRATION_TIME);
         String token = (String) map.get("token");
         String tokenFormatado = (String) map.get("tokenFormatado");
 
@@ -67,21 +71,21 @@ public class JWTTokenAutenticacaoService {
 
     /* IMPORTANT: Retorna o usuario validado com o token ou caso nao seja valido retorna null */
     @SuppressWarnings(value = "unchecked")
-    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String,Object> objectMap = breakToken(request);
+        Map<String, Object> objectMap = breakToken(request);
         String username = (String) objectMap.get("username");
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) objectMap.get("roles");
         String tokenFormatado = (String) objectMap.get("tokenFormatado");
 
-            if (username != null) {
+        if (username != null) {
 
-                Usuario usuarioConsultado = usuarioRepository.findUsuarioByLogin(username);
+            Usuario usuarioConsultado = usuarioRepository.findUsuarioByLogin(username);
 
-                if (tokenFormatado.equals(usuarioConsultado.getJwt())) {
-                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
-                }
+            if (tokenFormatado.equals(usuarioConsultado.getJwt())) {
+                return new UsernamePasswordAuthenticationToken(username, null, authorities);
             }
+        }
 
         // IMPORTANT: Outro jeito de validar usuario realizando consulta ao banco apos validar o Token possuindo atributo username
         // if (username != null) {
@@ -124,7 +128,7 @@ public class JWTTokenAutenticacaoService {
     }
 
     // IMPORTANT: Metodo generico de criacao de Token com criptografia HS512
-    public Map<String, Object> generateTokenUser(HttpServletRequest request, Usuario usuario) {
+    public Map<String, Object> generateTokenUser(HttpServletRequest request, Usuario usuario, Long EXPIRATION_TIME) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("roles", usuario.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
@@ -161,38 +165,40 @@ public class JWTTokenAutenticacaoService {
     }
 
     // IMPORTANT: Metodo para quebra de token, valida se esta expirado e retorna Username, Roles e TokenFormatado
-    public Map<String, Object> breakToken(HttpServletRequest request) {
+    public Map<String, Object> breakToken(HttpServletRequest request){
 
-        Map<String,Object> objectMap = new HashMap<>();
-        // Pega o token enviado no cabecalho Http
-        String token = request.getHeader(AUTHORIZATION.getValue());
+        Map<String, Object> objectMap = new HashMap<>();
 
-        if (token != null) {
+            // Pega o token enviado no cabecalho Http
+            String token = request.getHeader(AUTHORIZATION.getValue());
 
-            String tokenFormatado = token.substring("Bearer ".length());
+            if (token != null) {
 
-            // Descriptografa o token objeto o payload
-            Claims claims = Jwts.parser()
+                String tokenFormatado = token.substring("Bearer ".length());
 
-                    // Passando o segredo definido para descriptografia
-                    .setSigningKey(SECRET.getValue())
+                // Descriptografa o token objeto o payload
+                Claims claims = Jwts.parser()
 
-                    //  Removendo o Bearer do inicio do token e descriptografando
-                    .parseClaimsJws(tokenFormatado)
+                        // Passando o segredo definido para descriptografia
+                        .setSigningKey(SECRET.getValue())
 
-                    //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
-                    .getBody();
+                        //  Removendo o Bearer do inicio do token e descriptografando
+                        .parseClaimsJws(tokenFormatado)
 
-            String username = claims.getSubject();
-            List<?> list = (List<?>) claims.get("roles");
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            for (Object role : list) {
-                authorities.add(new SimpleGrantedAuthority(role.toString()));
+                        //  Descriptografando o token e obtendo o Payload(Subject) das partes {Header, Payload, Signature}
+                        .getBody();
+
+                String username = claims.getSubject();
+                List<?> list = (List<?>) claims.get("roles");
+                Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                for (Object role : list) {
+                    authorities.add(new SimpleGrantedAuthority(role.toString()));
+                }
+                objectMap.put("username", username);
+                objectMap.put("roles", authorities);
+                objectMap.put("tokenFormatado", tokenFormatado);
             }
-            objectMap.put("username", username);
-            objectMap.put("roles", authorities);
-            objectMap.put("tokenFormatado", tokenFormatado);
-        }
+
         return objectMap;
     }
 }
