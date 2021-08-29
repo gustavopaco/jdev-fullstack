@@ -12,6 +12,7 @@
     <artifactId>web-mvn-spring-boot-microservicos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>web-mvn-spring-boot-microservicos</name>
+    <packaging>jar</packaging>
     <description>web-mvn-spring-boot-microservicos</description>
     <properties>
         <java.version>11</java.version>

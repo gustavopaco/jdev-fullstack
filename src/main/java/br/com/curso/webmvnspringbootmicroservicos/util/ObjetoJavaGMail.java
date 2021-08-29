@@ -27,46 +27,8 @@ import java.util.Properties;
 
 import static br.com.curso.webmvnspringbootmicroservicos.model.Constantes.HTMLCONTENT;
 
-
 @Component
 public class ObjetoJavaGMail {
-
-//    private String emailRemetente;
-//    private String passwordRemetente;
-//    private String nomeRemetente;
-//    private List<String> listaEmailsDestinatarios;
-//    private String assuntoEmail;
-//    private String conteudoEmail;
-//    private boolean isHTML;
-//    private List<String> anexosBase64;
-//    private static String tipoSMTPRemetente;
-//    private static final String hTMLContent = "text/html; charset=utf-8";
-
-
-//    public ObjetoJavaGMail(String emailRemetente, String passwordRemetente, String nomeRemetente,
-//                           List<String> listaEmailsDestinatarios, String assuntoEmail, String conteudoEmail, boolean isHTML) {
-//        this.emailRemetente = emailRemetente;
-//        this.passwordRemetente = passwordRemetente;
-//        this.nomeRemetente = nomeRemetente;
-//        this.listaEmailsDestinatarios = listaEmailsDestinatarios;
-//        this.assuntoEmail = assuntoEmail;
-//        this.conteudoEmail = conteudoEmail;
-//        this.isHTML = isHTML;
-//        tipoSMTPRemetente = this.emailRemetente.substring((this.emailRemetente.indexOf("@")+1),this.emailRemetente.indexOf(".com"));
-//    }
-//
-//    public ObjetoJavaGMail(String emailRemetente, String passwordRemetente, String nomeRemetente,
-//                           List<String> listaEmailsDestinatarios, String assuntoEmail, String conteudoEmail, boolean isHTML, List<String> anexosBase64) {
-//        this.emailRemetente = emailRemetente;
-//        this.passwordRemetente = passwordRemetente;
-//        this.nomeRemetente = nomeRemetente;
-//        this.listaEmailsDestinatarios = listaEmailsDestinatarios;
-//        this.assuntoEmail = assuntoEmail;
-//        this.conteudoEmail = conteudoEmail;
-//        this.isHTML = isHTML;
-//        this.anexosBase64 = anexosBase64;
-//        tipoSMTPRemetente = this.emailRemetente.substring((this.emailRemetente.indexOf("@")+1),this.emailRemetente.indexOf(".com"));
-//    }
 
     public ObjetoJavaGMail() {
     }
@@ -80,10 +42,11 @@ public class ObjetoJavaGMail {
             properties.put("mail.smtp.auth", "true"); // Autorizacao
             properties.put("mail.smtp.starttls", "true"); // Autenticacao
             properties.put("mail.smtp.host", "smtp.gmail.com"); // Servidor do Google Gmail
-            properties.put("mail.smtp.port", "465"); // Porta do servidor do Google
-            properties.put("mail.smtp.socketFactory.port", "465"); // Expecifica a porta a ser conectada pelo socket
+            properties.put("mail.smtp.port", 465); // Porta do servidor do Google
+            properties.put("mail.smtp.socketFactory.port", 465); // Expecifica a porta a ser conectada pelo socket
             properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Classe socket de conexao ao SMTP
         }
+
         return properties;
     }
 
@@ -91,7 +54,7 @@ public class ObjetoJavaGMail {
                             String nomeRemetente,List<String> listaEmailsDestinatarios,
                             String assuntoEmail, String conteudoEmail,
                             boolean isHTML, List<String> anexosBase64)
-            throws MessagingException, IOException, InterruptedException, DocumentException {
+            throws Exception {
 
         String tipoSMTPRemetente =  emailRemetente.substring((emailRemetente.indexOf("@")+1),emailRemetente.indexOf(".com"));
 
