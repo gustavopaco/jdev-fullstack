@@ -107,14 +107,8 @@ public class UsuarioService implements UserDetailsService {
             throw new ResponseStatusException(BAD_REQUEST, "Username already taken");
         }
 
-        Map<String, Object> objectMap = jwtTokenAutenticacaoService.generateTokenUser(request, usuario, EXPIRATION_TIME);
-        String tokenFormatado = (String) objectMap.get("tokenFormatado");
-        String token = (String) objectMap.get("token");
 
-        usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
-        usuario.setJwt(tokenFormatado);
-
-        if (usuario.getAuthorities() == null || usuario.getAuthorities().size() == 0) {
+        if (usuario.getRoles() == null || usuario.getRoles().size() == 0) {
             try {
                 Role role = roleRepository.findRoleDefault();
                 List<Role> roles = new ArrayList<>();
@@ -124,6 +118,13 @@ public class UsuarioService implements UserDetailsService {
                 throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Error ao buscar permissao padrao. Favor criar permissao ROLE_USER");
             }
         }
+
+        Map<String, Object> objectMap = jwtTokenAutenticacaoService.generateTokenUser(request, usuario, EXPIRATION_TIME);
+        String tokenFormatado = (String) objectMap.get("tokenFormatado");
+        String token = (String) objectMap.get("token");
+
+        usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
+        usuario.setJwt(tokenFormatado);
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
