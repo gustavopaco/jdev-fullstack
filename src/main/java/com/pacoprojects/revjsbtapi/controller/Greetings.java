@@ -49,7 +49,7 @@ public class Greetings {
         } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao cadastrar usuario");
         }
-        return ResponseEntity.ok("Usuario cadastrado com sucesso");
+        return ResponseEntity.ok(usuario);
     }
 
     @DeleteMapping(path = "{id}")
