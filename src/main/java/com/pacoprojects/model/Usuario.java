@@ -1,12 +1,15 @@
 package com.pacoprojects.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor @NoArgsConstructor
 @Table
 @Entity(name = "Usuario")
 public class Usuario implements Serializable {
@@ -26,4 +29,10 @@ public class Usuario implements Serializable {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    public Usuario(String login, String nome, String senha) {
+        this.login = login;
+        this.nome = nome;
+        this.senha = senha;
+    }
 }
