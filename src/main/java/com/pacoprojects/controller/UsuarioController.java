@@ -4,10 +4,7 @@ import com.pacoprojects.model.Usuario;
 import com.pacoprojects.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +38,20 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> getUsuarios() {
         return usuarioService.getUsuarios();
+    }
+
+    @PostMapping
+    public ResponseEntity<Usuario> registerUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.registerUsuario(usuario);
+    }
+
+    @PutMapping
+    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.updateUsuario(usuario);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<?> deleteUsuario(@PathVariable(name = "id") Long id) {
+        return usuarioService.deleteUsuario(id);
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Configuration
 public class UsuarioConfig {
 
-    @Bean
+    /*@Bean
     CommandLineRunner commandLineRunner(UsuarioRepository usuarioRepository) {
         return args -> {
             Usuario user = new Usuario(
@@ -36,5 +36,5 @@ public class UsuarioConfig {
             );
             usuarioRepository.saveAll(List.of(user,user2,user3,user4));
         };
-    }
+    }*/
 }
