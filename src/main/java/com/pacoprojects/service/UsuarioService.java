@@ -34,6 +34,7 @@ public class UsuarioService {
     }
 
     public ResponseEntity<Usuario> registerUsuario(Usuario usuario) {
+        usuario.adicionarTelefones(usuario.getTelefones().get(0));
         Usuario user = usuarioRepository.save(usuario);
         return ResponseEntity.ok(user);
     }

@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor @NoArgsConstructor
@@ -29,6 +31,14 @@ public class Usuario implements Serializable {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Telefone> telefones = new ArrayList<>();
+
+    public void adicionarTelefones(Telefone telefone) {
+        telefone.setUsuario(this);
+        this.telefones.add(0,telefone);
+    }
 
     public Usuario(String login, String nome, String senha) {
         this.login = login;
