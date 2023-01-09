@@ -35,9 +35,16 @@ public class Usuario implements Serializable {
     @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Telefone> telefones = new ArrayList<>();
 
+/*    @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Telefone> telefones;*/
+
+    public void adicionarTelefonesAoUsuario(Usuario usuario) {
+        usuario.getTelefones().forEach(telefone -> telefone.setUsuario(usuario));
+    }
+
     public void adicionarTelefones(Telefone telefone) {
         telefone.setUsuario(this);
-        this.telefones.add(0,telefone);
+        this.telefones.add(telefone);
     }
 
     public Usuario(String login, String nome, String senha) {
