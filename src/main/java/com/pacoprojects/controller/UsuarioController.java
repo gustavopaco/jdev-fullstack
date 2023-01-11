@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://www.pacoprojects.com", "*"}) /* Liberando CORS para todos metodos do UsuarioController */
+//@CrossOrigin(origins = {"http://www.pacoprojects.com", "*"}) /* Liberando CORS para todos metodos do UsuarioController */
 @RestController
 @RequestMapping(path = "usuario")
 @AllArgsConstructor
