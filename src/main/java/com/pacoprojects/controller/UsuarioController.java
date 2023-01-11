@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = {"http://www.pacoprojects.com", "*"})
 @RestController
 @RequestMapping(path = "usuario")
 @AllArgsConstructor

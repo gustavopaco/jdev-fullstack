@@ -1,11 +1,11 @@
 package com.pacoprojects.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data @EqualsAndHashCode(onlyExplicitlyIncluded = true)
