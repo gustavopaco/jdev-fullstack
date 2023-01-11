@@ -15,7 +15,8 @@
                 url: "http://www.pacoprojects.com/api/microservices/usuario",
                 method: "GET"
             }).then(function (data, status, info) {
-
+                console.log(data);
+                alert('Login do usuario ' + data[0].login)
             });
         });
 </script>
