@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://www.pacoprojects.com", "*"})
+@CrossOrigin(origins = {"http://www.pacoprojects.com", "*"}) /* Liberando CORS para todos metodos do UsuarioController */
 @RestController
 @RequestMapping(path = "usuario")
 @AllArgsConstructor
@@ -41,11 +41,13 @@ public class UsuarioController {
         return usuarioService.getUsuarios();
     }
 
+//    @CrossOrigin(origins = {"http://www.sistemadocliente10poderegistrar.com", "*"})
     @PostMapping
     public ResponseEntity<Usuario> registerUsuario(@RequestBody Usuario usuario) {
         return usuarioService.registerUsuario(usuario);
     }
 
+//    @CrossOrigin(origins = {"http://www.sistemadocliente11podeatulizar.com", "*"})
     @PutMapping
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
         return usuarioService.updateUsuario(usuario);
