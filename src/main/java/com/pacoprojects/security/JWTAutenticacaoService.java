@@ -5,11 +5,10 @@ import com.pacoprojects.model.Usuario;
 import com.pacoprojects.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +47,7 @@ public class JWTAutenticacaoService {
     }
 
     /* Metodo que: Quebra o Token | Busca Usuario no Banco | Retorna Usuario e suas Permissoes OU USUARIO NULL*/
-    public Authentication getAuthentication(HttpServletRequest request) throws Exception{
+    public Authentication getAuthentication(HttpServletRequest request) throws Exception {
         Map<String, Object> map = jwtUtilService.breakToken(request);
 
         if (!map.isEmpty()) {
@@ -57,12 +56,14 @@ public class JWTAutenticacaoService {
 
             Optional<Usuario> usuarioOptional = usuarioRepository.findUsuarioByLogin(username);
 
-            if (usuarioOptional.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario nao foi encontrado ou se encontra bloqueado");
+            /* Verificar se usuarioIsPresent && basicToken.equals(usuarioOptional.get().getJwt())*/
+            if (usuarioOptional.isPresent()) {
+                return new UsernamePasswordAuthenticationToken(usuarioOptional.get().getUsername(), null, usuarioOptional.get().getAuthorities());
             }
+            throw new AuthorizationServiceException("Usuario nao autorizado tentando acessar o sistema");
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario nao foi encontrado ou se encontra bloqueado");
 
-            return new UsernamePasswordAuthenticationToken(usuarioOptional.get().getUsername(),null,usuarioOptional.get().getAuthorities());
         }
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario nao tem autorizacao para continuar"); /* Usuario nao autorizado */
+        return null; /* Usuario nao autorizado porem, funciona se end-point nao requer Permissao para acessar */
     }
 }
