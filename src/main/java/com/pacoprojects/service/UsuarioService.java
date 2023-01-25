@@ -3,6 +3,7 @@ package com.pacoprojects.service;
 import com.pacoprojects.dto.SucessoDTO;
 import com.pacoprojects.model.Usuario;
 import com.pacoprojects.repository.UsuarioRepository;
+import com.pacoprojects.security.JWTUtilService;
 import com.pacoprojects.util.BCryptUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -23,8 +26,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @AllArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
-
     private final BCryptUtil bCryptUtil;
+    private final JWTUtilService jwtUtilService;
 
     @Cacheable(cacheNames = "getUsuario", key = "#id")
     public ResponseEntity<Usuario> getUsuario(Long id) {
@@ -55,6 +58,12 @@ public class UsuarioService {
 
         /* Reescrevendo senha criptografando a mesma*/
         usuario.setSenha(bCryptUtil.password().encode(usuario.getPassword()));
+
+        /* Gerando Jwt ao registrar novo usuario e deixa-lo logado ao sistema*/
+        Map<String, Object> map = jwtUtilService.generateJwt(usuario.getUsername(), TimeUnit.DAYS.toMillis(2));
+
+        String basicToken = map.get("basicToken").toString();
+        usuario.setJwt(basicToken);
 
         Usuario user = usuarioRepository.save(usuario);
         return ResponseEntity.ok(user);

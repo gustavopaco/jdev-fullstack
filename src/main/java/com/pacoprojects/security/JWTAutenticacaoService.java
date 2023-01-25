@@ -36,6 +36,14 @@ public class JWTAutenticacaoService {
         } else {
 
             String token = mapToken.get("token").toString();
+            String basicToken = mapToken.get("basicToken").toString();
+
+            Optional<Usuario> usuarioOptional = usuarioRepository.findUsuarioByLogin(username);
+
+            if (usuarioOptional.isPresent()) {
+                usuarioOptional.get().setJwt(basicToken);
+                usuarioRepository.save(usuarioOptional.get());
+            }
 
             /* Adiciona o Token no Header */
             response.addHeader(HttpHeaders.AUTHORIZATION, token);
@@ -57,7 +65,7 @@ public class JWTAutenticacaoService {
             Optional<Usuario> usuarioOptional = usuarioRepository.findUsuarioByLogin(username);
 
             /* Verificar se usuarioIsPresent && basicToken.equals(usuarioOptional.get().getJwt())*/
-            if (usuarioOptional.isPresent()) {
+            if (usuarioOptional.isPresent() && basicToken.equals(usuarioOptional.get().getJwt())) {
                 return new UsernamePasswordAuthenticationToken(usuarioOptional.get().getUsername(), null, usuarioOptional.get().getAuthorities());
             }
             throw new AuthorizationServiceException("Usuario nao autorizado tentando acessar o sistema");

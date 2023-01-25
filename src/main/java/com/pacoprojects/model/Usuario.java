@@ -33,6 +33,10 @@ public class Usuario implements UserDetails {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @JsonIgnore
+    @Column(name = "jwt", columnDefinition = "TEXT")
+    private String jwt;
+
     @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Telefone> telefones = new ArrayList<>();
 
