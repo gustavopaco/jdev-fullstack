@@ -1,11 +1,14 @@
 package com.pacoprojects.service;
 
-import com.pacoprojects.util.BCryptUtil;
 import com.pacoprojects.dto.SucessoDTO;
 import com.pacoprojects.model.Usuario;
 import com.pacoprojects.repository.UsuarioRepository;
+import com.pacoprojects.util.BCryptUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +26,7 @@ public class UsuarioService {
 
     private final BCryptUtil bCryptUtil;
 
+    @Cacheable(cacheNames = "getUsuario", key = "#id")
     public ResponseEntity<Usuario> getUsuario(Long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isEmpty()) {
@@ -31,10 +35,16 @@ public class UsuarioService {
         return ResponseEntity.ok(usuarioOptional.get());
     }
 
+    //  Carregando lista de usuario sera colocado em Cache para nao ficar consultando ao banco toda vez,
+    //  e so sera feita nova consulta quando algum dado da lista for alterada, ao dar INSERT, UPDATE ou DELETE de algum usuario
+    @Cacheable(cacheNames = "getUsuarios")
     public ResponseEntity<List<Usuario>> getUsuarios() {
+//            Segura o codigo por 6 segundos simulando um processo lento.
+//            Thread.sleep(6000);
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
 
+    @CacheEvict(cacheNames = {"getUsuarios", "getUsuario"}, allEntries = true)
     public ResponseEntity<Usuario> registerUsuario(Usuario usuario) {
 
         /* Utilizando List*/
@@ -65,6 +75,7 @@ public class UsuarioService {
     }*/
 
     /* UPDATE UTILIZANDO LIST */
+    @CachePut(cacheNames = {"getUsuarios", "getUsuario"}, key = "#usuario.id")
     public ResponseEntity<Usuario> updateUsuario(Usuario usuario) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuario.getId());
         if (usuarioOptional.isEmpty()) {
@@ -87,6 +98,7 @@ public class UsuarioService {
         return ResponseEntity.ok(usuarioOptional.get());
     }
 
+    @CacheEvict(cacheNames = {"getUsuarios", "getUsuario"}, allEntries = true)
     public ResponseEntity<?> deleteUsuario(Long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isEmpty()) {

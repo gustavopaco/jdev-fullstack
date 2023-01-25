@@ -50,14 +50,14 @@ public class UsuarioController {
         return usuarioService.getUsuarios();
     }
 
-//    @CrossOrigin(origins = {"http://www.sistemadocliente10poderegistrar.com", "*"})
     @PostMapping
+//    @CrossOrigin(origins = {"http://www.sistemadocliente10poderegistrar.com", "*"})
     public ResponseEntity<Usuario> registerUsuario(@RequestBody Usuario usuario) {
         return usuarioService.registerUsuario(usuario);
     }
 
-//    @CrossOrigin(origins = {"http://www.sistemadocliente11podeatulizar.com", "*"})
     @PutMapping
+//    @CrossOrigin(origins = {"http://www.sistemadocliente11podeatulizar.com", "*"})
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) {
         return usuarioService.updateUsuario(usuario);
     }
