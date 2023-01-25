@@ -1,5 +1,6 @@
 package com.pacoprojects.service;
 
+import com.pacoprojects.util.BCryptUtil;
 import com.pacoprojects.dto.SucessoDTO;
 import com.pacoprojects.model.Usuario;
 import com.pacoprojects.repository.UsuarioRepository;
@@ -20,6 +21,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
+    private final BCryptUtil bCryptUtil;
+
     public ResponseEntity<Usuario> getUsuario(Long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isEmpty()) {
@@ -33,10 +36,16 @@ public class UsuarioService {
     }
 
     public ResponseEntity<Usuario> registerUsuario(Usuario usuario) {
+
         /* Utilizando List*/
         usuario.adicionarTelefonesAoUsuario(usuario);
+
         /* Utilizando Hash Set so eh possivel cadastrar um telefone em um Usuario*/
 //        usuario.getTelefones().forEach(usuario::adicionarTelefones);
+
+        /* Reescrevendo senha criptografando a mesma*/
+        usuario.setSenha(bCryptUtil.password().encode(usuario.getPassword()));
+
         Usuario user = usuarioRepository.save(usuario);
         return ResponseEntity.ok(user);
     }
@@ -66,7 +75,14 @@ public class UsuarioService {
         usuarioOptional.get().getTelefones().clear();
         usuarioOptional.get().getTelefones().addAll(usuario.getTelefones());
 //        System.out.println(System.currentTimeMillis()); VERIFICACAO do Tempo de Execucao para limpar lista e adicionar novos dados
-        BeanUtils.copyProperties(usuario, usuarioOptional.get(), "id", "telefones");
+
+        if (!usuario.getPassword().equals(usuarioOptional.get().getPassword())) {
+            if (usuario.getPassword() != null && !bCryptUtil.password().matches(usuario.getPassword(), usuarioOptional.get().getPassword())) {
+                usuarioOptional.get().setSenha(bCryptUtil.password().encode(usuario.getPassword()));
+            }
+        }
+
+        BeanUtils.copyProperties(usuario, usuarioOptional.get(), "id", "telefones", "password");
         usuarioRepository.save(usuarioOptional.get());
         return ResponseEntity.ok(usuarioOptional.get());
     }
