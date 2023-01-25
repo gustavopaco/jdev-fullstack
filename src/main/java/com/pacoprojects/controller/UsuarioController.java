@@ -36,6 +36,15 @@ public class UsuarioController {
         return usuarioService.getUsuario(id);
     }
 
+//  Criando versionamento de end-points |
+//  Pode ser feito alterando Path=v2/{id} OU
+//  Adicionando um HEADERs que deve ser passado no Request para acionar metodo,
+//  na Versao 2 o Metodo PODE fazer outras funcionalidades, alem de Buscar dados do Usuario
+    @GetMapping(path = "{id}", headers = {"X-API-Version=v2"})
+    public ResponseEntity<Usuario> getUsuariov2(@PathVariable(name = "id") Long id) {
+        return usuarioService.getUsuario(id);
+    }
+
     @GetMapping
     public ResponseEntity<List<Usuario>> getUsuarios() {
         return usuarioService.getUsuarios();
