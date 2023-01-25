@@ -1,5 +1,6 @@
 package com.pacoprojects.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Data @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor @NoArgsConstructor
-@Table
+@Table(uniqueConstraints = {@UniqueConstraint(name = "login", columnNames = "login")})
 @Entity(name = "Usuario")
 public class Usuario implements UserDetails {
 
@@ -75,31 +76,37 @@ public class Usuario implements UserDetails {
 //        return roles;
 //    }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return this.senha;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return this.login;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
