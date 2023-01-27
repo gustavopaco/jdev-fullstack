@@ -2,6 +2,8 @@ package com.pacoprojects.security;
 
 import com.pacoprojects.service.ImpUserDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /* Mapeia URL, enderecos, autoriza ou bloqueia acesso a URL*/
 @EnableWebSecurity
@@ -48,6 +52,20 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
                 /* TODO filtra as demais requisicoes se contem a presenca do JWT no HEADER HTTP */
                 .and().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 /* TODO filtra as requisicoes de login para autenticacao */
-                .addFilter(new JWTLoginFilter(authenticationManager(),jwtAutenticacaoService));
+                .addFilter(new JWTLoginFilter(authenticationManager(), jwtAutenticacaoService));
+    }
+
+    @Bean
+    public WebMvcConfigurer getCorsConfigurer() {
+
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .allowedHeaders("*");
+            }
+        };
     }
 }
