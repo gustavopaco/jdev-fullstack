@@ -41,7 +41,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         /* Ativando a protecao contra usuarios que nao estao validados por token */
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
                 /* Ativando a permissao para acesso a pagina inicial do sistema sem precisar Logar */
-                .authorizeRequests().antMatchers("/", "/index").permitAll()
+                .authorizeRequests().antMatchers("/", "/index","/endereco").permitAll()
                 .antMatchers(HttpMethod.POST,"/usuario").permitAll()
                 /* Qualquer outra URL precisara de estar logado */
                 .anyRequest().authenticated()
@@ -61,9 +61,9 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*")
+                registry.addMapping("/**") /* Liberando Cors para qualquer end-point */
+                        .allowedOrigins("*") /* Liberando Cors de qualquer local(ajax, navegador, etc...) */
+                        .allowedMethods("*") /* Liberando Cors para qualquer metodo GET,POST,PUT,DELETE */
                         .allowedHeaders("*");
             }
         };
