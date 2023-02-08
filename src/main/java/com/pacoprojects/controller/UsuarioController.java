@@ -1,5 +1,6 @@
 package com.pacoprojects.controller;
 
+import com.pacoprojects.dto.UsuarioDTO;
 import com.pacoprojects.model.Usuario;
 import com.pacoprojects.service.UsuarioService;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class UsuarioController {
     }*/
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable(name = "id") Long id) {
         return usuarioService.getUsuario(id);
     }
 
@@ -41,12 +42,12 @@ public class UsuarioController {
 //  Adicionando um HEADERs que deve ser passado no Request para acionar metodo,
 //  na Versao 2 o Metodo PODE fazer outras funcionalidades, alem de Buscar dados do Usuario
     @GetMapping(path = "{id}", headers = {"X-API-Version=v2"})
-    public ResponseEntity<Usuario> getUsuariov2(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<UsuarioDTO> getUsuariov2(@PathVariable(name = "id") Long id) {
         return usuarioService.getUsuario(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuarios() {
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios() {
         return usuarioService.getUsuarios();
     }
 

@@ -40,6 +40,9 @@ public class Usuario implements UserDetails {
     @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Telefone> telefones = new ArrayList<>();
 
+    @OneToMany(targetEntity = Endereco.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Endereco> enderecos = new ArrayList<>();
+
     @ManyToMany(targetEntity = Role.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     /* Nome da Tabela Muitos para Muitos */
     @JoinTable(name = "usuario_role",
@@ -61,6 +64,15 @@ public class Usuario implements UserDetails {
 
     public void adicionarTelefonesAoUsuario(Usuario usuario) {
         usuario.getTelefones().forEach(telefone -> telefone.setUsuario(usuario));
+    }
+
+    public void onRegisterNewUserAddress(EnderecoAPIResponse enderecoAPIResponse) {
+        /* Limpando lista de enderecos porque Primeiro endereco so contem CEP vazio*/
+        this.getEnderecos().clear();
+        /* Adicionando a primeira posicao da Lista de Enderecos, um novo Endereco com dados vindos do VIA CEP*/
+        this.getEnderecos().add(new Endereco(enderecoAPIResponse));
+        /* Amarrando enderecos ao usuario */
+        this.getEnderecos().forEach(endereco -> endereco.setUsuario(this));
     }
 
     public void adicionarTelefones(Telefone telefone) {
