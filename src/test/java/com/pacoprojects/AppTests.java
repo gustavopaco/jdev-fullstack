@@ -10,4 +10,8 @@ class AppTests {
     void contextLoads() {
     }
 
+//    @Test
+//    void testando(){
+//        System.out.println(Constantes.USERNAME);
+//    }
 }

@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.pacoprojects.util.Constantes.BASICTOKEN;
+import static com.pacoprojects.util.Constantes.USERNAME;
+
 @Service
 @RequiredArgsConstructor
 public class JwtUtilService {
@@ -53,8 +56,8 @@ public class JwtUtilService {
 
             if (!isTokenExpired(basicToken)) {
                 String username = extractUsername(basicToken);
-                objectMap.put("username", username);
-                objectMap.put("basicToken", basicToken);
+                objectMap.put(USERNAME, username);
+                objectMap.put(BASICTOKEN, basicToken);
                 return objectMap;
             }
         }
