@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/error","/auth").permitAll()
+                .requestMatchers("/error","/auth/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
