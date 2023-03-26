@@ -1,8 +1,8 @@
-package com.pacoprojects.usuario;
+package com.pacoprojects.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pacoprojects.role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,6 +30,10 @@ public class Usuario implements UserDetails {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @NotBlank(message = "Nome obrigatório.")
+    @Column(name = "nome", nullable = false)
+    private String nome;
+
     @NotBlank(message = "Username obrigatório.")
     @Email(message = "Por favor informe um e-mail corretamente.")
     @Column(name = "username", nullable = false)
@@ -41,7 +45,7 @@ public class Usuario implements UserDetails {
     private String password;
 
     @JsonIgnore
-    @Column(name = "jwt")
+    @Column(name = "jwt", columnDefinition = "TEXT")
     private String jwt;
 
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -53,23 +57,33 @@ public class Usuario implements UserDetails {
     uniqueConstraints = @UniqueConstraint(name = "usuario_role_unique", columnNames = {"usuario_id", "role_id"}))
     private Set<Role> authorities = new LinkedHashSet<>();
 
+    @Valid
+    @ToString.Exclude
+    @OneToMany(targetEntity = Telefone.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Telefone> telefones = new LinkedHashSet<>();
+
+    @Valid
+    @ToString.Exclude
+    @OneToMany(targetEntity = Endereco.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Endereco> enderecos = new LinkedHashSet<>();
+
     @JsonIgnore
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

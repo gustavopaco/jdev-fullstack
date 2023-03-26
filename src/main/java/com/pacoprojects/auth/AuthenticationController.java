@@ -19,8 +19,8 @@ public class AuthenticationController {
 
     @PostMapping(path = "authenticate")
     public ResponseEntity<AuthenticationResponseDto> authenticate
-            (@Valid @RequestBody AuthenticationDto authenticationDto, BindingResult bindingResult, HttpServletResponse response) {
-        return ResponseEntity.ok(authenticationService.authenticate(authenticationDto, bindingResult, response));
+            (@Valid @RequestBody AuthenticationRequestDto authenticationRequestDto, BindingResult bindingResult, HttpServletResponse response) {
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequestDto, bindingResult, response));
     }
 
     @PostMapping(path = "register")

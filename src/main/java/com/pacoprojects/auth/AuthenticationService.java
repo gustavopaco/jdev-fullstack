@@ -1,13 +1,13 @@
 package com.pacoprojects.auth;
 
 import com.pacoprojects.mapper.UsuarioMapper;
-import com.pacoprojects.role.Role;
-import com.pacoprojects.role.RoleRepository;
+import com.pacoprojects.model.Role;
+import com.pacoprojects.repository.RoleRepository;
 import com.pacoprojects.security.ApplicationConfig;
 import com.pacoprojects.security.jwt.JwtConfig;
 import com.pacoprojects.security.jwt.JwtUtilService;
-import com.pacoprojects.usuario.Usuario;
-import com.pacoprojects.usuario.UsuarioRepository;
+import com.pacoprojects.model.Usuario;
+import com.pacoprojects.repository.UsuarioRepository;
 import com.pacoprojects.util.BeanValidator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -38,19 +39,21 @@ public class AuthenticationService {
     private final UsuarioRepository usuarioRepository;
     private final RoleRepository roleRepository;
 
-    public AuthenticationResponseDto authenticate(AuthenticationDto authenticationDto, BindingResult bindingResult, HttpServletResponse response) {
+    public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto, BindingResult bindingResult, HttpServletResponse response) {
         beanValidator.validate(bindingResult);
 
         try {
             Authentication authentication =
                     authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(authenticationDto.username(),authenticationDto.password()));
+                            new UsernamePasswordAuthenticationToken(authenticationRequestDto.username(), authenticationRequestDto.password()));
 
             return authenticateRegister((Usuario)authentication.getPrincipal(),response);
 
         }catch (Exception exception) {
             if (exception instanceof BadCredentialsException) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_CREDENTIALS_EXCEPTION_MESSAGE);
+            } else if (exception instanceof LockedException) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, LOCKED_EXCEPTION_MESSAGE);
             }
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR_MESSAGE);
         }

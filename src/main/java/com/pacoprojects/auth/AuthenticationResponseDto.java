@@ -1,6 +1,7 @@
 package com.pacoprojects.auth;
 
 import com.pacoprojects.dto.RoleDto;
+import com.pacoprojects.model.Usuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * A DTO for the {@link com.pacoprojects.usuario.Usuario} entity
+ * A DTO for the {@link Usuario} entity
  */
 public record AuthenticationResponseDto(
         Long id,

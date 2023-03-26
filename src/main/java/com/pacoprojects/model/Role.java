@@ -1,6 +1,5 @@
-package com.pacoprojects.role;
+package com.pacoprojects.model;
 
-import com.pacoprojects.usuario.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -12,6 +12,8 @@ class AppTests {
 
 //    @Test
 //    void testando(){
-//        System.out.println(Constantes.USERNAME);
+//        System.out.println(new Usuario());
+//        System.out.println(new Telefone());
+//        System.out.println(new Endereco());
 //    }
 }

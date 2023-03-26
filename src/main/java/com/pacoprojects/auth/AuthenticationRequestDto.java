@@ -1,5 +1,6 @@
 package com.pacoprojects.auth;
 
+import com.pacoprojects.model.Usuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -7,9 +8,9 @@ import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * A DTO for the {@link com.pacoprojects.usuario.Usuario} entity
+ * A DTO for the {@link Usuario} entity
  */
-public record AuthenticationDto(
+public record AuthenticationRequestDto(
         @Email(message = "Por favor informe um e-mail corretamente.")
         @NotBlank(message = "Username obrigatório.")
         String username,

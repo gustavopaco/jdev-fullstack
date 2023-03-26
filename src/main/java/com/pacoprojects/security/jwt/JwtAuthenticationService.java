@@ -1,7 +1,7 @@
 package com.pacoprojects.security.jwt;
 
-import com.pacoprojects.usuario.Usuario;
-import com.pacoprojects.usuario.UsuarioRepository;
+import com.pacoprojects.model.Usuario;
+import com.pacoprojects.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AuthorizationServiceException;

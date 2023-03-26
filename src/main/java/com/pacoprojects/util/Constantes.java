@@ -10,6 +10,7 @@ public class Constantes {
     public static final String USERNAME_NOTFOUND_EXCEPTION = "Usuário não existente.";
     public static final String BAD_CREDENTIALS_EXCEPTION_MESSAGE = "Usuário ou senha estão incorretos.";
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "Ocorreu um erro inesperado no servidor";
+    public static final String LOCKED_EXCEPTION_MESSAGE = "Sua conta está bloqueada.";
     public static final String EMAIL_TAKEN = "E-mail já está em uso.";
     public static final String ROLE_NOTFOUND_IN_DB = "Permissões não foram cadastradas no Banco de Dados";
 }
