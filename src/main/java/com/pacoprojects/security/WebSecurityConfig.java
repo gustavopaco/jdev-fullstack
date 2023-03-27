@@ -22,16 +22,25 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                /* REST - Desabilitando CSRF*/
                 .csrf().disable()
+                /* Aplicando as configuracoes do @Bean Cors */
+                .cors()
+                .and()
+                /* Configurando Session Spring para Stateless */
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                /* Adicionando Filtro de getAuthentication e Autorizacoes ANTES do Spring verificar Usuario Logado */
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                /* Urls liberadas */
                 .authorizeHttpRequests()
                 .requestMatchers("/error","/auth/**").permitAll()
                 .requestMatchers("/usuario").hasAnyRole("ADMIN")
+                /* Qualquer outra Url bloqueada */
                 .anyRequest()
                 .authenticated()
                 .and()
+                /* Fornecedor de Autenticacao */
                 .authenticationProvider(applicationConfig.authenticationProvider());
 
         return http.build();
