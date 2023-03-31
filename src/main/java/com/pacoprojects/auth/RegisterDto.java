@@ -1,7 +1,8 @@
 package com.pacoprojects.auth;
 
-import com.pacoprojects.model.Endereco;
+import com.pacoprojects.dto.EnderecoDto;
 import com.pacoprojects.dto.TelefoneDto;
+import com.pacoprojects.model.Profissao;
 import com.pacoprojects.model.Usuario;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -21,10 +23,16 @@ public record RegisterDto(
         @NotBlank(message = "Password obrigatório.")
         @Size(min = 8, message = "Campo de Password deve ser maior que 8 caracteres.")
         String password,
+        @NotBlank(message = "Nome obrigatório.")
+        String nome,
+
+        String cpf,
         @Valid
         Set<TelefoneDto> telefones,
         @Valid
-        Set<Endereco> enderecos,
-        @NotBlank(message = "Nome obrigatório.")
-        String nome) implements Serializable {
+        Set<EnderecoDto> enderecos,
+        Double salario,
+        LocalDate dataNascimento,
+        @Valid
+        Profissao profissao) implements Serializable {
 }

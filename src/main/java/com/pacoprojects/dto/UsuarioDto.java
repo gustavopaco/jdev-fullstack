@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -20,6 +21,12 @@ public record UsuarioDto(
         @NotBlank(message = "Username obrigatório.")
         @Email(message = "Por favor informe um e-mail corretamente.")
         String username,
+
+        Double salario,
+
+        LocalDate dataNascimento,
+
+        ProfissaoDto profissao,
 
         @Valid
         Set<RoleDto> authorities,

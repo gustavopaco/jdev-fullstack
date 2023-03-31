@@ -1,17 +1,22 @@
 package com.pacoprojects.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,7 +25,9 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(name = "username_unique", columnNames = "username")})
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "username_unique", columnNames = "username"),
+        @UniqueConstraint(name = "cpf_unique", columnNames = "cpf")})
 @Entity(name = "usuario")
 public class Usuario implements UserDetails {
 
@@ -44,17 +51,32 @@ public class Usuario implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @CPF(message = "CPF inválido.")
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
+
+    //    @NotNull(message = "Salário obrigatório.")
+    @Column(name = "salario")
+    private Double salario;
+
+
+    //    @NotNull(message = "Data de nascimento obrigatório.")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    private LocalDate dataNascimento;
+
+
     @JsonIgnore
     @Column(name = "jwt", columnDefinition = "TEXT")
     private String jwt;
 
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_role",
-    joinColumns = @JoinColumn(name = "usuario_id", nullable = false),
-    foreignKey = @ForeignKey(name = "usuario_id_fk", value = ConstraintMode.CONSTRAINT),
-    inverseJoinColumns = @JoinColumn(name = "role_id",nullable = false),
-    inverseForeignKey = @ForeignKey(name = "role_id_fk", value = ConstraintMode.CONSTRAINT),
-    uniqueConstraints = @UniqueConstraint(name = "usuario_role_unique", columnNames = {"usuario_id", "role_id"}))
+            joinColumns = @JoinColumn(name = "usuario_id", nullable = false),
+            foreignKey = @ForeignKey(name = "usuario_id_fk", value = ConstraintMode.CONSTRAINT),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false),
+            inverseForeignKey = @ForeignKey(name = "role_id_fk", value = ConstraintMode.CONSTRAINT),
+            uniqueConstraints = @UniqueConstraint(name = "usuario_role_unique", columnNames = {"usuario_id", "role_id"}))
     private Set<Role> authorities = new LinkedHashSet<>();
 
     @Valid
@@ -66,6 +88,12 @@ public class Usuario implements UserDetails {
     @ToString.Exclude
     @OneToMany(targetEntity = Endereco.class, mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Endereco> enderecos = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @ManyToOne(targetEntity = Profissao.class)
+    @JoinColumn(name = "profissao_id", referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "profissao_id_fk", value = ConstraintMode.CONSTRAINT))
+    private Profissao profissao;
 
     @JsonIgnore
     @Column(name = "enabled", nullable = false)

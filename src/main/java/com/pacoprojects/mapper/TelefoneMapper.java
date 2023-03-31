@@ -5,7 +5,7 @@ import com.pacoprojects.dto.TelefoneDto;
 import com.pacoprojects.model.Telefone;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {UsuarioMapper.class})
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface TelefoneMapper {
     Telefone toEntity(TelefoneAddDto telefoneAddDto);
 
@@ -19,5 +19,5 @@ public interface TelefoneMapper {
     TelefoneDto toDto1(Telefone telefone);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Telefone partialUpdate1(TelefoneDto telefoneDto, @MappingTarget Telefone telefone);
+    Telefone partialUpdate(TelefoneDto telefoneDto, @MappingTarget Telefone telefone);
 }

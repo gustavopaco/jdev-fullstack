@@ -1,9 +1,11 @@
 package com.pacoprojects.dto;
 
+import com.pacoprojects.model.Profissao;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -11,13 +13,15 @@ import java.util.Set;
  */
 public record UsuarioUpdateDto(
         Long id,
-
-        @NotBlank(message = "Nome obrigatório.") String nome,
-
+        @NotBlank(message = "Nome obrigatório.")
+        String nome,
+        Double salario,
+        LocalDate dataNascimento,
         @Valid
         Set<TelefoneDto> telefones,
-
         @Valid
-        Set<EnderecoDto> enderecos
+        Set<EnderecoDto> enderecos,
+        Profissao profissao
+
 ) implements Serializable {
 }

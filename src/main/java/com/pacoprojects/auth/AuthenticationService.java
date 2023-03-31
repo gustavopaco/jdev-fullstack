@@ -11,6 +11,7 @@ import com.pacoprojects.repository.UsuarioRepository;
 import com.pacoprojects.util.BeanValidator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,6 +60,7 @@ public class AuthenticationService {
         }
     }
 
+    @CacheEvict(cacheNames = {"usuarios"}, allEntries = true)
     public AuthenticationResponseDto register(RegisterDto registerDto, BindingResult bindingResult, HttpServletResponse response) {
 
         beanValidator.validate(bindingResult);

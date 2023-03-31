@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 /* Urls liberadas */
                 .authorizeHttpRequests()
-                .requestMatchers("/error","/auth/**").permitAll()
+                .requestMatchers("/error","/auth/**", "/profissoes/**").permitAll()
                 .requestMatchers("/usuario").hasAnyRole("ADMIN")
                 /* Qualquer outra Url bloqueada */
                 .anyRequest()
