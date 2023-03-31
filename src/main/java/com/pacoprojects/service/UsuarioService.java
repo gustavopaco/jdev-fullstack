@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -116,5 +117,9 @@ public class UsuarioService {
         }
 
         usuarioRepository.deleteById(id);
+    }
+
+    public List<UsuarioDto> getAllUsuariosByName(String nome) {
+        return usuarioRepository.findAllByNomeContainsIgnoreCase(nome).stream().map(usuarioMapper::toDto3).collect(Collectors.toList());
     }
 }

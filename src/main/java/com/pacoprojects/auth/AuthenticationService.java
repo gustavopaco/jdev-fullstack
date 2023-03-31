@@ -2,12 +2,12 @@ package com.pacoprojects.auth;
 
 import com.pacoprojects.mapper.UsuarioMapper;
 import com.pacoprojects.model.Role;
+import com.pacoprojects.model.Usuario;
 import com.pacoprojects.repository.RoleRepository;
+import com.pacoprojects.repository.UsuarioRepository;
 import com.pacoprojects.security.ApplicationConfig;
 import com.pacoprojects.security.jwt.JwtConfig;
 import com.pacoprojects.security.jwt.JwtUtilService;
-import com.pacoprojects.model.Usuario;
-import com.pacoprojects.repository.UsuarioRepository;
 import com.pacoprojects.util.BeanValidator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +48,9 @@ public class AuthenticationService {
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(authenticationRequestDto.username(), authenticationRequestDto.password()));
 
-            return authenticateRegister((Usuario)authentication.getPrincipal(),response);
+            return authenticateRegister((Usuario) authentication.getPrincipal(), response);
 
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             if (exception instanceof BadCredentialsException) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, BAD_CREDENTIALS_EXCEPTION_MESSAGE);
             } else if (exception instanceof LockedException) {

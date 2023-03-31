@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public record RegisterDto(
         @NotBlank(message = "Nome obrigatório.")
         String nome,
 
+        @CPF(message = "CPF inválido.")
         String cpf,
         @Valid
         Set<TelefoneDto> telefones,
