@@ -13,15 +13,16 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.MappingTarget;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,19 @@ public class UsuarioService {
     private final ProfissaoRepository profissaoRepository;
 
     @Cacheable(cacheNames = "usuarios")
-    public List<UsuarioDto> getAllUsuarios() {
-        return usuarioRepository.findAll(Sort.by("id")).stream().map(usuarioMapper::toDto3).toList();
+    public Page<UsuarioDto> getAllUsuarios() {
+        return usuarioRepository
+                .findAll(PageRequest
+                        .of(0, 5, Sort.by("nome")))
+                .map(usuarioMapper::toDto3);
+//        return usuarioRepository.findAll(Sort.by("id")).stream().map(usuarioMapper::toDto3).toList();
+    }
+
+    public Page<UsuarioDto> getUsuariosPages(String nome, Pageable pageable) {
+        return (nome != null && !nome.isEmpty()) ?
+                usuarioRepository.findAllByNomeContainsIgnoreCase(nome, pageable).map(usuarioMapper::toDto3)
+                : usuarioRepository.findAll(pageable).map(usuarioMapper::toDto3);
+//        return usuarioRepository.findAllByNomeContainsIgnoreCase(nome).stream().map(usuarioMapper::toDto3).collect(Collectors.toList());
     }
 
     public UsuarioDto getUsuarioById(Long id) {
@@ -92,8 +104,6 @@ public class UsuarioService {
 //            return usuarioMapper.toDto4(user);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCause());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -117,9 +127,5 @@ public class UsuarioService {
         }
 
         usuarioRepository.deleteById(id);
-    }
-
-    public List<UsuarioDto> getAllUsuariosByName(String nome) {
-        return usuarioRepository.findAllByNomeContainsIgnoreCase(nome).stream().map(usuarioMapper::toDto3).collect(Collectors.toList());
     }
 }

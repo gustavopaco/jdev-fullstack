@@ -1,6 +1,5 @@
 package com.pacoprojects.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class Profissao {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(targetEntity = Usuario.class, mappedBy = "profissao")
     @ToString.Exclude
     private Set<Usuario> usuarios = new LinkedHashSet<>();

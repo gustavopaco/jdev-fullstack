@@ -5,11 +5,12 @@ import com.pacoprojects.dto.UsuarioUpdateDto;
 import com.pacoprojects.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "usuario")
@@ -19,13 +20,14 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDto>> getAllUsuarios() {
+    public ResponseEntity<Page<UsuarioDto>> getAllUsuarios() {
         return ResponseEntity.ok(usuarioService.getAllUsuarios());
     }
 
-    @GetMapping(path = "listByName/{nome}")
-    public ResponseEntity<List<UsuarioDto>> getAllUsuariosByName(@PathVariable(name = "nome") String nome) {
-        return ResponseEntity.ok(usuarioService.getAllUsuariosByName(nome));
+    @GetMapping(path = "page")
+    public ResponseEntity<Page<UsuarioDto>> getUsuariosPages(@RequestParam(name = "nome", required = false) String nome,
+                                                             @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.getUsuariosPages(nome, pageable));
     }
 
     @GetMapping(path = "{id}")
