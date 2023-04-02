@@ -24,4 +24,11 @@ public class Constantes {
     public static final String RESET_TOKEN_EXPIRED = "O token expirou, tente recuperar a senha novamente.";
     public static final String RESET_TOKEN_INVALID = "O token de reset está inválido, utilize um token válido ou tente recuperar a senha novamente";
     public static final String PASSWORD_ALREADY_IN_USE = "O password já está em uso";
+
+    // Relatorio
+    public static final String NOME_RELATORIO = "relatorio-usuarios";
+    public static final String REPORT_SQL_EXCEPTION_MESSAGE = "Erro ao consultar dados no Banco de dados";
+    public static final String JR_EXCEPTION_MESSAGE = "Erro ao gerar relatório, entre em contato com o administrador";
+    public static final String IO_EXCEPTION_MESSAGE = "Erro ao buscar relatório, entre em contato com o administrador";
+    public static final String DEFAULT_MIME_TYPE = ".pdf";
 }
