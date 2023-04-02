@@ -1,10 +1,12 @@
 package com.pacoprojects.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -54,13 +57,16 @@ public class Usuario implements UserDetails {
     private String cpf;
 
     //    @NotNull(message = "Salário obrigatório.")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "salario")
-    private Double salario;
+    private BigDecimal salario;
 
 
-    //    @NotNull(message = "Data de nascimento obrigatório.")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
+//    @NotNull(message = "Data de nascimento obrigatório.")
+//    @Temporal(value = TemporalType.DATE)
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    @Past(message = "Data de aniversario deve ser anterior a data atual.")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
 
 
