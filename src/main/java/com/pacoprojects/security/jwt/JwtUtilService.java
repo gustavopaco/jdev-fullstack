@@ -33,16 +33,24 @@ public class JwtUtilService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(userDetails, new HashMap<>());
+        return generateToken(userDetails, new HashMap<>(), config.getTokenExpirationAfterDays());
     }
 
-    public String generateToken(UserDetails userDetails, Map<String, Object> objectMap) {
+    public String generateTokenOneDayUntilExpiration(UserDetails userDetails) {
+        return generateToken(userDetails, new HashMap<>(),1);
+    }
+
+    public String generateToken(UserDetails userDetails, Map<String,Object> objectMap) {
+        return generateToken(userDetails,objectMap, config.getTokenExpirationAfterDays());
+    }
+
+    private String generateToken(UserDetails userDetails, Map<String, Object> objectMap, Integer daysToExpiration) {
         return Jwts
                 .builder()
                 .setClaims(objectMap)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(Period.ofDays(config.getTokenExpirationAfterDays()))))
+                .setExpiration(Date.from(Instant.now().plus(Period.ofDays(daysToExpiration))))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

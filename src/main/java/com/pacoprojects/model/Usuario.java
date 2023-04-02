@@ -61,14 +61,12 @@ public class Usuario implements UserDetails {
     @Column(name = "salario")
     private BigDecimal salario;
 
-
 //    @NotNull(message = "Data de nascimento obrigatório.")
 //    @Temporal(value = TemporalType.DATE)
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     @Past(message = "Data de aniversario deve ser anterior a data atual.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
-
 
     @JsonIgnore
     @Column(name = "jwt", columnDefinition = "TEXT")

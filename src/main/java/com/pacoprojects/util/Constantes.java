@@ -13,4 +13,15 @@ public class Constantes {
     public static final String LOCKED_EXCEPTION_MESSAGE = "Sua conta está bloqueada.";
     public static final String EMAIL_TAKEN = "E-mail já está em uso.";
     public static final String ROLE_NOTFOUND_IN_DB = "Permissões não foram cadastradas no Banco de Dados";
+    public static final String ERROR_WHILE_SENDING_MAIL = "Erro ao enviar e-mail";
+
+    // Email
+    public static final String SUBJECT = "Recuperação de Senha";
+    public static final String BODY =  "Esse link para resetar a senha é válido por 24 horas, ";
+
+
+    // Reset Password
+    public static final String RESET_TOKEN_EXPIRED = "O token expirou, tente recuperar a senha novamente.";
+    public static final String RESET_TOKEN_INVALID = "O token de reset está inválido, utilize um token válido ou tente recuperar a senha novamente";
+    public static final String PASSWORD_ALREADY_IN_USE = "O password já está em uso";
 }
