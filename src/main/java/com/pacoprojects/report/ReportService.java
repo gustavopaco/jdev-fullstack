@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +21,20 @@ public class ReportService {
     private final Base64FileUtil base64FileUtil;
 
     public ReportResponseDto downloadRelatorio() {
+        return generateReport(Constantes.NOME_RELATORIO_BASICO, Constantes.DEFAULT_MIME_TYPE, new HashMap<>());
+    }
+
+    public ReportResponseDto advancedReportParams(ReportParamRequestDto paramRequestDto) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("DATA_INICIO", paramRequestDto.initDate().toString());
+        map.put("DATA_FIM", paramRequestDto.endDate().toString());
+        return generateReport(Constantes.NOME_RELATORIO_PARAM, Constantes.DEFAULT_MIME_TYPE, map);
+    }
+
+    private ReportResponseDto generateReport(String nomeRelatorio, String mimeType, Map<String, Object> objectMap) {
         try {
-            byte[] report = reportUtilService.gerarRelatorioPDFJdbcConnection(Constantes.NOME_RELATORIO, new HashMap<>());
-            String reportBase64 = base64FileUtil.generateBase64FromByteArray(report, Constantes.DEFAULT_MIME_TYPE);
+            byte[] report = reportUtilService.gerarRelatorioPDFJdbcConnection(nomeRelatorio, objectMap);
+            String reportBase64 = base64FileUtil.generateBase64FromByteArray(report, mimeType);
             return ReportResponseDto
                     .builder()
                     .report(reportBase64)

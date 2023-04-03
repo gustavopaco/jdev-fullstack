@@ -2,9 +2,7 @@ package com.pacoprojects.report;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "report")
@@ -16,5 +14,10 @@ public class ReportController {
     @GetMapping
     public ResponseEntity<ReportResponseDto> downloadRelatorio() {
         return ResponseEntity.ok(reportService.downloadRelatorio());
+    }
+
+    @PostMapping
+    public ResponseEntity<ReportResponseDto> advancedReportParams(@RequestBody ReportParamRequestDto paramRequestDto) {
+        return ResponseEntity.ok(reportService.advancedReportParams(paramRequestDto));
     }
 }

@@ -87,7 +87,7 @@ public class ReportUtilService implements Serializable {
         return jasperPrint;
     }
 
-    private JasperPrint generateCompileAndJasperPrint(String nomeRelatorio, Map<String, Object> parametros, List<?> dados) throws JRException, IOException, SQLException {
+    private JasperPrint generateCompileAndJasperPrint(String nomeRelatorio, Map<String, Object> parametros, List<?> dados) throws JRException, IOException {
         // Carregar caminho do arquivo Jrxml
         InputStream pathJrxmlFile = this.getClass().getResourceAsStream(PATH + nomeRelatorio + FILE_JRXML_TYPE);
         // Gerando Novo Arquivo Jasper

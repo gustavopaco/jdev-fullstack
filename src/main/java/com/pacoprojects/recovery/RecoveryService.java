@@ -9,7 +9,6 @@ import com.pacoprojects.security.ApplicationConfig;
 import com.pacoprojects.security.jwt.JwtUtilService;
 import com.pacoprojects.util.Constantes;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
