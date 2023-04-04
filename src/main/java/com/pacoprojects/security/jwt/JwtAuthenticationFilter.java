@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.pacoprojects.util.Constantes.EXPIRED_JWT_EXCEPTION_MESSAGE;
+import static com.pacoprojects.util.Constantes.EXPIRED_JWT_TOKEN;
 import static com.pacoprojects.util.Constantes.MALFORMED_JWT_EXCEPTION_MESSAGE;
 
 @Component
@@ -36,16 +36,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception exception) {
             Map<String, String> map = new HashMap<>();
             if (exception instanceof AuthorizationServiceException) {
-                map.put("error", exception.getMessage());
+                map.put("message", exception.getMessage());
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
             } else if (exception instanceof ExpiredJwtException) {
-                map.put("error", EXPIRED_JWT_EXCEPTION_MESSAGE);
-                response.setStatus(HttpStatus.FORBIDDEN.value());
+                map.put("message", EXPIRED_JWT_TOKEN);
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
             } else if (exception instanceof MalformedJwtException) {
-                map.put("error", MALFORMED_JWT_EXCEPTION_MESSAGE);
+                map.put("message", MALFORMED_JWT_EXCEPTION_MESSAGE);
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             } else {
-                map.put("error", exception.getMessage());
+                map.put("message", exception.getMessage());
                 response.setStatus(HttpStatus.FORBIDDEN.value());
             }
             new ObjectMapper().writeValue(response.getOutputStream(),map);

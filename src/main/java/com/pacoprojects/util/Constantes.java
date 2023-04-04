@@ -2,9 +2,11 @@ package com.pacoprojects.util;
 
 public class Constantes {
 
+    // Jwt
     public static final String USERNAME = "username";
     public static final String BASICTOKEN = "basicToken";
     public static final String AUTHORIZATION_SERVICE_EXCEPTION_MESSAGE = "Usuário sem permissão, por favor tente logar novamente.";
+    public static final String EXPIRED_JWT_TOKEN = "ExpiredJwtException";
     public static final String EXPIRED_JWT_EXCEPTION_MESSAGE = "Sessão expirada, por favor faça o login novamente.";
     public static final String MALFORMED_JWT_EXCEPTION_MESSAGE = "Sessão foi invalidada, por favor faça o login novamente.";
     public static final String USERNAME_NOTFOUND_EXCEPTION = "Usuário não existente.";
@@ -32,4 +34,7 @@ public class Constantes {
     public static final String JR_EXCEPTION_MESSAGE = "Erro ao gerar relatório, entre em contato com o administrador";
     public static final String IO_EXCEPTION_MESSAGE = "Erro ao buscar relatório, entre em contato com o administrador";
     public static final String DEFAULT_MIME_TYPE = ".pdf";
+
+    // ChartDto2
+    public static final String NO_DATA_CHART = "Não existem registros no banco suficientes de Nome e Salario para gerar gráfico";
 }
