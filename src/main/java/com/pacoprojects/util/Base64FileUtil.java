@@ -17,7 +17,7 @@ public class Base64FileUtil {
     private static final String MIME_XLS = ".xls";
     private static final String MIME_XLS_RESULT = "application/vnd.ms-excel";
     private static final String MIME_XLSX = ".xlsx";
-    private static final String MIME_XLSX_RESULT = "officedocument.spreadsheetml.sheet";
+    private static final String MIME_XLSX_RESULT = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     public String generateBase64FromByteArray(byte[] reportInByteArray, String mimeType) {
 
