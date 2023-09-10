@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>JavaScript NAO EH JavaScript</title>
+</head>
+<body>
+	<h1>JavaScript NAO eh JAVA</h1>
+	
+	<input id="txtNome" name="nome" style="border-radius: 10px; background-color: aqua;;" type="text" >
+	<button id="btnNome" onclick="mostrarNome()" style="border-radius: 10px">Mostrar Nome</button>
+	
+	<script type="text/javascript" >
+		function mostrarNome(){
+			var nome = document.getElementById("txtNome").value;	
+			if (document.getElementById("txtNome").value == null || document.getElementById("txtNome").value == "") {
+				alert("Preencha o campo Nome");
+			}else{
+				alert("Nome Digitado: " + nome);
+			}
+		}
+	</script>
+	
+</body>
+</html>
