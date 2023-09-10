@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.curso.praticaweb</groupId>
-    <artifactId>web-mvn-novo-jsp</artifactId>
+    <artifactId>crud-jsp</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>web-mvn-novo-jsp</name>
+    <name>crud-jsp</name>
     <packaging>war</packaging>
 
     <properties>
@@ -26,12 +26,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>

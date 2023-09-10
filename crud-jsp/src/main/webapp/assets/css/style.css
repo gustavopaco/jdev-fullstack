@@ -334,7 +334,7 @@ b, strong {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 .page-header {
-  background-image: url("../images/breadcrumb-bg.jpg");
+  background-image: url("breadcrumb-bg.jpg");
   background-size: cover;
   position: relative;
   border-radius: 0;
@@ -766,12 +766,12 @@ button.close {
     margin: -7px 0 0 -15px;
     width: 30px;
     height: 20px;
-    background: url("../images/tooltip/tooltip1.svg") center center no-repeat;
+    background: url("tooltip1.svg") center center no-repeat;
     background-size: 100%; }
 
 .tooltip-content3 {
   position: absolute;
-  background: url("../images/tooltip/shape1.svg") center bottom no-repeat;
+  background: url("shape1.svg") center bottom no-repeat;
   background-size: 100% 100%;
   z-index: 9999;
   width: 200px;
@@ -6001,7 +6001,7 @@ table tbody .border-bottom-info td {
       height: 100% !important; } }
   .main-menu .main-menu-header {
     padding: 15px 0;
-    background-image: url("../images/user-bg.jpg");
+    background-image: url("user-bg.jpg");
     background-size: cover;
     text-align: center;
     position: relative; }
@@ -11225,11 +11225,11 @@ td.highlight {
   text-align: center; }
 
 td.details-control {
-  background: url("../images/details_open.png") no-repeat center center;
+  background: url("details_open.png") no-repeat center center;
   cursor: pointer; }
 
 tr.shown td.details-control {
-  background: url("../images/details_close.png") no-repeat center center; }
+  background: url("details_close.png") no-repeat center center; }
 
 #row-select .selected,
 #row-delete .selected {

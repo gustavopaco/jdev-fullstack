@@ -9,23 +9,23 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="include/head.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 
 <body>
 <!-- Pre-loader start -->
-<jsp:include page="include/theme-loader.jsp"/>
+<jsp:include page="../include/theme-loader.jsp"/>
 <!-- Pre-loader end -->
 <div id="pcoded" class="pcoded">
     <div class="pcoded-overlay-box"></div>
     <div class="pcoded-container navbar-wrapper">
-        <jsp:include page="include/navbar.jsp"/>
+        <jsp:include page="../include/navbar.jsp"/>
 
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
-                <jsp:include page="include/navbar-main-menu.jsp"/>
+                <jsp:include page="../include/navbar-main-menu.jsp"/>
                 <div class="pcoded-content">
                     <!-- Page-header start -->
-                    <jsp:include page="include/page-header.jsp"/>
+                    <jsp:include page="../include/page-header.jsp"/>
                     <!-- Page-header end -->
                     <div class="pcoded-inner-content">
                         <!-- Main-body start -->
@@ -50,6 +50,6 @@
     </div>
 </div>
 
-<jsp:include page="include/javascriptfile.jsp"/>
+<jsp:include page="../include/javascriptfile.jsp"/>
 </body>
 </html>
