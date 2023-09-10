@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" isELIgnored="false" info="Decodejava.com is an online portal An online portal that provides
-easy tutorials of Java programming language." %>
+	pageEncoding="UTF-8" isELIgnored="false" %>
 
 <%@ taglib prefix="myprefix" uri="/WEB-INF/testetag.tld"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
