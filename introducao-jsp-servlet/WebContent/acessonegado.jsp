@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>Acesso Liberado para esse usuario</h2>
+	<h2>Acesso negado ao sistema para o seu pessoa</h2>
+	<%@ page isErrorPage="true" %>
 </body>
 </html>
