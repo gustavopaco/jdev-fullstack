@@ -14,25 +14,25 @@
          <h:panelGrid>
             <h:column>
                <h:outputLabel value="Nome:"/>
-               <h:inputText value="#{pessoaBean.nome}"/>
+               <h:inputText value="#{pessoa.nome}"/>
             </h:column>
             <h:column>
                <h:outputLabel value="Sobrenome:" for="sobrenome"/> <!-- outputLabel => usado para fazer referencia a algum inputText -->
-               <h:inputText value="#{pessoaBean.sobrenome}" id="sobrenome"/> <!-- inputText => Usado para gravar/enviar a requisicao -->
+               <h:inputText value="#{pessoa.sobrenome}" id="sobrenome"/> <!-- inputText => Usado para gravar/enviar a requisicao -->
             </h:column>
             <h:column>
-               <h:outputText value="#{pessoaBean.nomeCompleto}"/> <!-- outputText => Usado para mostrar o resultado -->
+               <h:outputText value="#{pessoa.nomeCompleto}"/> <!-- outputText => Usado para mostrar o resultado -->
             </h:column>
             <h:column><h:outputLabel value="Password:"/>
-               <h:inputSecret value="#{pessoaBean.password}"/>
+               <h:inputSecret value="#{pessoa.password}"/>
             </h:column>
-            <h:column><h:inputTextarea id="texto_area" value="#{pessoaBean.texto}" rows="10" cols="40"/></h:column>
+            <h:column><h:inputTextarea id="texto_area" value="#{pessoa.texto}" rows="10" cols="40"/></h:column>
          </h:panelGrid>
          <h:column>
-            <h:commandButton binding="#{pessoaBean.commandButton}" value="Inserir Nome na Lista" action="#{pessoaBean.addNomes}"/>
+            <h:commandButton binding="#{pessoa.commandButton}" value="Inserir Nome na Lista" action="#{pessoa.addNomes}"/>
          </h:column>
          <h:column>
-            <h:dataTable value="${pessoaBean.nomes}" var="usuarioNome">
+            <h:dataTable value="${pessoa.nomes}" var="usuarioNome">
                <h:column>
                   <h:outputLabel value="#{usuarioNome}"/>
                </h:column>

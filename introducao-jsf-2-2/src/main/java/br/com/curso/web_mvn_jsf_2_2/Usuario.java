@@ -10,7 +10,7 @@ import java.util.List;
 
 @ViewScoped
 @ManagedBean
-public class PessoaBean implements Serializable {
+public class Usuario implements Serializable {
     private String nome;
     private String sobrenome;
     private String password;
