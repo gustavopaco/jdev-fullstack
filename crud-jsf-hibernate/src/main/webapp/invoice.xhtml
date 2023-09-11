@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <!--  INICIO DO HEAD  -->
+    <ui:include src="head.xhtml"/>
+    <!--  FIM DO HEAD  -->
+    <!--  INICIO DO BODY  -->
+    <h:body style=" height: 100%; width: 100%; margin: 0; padding: 0;">
+        <!--  INICIO DIV BODY  -->
+        <div style=" height: 100%; width: 100%;">
+            <!--    INICIO DIV CONTENT HEADER     -->
+            <ui:include src="contentHeader.xhtml"/>
+            <!--    FIM DIV CONTENT HEADER     -->
+            <!--    INICIO DIV CONTENT BODY     -->
+            <div align="center" style="float: contour; margin: 20px auto;">
+                <!--     INICIO - PROGRAMAR AQUI DENTRO     -->
+
+                <h:form id="registerInvoice">
+                    <h:panelGrid columns="3" cellspacing="5" cellpadding="10">
+
+                        <f:facet name="header">
+                            <h1 style="font-family: Consolas,sans-serif">Register Invoice Form</h1>
+                        </f:facet>
+
+                        <f:facet name="header">
+                            <h:messages infoStyle="color: green" errorStyle="color: red" globalOnly="true"/>
+                        </f:facet>
+
+                        <h:outputLabel value="Invoice Number:" for="number_invoice"/>
+                        <h:inputText id="number_invoice" value="#{registerInvoiceBean.invoice.number_invoice}"
+                                     required="true" requiredMessage="*Informe o numero da nota fiscal"/>
+                        <h:message for="number_invoice" errorStyle="color: red" infoStyle="color: green"/>
+
+                        <h:outputLabel value="From Company:" for="from_company"/>
+                        <h:inputText id="from_company" value="#{registerInvoiceBean.invoice.from_company_invoice}"
+                                     required="true" requiredMessage="*Inform company name"/>
+                        <h:message for="from_company" errorStyle="color: red" infoStyle="color: green"/>
+
+                        <h:outputLabel value="To Company:" for="to_company"/>
+                        <h:inputText id="to_company" value="#{registerInvoiceBean.invoice.to_company_invoice}"
+                                     required="true" requiredMessage="*Inform company name"/>
+                        <h:message for="to_company" errorStyle="color: red" infoStyle="color: green"/>
+
+                        <h:column/>
+                        <h:panelGroup>
+                            <h:commandButton value="Register Invoice" action="#{registerInvoiceBean.registerInvoice}"
+                                             binding="#{registerInvoiceBean.registerButton}"/>
+                            <h:commandButton value="Clean" type="reset" style="width: 50px; margin-left: 15px;"
+                                             binding="#{registerInvoiceBean.cleanButton}"/>
+                            <h:commandButton value="Update Invoice" action="#{registerInvoiceBean.editInvoice}"
+                                             binding="#{registerInvoiceBean.editButton}" rendered="false"/>
+                            <h:commandButton value="Cancel" action="#{registerInvoiceBean.newInvoice}"
+                                             style="width: 50px; margin-left: 15px;"
+                                             binding="#{registerInvoiceBean.cancelButton}" rendered="false"/>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form id="listInvoice">
+                    <h:dataTable value="#{registerInvoiceBean.invoices}" var="iv" cellpadding="30" cellspacing="10"
+                                 rendered="#{!registerInvoiceBean.invoices.isEmpty()}">
+
+                        <f:facet name="header"><h2 style="font-family: Consolas,sans-serif">Invoice List</h2></f:facet>
+
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            <h:outputText value="#{iv.id_invoice}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Invoice Number</f:facet>
+                            <h:outputText value="#{iv.number_invoice}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">From Company</f:facet>
+                            <h:outputText value="#{iv.from_company_invoice}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">To Company</f:facet>
+                            <h:outputText value="#{iv.to_company_invoice}"/>
+                        </h:column>
+
+                        <h:column rendered="#{sessionBean.permissaoUsuario('Administrador')}">
+                            <f:facet name="header">Delete</f:facet>
+                            <h:commandButton image="images/deleteimg.png" style="height: 25px; width: 25px"
+                                             action="#{registerInvoiceBean.deleteInvoice(iv)}">
+                            </h:commandButton>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Edit</f:facet>
+                            <h:commandButton image="images/edit2.png" style="height: 25px; width: 25px"
+                                             action="#{registerInvoiceBean.showEditButton}">
+                                <f:setPropertyActionListener target="#{registerInvoiceBean.invoice}" value="#{iv}"/>
+                            </h:commandButton>
+                        </h:column>
+
+                    </h:dataTable>
+                </h:form>
+
+                <div style="margin-top: 120px;">
+                    <h:outputLabel value="Nenhum Item na Lista" rendered="#{registerInvoiceBean.invoices.isEmpty()}"
+                                   style="font-size: 30px; font-family: Consolas,sans-serif"/>
+                </div>
+
+                <!--     FIM - PROGRAMAR AQUI DENTRO       -->
+            </div>
+            <!--    FIM DIV CONTENT BODY     -->
+        </div>
+        <!--  FIM DIV BODY  -->
+    </h:body>
+    <!--  FIM DO BODY  -->
+</f:view>
+</html>

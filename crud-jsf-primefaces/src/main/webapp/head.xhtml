@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+<!--       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>-->
+       <script type="text/javascript" src="resources/js/Chart.bundle.min.js"></script>
+<!--       <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>-->
+       <script type="text/javascript" src="resources/js/chartjs-plugin-labels.js"></script>
+
+
+       <h:outputScript>
+          function chartExtender() {
+             var options = {
+                options: {
+                      // Change options for ALL labels of THIS CHART
+                   plugins: {
+                      labels: {
+                         render: 'percentage',
+                         fontSize: 20,
+                         fontColor: 'black',
+                         precision: 3
+                      }
+                   }
+                }
+             };
+
+             //merge all options into the main chart options
+             $.extend(true, this.cfg.config, options);
+          };
+       </h:outputScript>
+        <title>Register</title>
+    </h:head>
+</f:view>
+</html>
