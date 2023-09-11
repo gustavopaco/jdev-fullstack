@@ -99,7 +99,7 @@
         } else {
             $.ajax({
                 method: "POST",
-                url: "api/v1/usuario/register",
+                url: "api/v1/pessoa/register",
                 data: JSON.stringify({
                     id: id,
                     name: name,
@@ -111,7 +111,7 @@
                     $("#id").val(response.id);
                 }
             }).fail(function (xhr, status, errorThrown) {
-                alert("Erro ao salvar usuario: " + xhr.responseText);
+                alert("Erro ao salvar pessoa: " + xhr.responseText);
             });
         }
     }
@@ -122,18 +122,28 @@
         if (userName.trim() !== "") {
             $.ajax({
                 method: "GET",
-                url: "api/v1/usuario/containsName",
+                url: "api/v1/pessoa/containsName",
                 data: "name=" + userName,
                 success: function (response) {
                     $("#tabelaUsuarios > tbody tr").remove();
                     for (let i = 0; i < response.length; i++) {
                         $("#tabelaUsuarios > tbody")
-                            .append('<tr id="' + response[i].id + '"><td>' + response[i].id + '</td><td>' + response[i].name + '</td><td>' + response[i].age + '</td><td><button type="button" class="btn btn-info" onclick="colocarEmEdicao(' + response[i].id + ')">Info</button></td><td><button type="button" class="btn btn-danger" onclick="deletarUsuario(' + response[i].id + ')">Delete</button></td></tr>');
+                            .append('<tr id="' + response[i].id + '">' +
+                                '<td>' + response[i].id + '</td>' +
+                                '<td>' + response[i].name + '</td>' +
+                                '<td>' + response[i].age + '</td>' +
+                                '<td>' +
+                                    '<button type="button" class="btn btn-info" onclick="colocarEmEdicao(' + response[i].id + ')">Info</button>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<button type="button" class="btn btn-danger" onclick="deletarUsuario(' + response[i].id + ')">Delete</button>' +
+                                '</td>' +
+                                '</tr>');
 
                     }
                 }
             }).fail(function (xhr, status, errorThrown) {
-                alert("Erro ao buscar usuario por nome: " + xhr.responseText);
+                alert("Erro ao buscar pessoa por nome: " + xhr.responseText);
             });
         }
     }
@@ -141,7 +151,7 @@
     function colocarEmEdicao(id) {
         $.ajax({
             method: "GET",
-            url: "api/v1/usuario/usuario",
+            url: "api/v1/pessoa/pessoa",
             data: "id=" + id,
             success: function (response) {
                 $("#id").val(response.id);
@@ -152,7 +162,7 @@
                 $("#exampleModal").modal('hide');
             }
         }).fail(function (xhr, status, errorThrown) {
-            alert("Erro ao buscar usuario por id: " + xhr.responseText);
+            alert("Erro ao buscar pessoa por id: " + xhr.responseText);
         });
     }
 
@@ -162,14 +172,14 @@
             if (id !== null && id !== "") {
                 $.ajax({
                     method: "DELETE",
-                    url: "api/v1/usuario/" + id,
+                    url: "api/v1/pessoa/" + id,
                     success: function (response) {
                         alert("Usuario Deletado com sucesso");
                         $("#" + id).remove();
                         document.getElementById("registerForm").reset();
                     }
                 }).fail(function (xhr, status, errorThrown) {
-                    alert("Erro ao deletar usuario por id: " + xhr.responseText);
+                    alert("Erro ao deletar pessoa por id: " + xhr.responseText);
                 });
             }
         }
