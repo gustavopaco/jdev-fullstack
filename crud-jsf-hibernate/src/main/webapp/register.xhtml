@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<f:view>
+    <h:head>
+        <title>Register</title>
+    </h:head>
+    <h:body>
+        <div>
+            <div style="float: left; width: 40%; height: 990px"></div>
+            <div style="float: left; width: 57%; height: 990px">
+                <div align="center" style="display: table">
+                    <h:form id="registerForm">
+                        <h:panelGrid columns="3" cellpadding="10">
+
+                            <f:facet name="header"><h1 style="width: 320px;">Register Form</h1></f:facet>
+
+                            <f:facet name="header"><h:messages infoStyle="color: green" errorStyle="color: red"
+                                                               showSummary="true" warnStyle="color: red"
+                                                               fatalStyle="color: black"
+                                                               globalOnly="true"/></f:facet>
+
+                            <h:outputLabel value="Name:" for="nome"/>
+                            <h:inputText value="#{registerUserBean.pessoa.nome_usuario}" id="nome" required="true"
+                                         requiredMessage="*Inform name of user"
+                                         validatorMessage="Name must have at least 5 letters">
+                                <f:validateLength minimum="5" maximum="50"/>
+                            </h:inputText>
+                            <h:message for="nome" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Sex:" for="sexo"/>
+                            <h:selectOneMenu value="#{registerUserBean.pessoa.sexo_usuario}" id="sexo" required="true"
+                                             requiredMessage="*Mandatory field">
+                                <f:selectItem itemLabel="SELECIONE" noSelectionOption="true"/>
+                                <f:selectItem itemValue="Masculino" itemLabel="Masculino"/>
+                                <f:selectItem itemValue="Feminino" itemLabel="Feminino"/>
+                            </h:selectOneMenu>
+                            <h:message for="sexo" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Email:" for="email"/>
+                            <h:inputText value="#{registerUserBean.pessoa.email_usuario}" id="email" required="true"
+                                         requiredMessage="*Inform your e-mail"
+                                         validatorMessage="*Wrong e-mail format, example: aa@aa.com">
+                                <f:validateRegex
+                                        pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                                <f:ajax event="blur" listener="#{registerUserBean.msgEmailAlreadyTaken}"
+                                        render="validmail"/>
+                            </h:inputText>
+                            <h:message for="email" id="validmail" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Password:" for="password"/>
+                            <h:inputSecret value="#{registerUserBean.pessoa.password_usuario}" id="password"
+                                           required="true"
+                                           requiredMessage="*Inform a password, min 5 and max 30 characters"
+                                           validatorMessage="Minimum 5 and Maximum 30 characters">
+                                <f:validateLength minimum="5" maximum="30"/>
+                            </h:inputSecret>
+                            <h:message for="password" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="CPF:" for="cpf"/>
+                            <h:inputText id="cpf" value="#{registerUserBean.pessoa.cpf}"/>
+                            <h:message for="cpf" infoStyle="color: green" errorStyle="color: red"/>
+
+                            <h:outputLabel value="Voter Title"/>
+                            <h:inputText id="tituloEleitor" value="#{registerUserBean.pessoa.tituloEleitor}"/>
+                            <h:message for="tituloEleitor" infoStyle="color: green" errorStyle="color: red"/>
+
+                            <h:outputLabel value="ZipCode:" for="zipcode"/>
+                            <h:inputText id="zipcode" value="#{registerUserBean.pessoa.cep}" required="true"
+                                         requiredMessage="*Inform Zipcode">
+                                <f:ajax execute="@this" event="blur" listener="#{registerUserBean.findAddressZipCode}"
+                                        render="validzipcode address1 address2 neighborhood city state"/>
+                            </h:inputText>
+                            <h:message for="zipcode" id="validzipcode" infoStyle="color: green"
+                                       errorStyle="color: red"/>
+
+                            <h:outputLabel value="Address" for="address1"/>
+                            <h:inputText readonly="true" id="address1" value="#{registerUserBean.pessoa.logradouro}"/>
+                            <h:column/>
+
+                            <h:outputLabel value="Address (number, block)" for="address2"/>
+                            <h:inputText id="address2" value="#{registerUserBean.pessoa.complemento}"/>
+                            <h:column/>
+
+                            <h:outputLabel value="Neighborhood" for="neighborhood"/>
+                            <h:inputText readonly="true" id="neighborhood" value="#{registerUserBean.pessoa.bairro}"/>
+                            <h:column/>
+
+                            <h:outputLabel value="City" for="city"/>
+                            <h:inputText readonly="true" id="city" value="#{registerUserBean.pessoa.localidade}"/>
+                            <h:column/>
+
+                            <h:outputLabel value="State" for="state"/>
+                            <h:inputText readonly="true" id="state" value="#{registerUserBean.pessoa.uf}"/>
+                            <h:column/>
+
+                            <h:outputLabel value="Age:" for="idade"/>
+                            <h:inputText value="#{registerUserBean.pessoa.idade_usuario}" id="idade" style="width: 20%"
+                                         maxlength="3" required="true" requiredMessage="*Mandatory"/>
+                            <h:message for="idade" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="onChange Estados:"/>
+                            <h:selectOneMenu id="selectEstados" value="#{registerUserBean.pessoa.estado}"
+                                             immediate="true">
+                                <f:selectItem itemLabel="SELECT" noSelectionOption="true"/>
+                                <f:selectItems value="#{applicationBean.selectItems}"/>
+                                <f:ajax event="change" listener="#{registerUserBean.preencherCidades}"
+                                        render="selectCidade"/>
+                                <f:converter converterId="estadoConverter" for="selectEstados"/>
+                            </h:selectOneMenu>
+                            <h:column/>
+
+                            <h:outputLabel value="onChange Cidades:"/>
+                            <h:selectOneMenu value="#{registerUserBean.pessoa.cidade}" id="selectCidade">
+                                <f:selectItems value="#{registerUserBean.selectItemsCidades}"/>
+                                <f:converter converterId="cidadeConverter" for="selectCidade"/>
+                            </h:selectOneMenu>
+                            <h:column/>
+
+                            <h:outputLabel value="Birthday:" for="dataNascimento"/>
+                            <h:inputText value="#{registerUserBean.pessoa.dataNascimento_usuario}" id="dataNascimento"
+                                         required="true"
+                                         requiredMessage="*Inform your birthday"
+                                         converterMessage="*Wrong date format for birthday, example: 29/01/2000"
+                                         a:placeholder="dd/MM/yyyy" onblur="preencher()">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-03:00"/>
+                            </h:inputText>
+                            <h:message for="dataNascimento" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Frameworks:" for="frameworks"/>
+                            <h:selectManyMenu id="frameworks" style=" height: 100px; width: 200px;"
+                                              value="#{registerUserBean.pessoa.frameworks}">
+                                <f:selectItems value="#{applicationBean.frameworks}" var="fw" itemValue="#{fw}"
+                                               itemLabel="#{fw.nome_framework}"/>
+                                <f:converter converterId="frameworkConverter"/>
+                            </h:selectManyMenu>
+                            <h:column/>
+
+                            <h:outputLabel value="Languages" for="smmenu"/>
+                            <h:selectManyMenu value="#{registerUserBean.pessoa.linguagens}" id="smmenu"
+                                              style=" height: 100px; width: 200px;">
+                                <f:selectItem itemValue="Java"/>
+                                <f:selectItem itemValue="PHP"/>
+                                <f:selectItem itemValue="C#"/>
+                                <f:selectItem itemValue="Python"/>
+                                <f:selectItem itemValue="C++"/>
+                                <f:selectItem itemValue="JavaScript"/>
+                            </h:selectManyMenu>
+                            <h:column/>
+
+                            <h:outputLabel value="Profile Stats" for="profile"/>
+                            <h:selectOneRadio id="profile" title="Stats" style=""
+                                              value="#{registerUserBean.pessoa.status}"
+                                              layout="pageDirection" required="true"
+                                              requiredMessage="*Select your profile">
+                                <!--                        <f:selectItem itemValue="Administrador" itemLabel="Administrador"/>-->
+                                <f:selectItem itemValue="Cliente" itemLabel="Customer"/>
+                                <f:selectItem itemValue="Funcionario" itemLabel="Employee"/>
+                            </h:selectOneRadio>
+                            <h:message for="profile" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Linguas"/>
+                            <h:selectManyCheckbox id="linguas" value="#{registerUserBean.pessoa.linguas}"
+                                                  layout="pageDirection"
+                                                  required="true" requiredMessage="*Select at least one Language">
+                                <f:selectItem itemValue="1" itemLabel="Portuguese"/>
+                                <f:selectItem itemValue="2" itemLabel="English"/>
+                                <f:selectItem itemValue="3" itemLabel="Spanish"/>
+                                <f:selectItem itemValue="4" itemLabel="German"/>
+                                <f:selectItem itemValue="5" itemLabel="Mandarin"/>
+                            </h:selectManyCheckbox>
+                            <h:message for="linguas" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:outputLabel value="Agree with terms" for="agreeterms"/>
+                            <h:selectBooleanCheckbox id="agreeterms" value="#{registerUserBean.pessoa.signedContract}"
+                                                     required="true"
+                                                     requiredMessage="*Mandatory field" valueChangeListener="#{registerUserBean.valorChange}">
+                                <f:validator validatorId="genericCheckBoxValidator"/>
+                            </h:selectBooleanCheckbox>
+                            <h:message for="agreeterms" errorStyle="color: red" infoStyle="color: green"/>
+
+                            <h:commandButton value="Register" action="#{registerUserBean.register}" actionListener="#{registerUserBean.registraLog}"/>
+
+                            <h:commandButton id="limparForm" value="Clean" type="reset"/>
+
+                        </h:panelGrid>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function preencher() {
+                document.getElementById("registerForm:resposta").innerText = document.getElementById("registerForm:dataNascimento").value
+            }
+        </script>
+    </h:body>
+</f:view>
+</html>
