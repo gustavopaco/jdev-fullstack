@@ -17,7 +17,7 @@
 ;(function()
 {
     // CommonJS
-    typeof(require) != 'undefined' ? SyntaxHighlighter = require('shCore').SyntaxHighlighter : null;
+    typeof(require) != 'undefined' ? SyntaxHighlighter = require('src/webapp/resources/js/shCore').SyntaxHighlighter : null;
 
     function Brush()
     {
