@@ -1,4 +1,4 @@
-package com.pacoprojects.revjsbtapi;
+package com.pacoprojects;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

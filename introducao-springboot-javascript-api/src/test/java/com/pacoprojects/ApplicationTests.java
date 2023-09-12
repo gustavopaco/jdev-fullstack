@@ -1,4 +1,4 @@
-package com.pacoprojects.revjsbtapi;
+package com.pacoprojects;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

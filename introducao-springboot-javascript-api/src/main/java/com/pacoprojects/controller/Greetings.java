@@ -1,7 +1,7 @@
-package com.pacoprojects.revjsbtapi.controller;
+package com.pacoprojects.controller;
 
-import com.pacoprojects.revjsbtapi.model.Usuario;
-import com.pacoprojects.revjsbtapi.repository.UsuarioRepository;
+import com.pacoprojects.model.Usuario;
+import com.pacoprojects.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

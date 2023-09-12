@@ -1,4 +1,4 @@
-package com.pacoprojects.revjsbtapi.model;
+package com.pacoprojects.model;
 
 
 import jakarta.persistence.*;
