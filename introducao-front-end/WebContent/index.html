@@ -1,0 +1,73 @@
+<html>
+<head>
+<style type="text/css">
+body {
+	text-transform: capitalize;
+}
+</style>
+</head>
+<body>
+
+	<!-- Mini curso front-end -->
+
+	<form action="usuario" method="post" onsubmit="return validarDados()? true : false">
+		<table style="background: #E8E8E8;">
+
+			<tr>
+				<td><label>Digite seu nome: </label></td>
+				<td><input id="txt_nome" type="text" name="txt_nome"
+					style="border-radius: 5px;"></td>
+			</tr>
+
+			<tr>
+				<td><label>Login do Usuario: </label></td>
+				<td><input id="txt_login" type="text" name="txt_login"
+					style="border-radius: 5px"></td>
+			</tr>
+
+			<tr>
+				<td><label>Senha: </label></td>
+				<td><input id="txt_password" type="password"
+					name="txt_password" style="border-radius: 5px"></td>
+				<!-- <input type="submit" value="Enviar"> -->
+			</tr>
+
+			<tr>
+				<td />
+				<td><button id="btn_enviar"
+						style="width: 100%; height: 100%; border-radius: 20px">Enviar</button></td>
+			</tr>
+		</table>
+	</form>
+	
+	<script type="text/javascript">
+		function validarDados() {
+			var validacao = true;
+			var imprime = "";
+			
+			if(document.getElementById("txt_nome").value == ""){
+				// alert("Informe o Nome");
+				imprime += "Nome\n";
+				validacao = false;
+			}
+			if(document.getElementById("txt_login").value == ""){
+				// alert("Informe o Login")
+				imprime += "Login\n";
+				validacao = false;
+			}
+			if(document.getElementById("txt_password").value == ""){
+				// alert("Informe a Senha")
+				imprime += "Senha\n";
+				validacao = false;
+			}
+
+			if(imprime != ""){
+				var notificacao = "Favor preencher os campos:\n" + imprime;
+				alert(notificacao);
+				validacao = false;
+			}
+				return validacao;
+		}
+	</script>
+</body>
+</html>

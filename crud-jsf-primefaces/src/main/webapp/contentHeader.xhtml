@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <div style="padding: 5px; height: 120px;">
+        <div class="card" style="float: right; margin-top: 25px;">
+            <p:tabMenu id="contentHead" activeIndex="#{param.i}">
+                <p:menuitem value="Login" outcome="index.xhtml" icon="pi pi-fw pi-home">
+                    <f:param name="i" value="0"/>
+                </p:menuitem>
+                <p:menuitem value="Registro" outcome="register.xhtml" icon="pi pi-fw pi-pencil">
+                    <f:param name="i" value="1"/>
+                </p:menuitem>
+                <p:menuitem value="Telefone" outcome="telefone.xhtml" icon="pi pi-fw pi-pencil" rendered="#{sessionScope.pessoaEscolhida != null}">
+                    <f:param name="i" value="2"/>
+                </p:menuitem>
+                <p:menuitem value="Grafico" outcome="grafico.xhtml" icon="pi pi-fw pi-file">
+                    <f:param name="i" value="3"/>
+                </p:menuitem>
+            </p:tabMenu>
+        </div>
+    </div>
+</f:view>
+</html>

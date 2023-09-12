@@ -1,0 +1,104 @@
+package banco;
+
+import dao.ProdutoDAO;
+import dao.UsuarioDAO;
+import models.Endereco;
+import models.Produto;
+import models.Usuario;
+
+import connection.SingleConnection;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TesteBanco {
+
+	@Test
+	public void TestBanco() {
+		
+		new SingleConnection();
+		
+	}
+	
+	@Test
+	public void TestListaUser(){
+
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+
+		for (Usuario usuario :
+				usuarioDAO.listarUsuarios()) {
+			System.out.println(usuario);
+		}
+	}
+
+	@Test
+	public void TestValidaCPFBanco(){
+		boolean checkCPF = new UsuarioDAO().isCPFValid("107.775.376-48");
+		System.out.println("O CPF valido eh: " + checkCPF);
+	}
+
+	@Test
+	public void TestValidaLoginBanco(){
+		boolean checklogin = new UsuarioDAO().isLoginValid("GUSTAVOPACO@GMAIL.COM");
+		System.out.println("O login valido eh: " + checklogin);
+
+	}
+
+	@Test
+	public void TestInsertProdutos(){
+		Produto produto = new Produto();
+		produto.setNomeProduto("Couve");
+		produto.setQuantidade(7);
+		produto.setPreco(1.10);
+
+		if (new ProdutoDAO().insertProduto(produto)){
+			System.out.println("Produto Inserido");
+		}else{
+			System.out.println("Produto nao inserido");
+		}
+	}
+
+	@Test
+	public void TestListaProdutos(){
+		List<Produto> produtos = new ProdutoDAO().listProduto();
+		for (Produto p:produtos) {
+			System.out.println(p);
+		}
+	}
+
+	@Test
+	public void TestInsertEndereco(){
+		Endereco endereco = new Endereco();
+		endereco.setEnd_cep("35030765");
+		endereco.setEnd_rua("Sargento Johnny da Silva");
+		endereco.setEnd_numero(404);
+		endereco.setEnd_complemento("Bloco 1, Apt 201");
+		endereco.setEnd_bairro("Betania");
+		endereco.setEnd_cidade("Belo Horizonte");
+		endereco.setEnd_estado("MG");
+		endereco.setId_usuario(72L);
+		new UsuarioDAO().insertEndereco(endereco);
+	}
+
+	@Test
+	public void TestListEnderecos(){
+		List<Endereco> enderecos = new UsuarioDAO().listEndereco(71L);
+
+		for (Endereco end :
+				enderecos) {
+			System.out.println(end);
+		}
+	}
+
+	@Test
+	public void TestStringSplit(){
+		String texto = "image/jpg";
+		String texto2 = "data:image/jpg;Base64,/9598212313245646";
+		System.out.println("Tipo da Imagem usando string split: " + texto.split("/")[1]);
+		System.out.println("Tipo da Imagem usando substring: " + texto.substring(texto.indexOf("/")+1));
+		System.out.println("Tipo da Imagem usando substring: " + texto2.substring(0,texto2.indexOf(";")).substring(texto2.indexOf(":")+1));
+		System.out.println("Tipo da Imagem usando string split: " + texto2.split(";")[0].split(":")[1]);
+	}
+}
