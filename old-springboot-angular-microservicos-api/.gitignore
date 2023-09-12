@@ -1,5 +1,4 @@
 ### Arquivo de configuracao Spring
-**-beanstalk.properties
 ### Arquivo de ajuda
 HELP.md
 ### Gradle template
@@ -309,3 +308,4 @@ buildNumber.properties
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+!/src/main/resources/application-beanstalk.properties
