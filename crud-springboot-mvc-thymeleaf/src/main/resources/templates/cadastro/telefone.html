@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/materialize.min.css}" media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Title</title>
+</head>
+<body>
+<h3>SpringBoot + Thymeleaf + Materialize Design</h3>
+<a th:href="@{/pessoa/inicial}">Voltar</a>
+<h5>Cadastro de Telefones</h5>
+<div th:object="${pessoa}" sec:authorize="hasRole('ADMIN')">
+    <div class="row">
+        <!--        <p>ID:<span th:text="*{id}"></span></p>-->
+        <h5>Bem Vindo, <span th:text="*{nome}"></span></h5>
+        <!--        <p>Sobrenome:<span th:text="*{sobrenome}"></span></p>-->
+        <!--        <p>Idade:<span th:text="*{idade}"></span></p>-->
+    </div>
+</div>
+<h5>Telefones</h5>
+<div th:each="m : ${msg}">
+    <span th:text="${m}"></span>
+</div>
+<div class="row" sec:authorize="hasAnyRole('USER' , 'ADMIN')">
+    <form th:action="@{/telefone/cadastrar/{pessoaID}(pessoaID=${pessoa.id})}" method="post" class="col s12"
+          th:object="${telefone}" onsubmit="return validaCampos()">
+        <div class="row">
+            <div class="input-field col s3">
+                <label class="active" id="lbl_numero" for="numero">Numero</label>
+                <input type="text" name="numero" id="numero" class="validate" th:field="*{numero}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s3">
+                <label class="active" id="lbl_tipo" for="tipo">Tipo</label>
+                <input type="text" name="tipo" id="tipo" class="validate" th:field="*{tipo}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s2">
+                <button class="waves-effect waves-light btn" type="submit">Adicionar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <table class="striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Numero</th>
+            <th>Tipo</th>
+            <th>Dono</th>
+            <th>Deletar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tel : ${telefones}">
+            <td th:text="${tel.id}"></td>
+            <td th:text="${tel.numero}"></td>
+            <td th:text="${tel.tipo}"></td>
+            <td th:text="${tel.pessoa.nome}"></td>
+            <td><a th:href="@{/telefone/deletar/{telefoneID}(telefoneID=${tel.id})}"><img src="#" th:href="@{/image/delete.png}" alt="Deletar" height="25" width="25"/></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function validaCampos() {
+        var check = true;
+        var imprime = "";
+
+        if (document.getElementById("numero").value.trim() === "") {
+            imprime += "Campo Numero\n";
+            check = false
+        }
+        if (document.getElementById("tipo").value.trim() === "") {
+            imprime += "Campo Tipo\n";
+            check = false
+        }
+
+        if (imprime !== "") {
+            alert("Campos obrigatorios\n" + imprime);
+        }
+
+        return check;
+    }
+</script>
+<script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
+</body>
+</html>

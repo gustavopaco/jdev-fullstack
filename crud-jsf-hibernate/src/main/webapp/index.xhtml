@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+        <title>Projeto JSF</title>
+    </h:head>
+    <h:body>
+        <div style="display: table; margin: 400px auto;">
+            <h:form id="formUser">
+                <h:inputHidden value="#{urlEscoliha}" binding="#{loginUserBean.urlEscolhida}"/>
+                <h:panelGrid columns="3">
+
+                    <f:facet name="header"><h1>Sign in</h1></f:facet>
+
+                    <h:outputLabel value="Email:" for="email"/>
+                    <h:inputText id="email" value="#{loginUserBean.pessoa.email_usuario}"/>
+                    <h:column/>
+
+                    <h:outputLabel value="Password:" for="password"/>
+                    <h:inputSecret id="password" value="#{loginUserBean.pessoa.password_usuario}"/>
+                    <h:column/>
+
+                    <h:column/>
+                    <h:panelGroup>
+
+                        <h:commandButton value="Log in" action="#{loginUserBean.signIn}"/>
+                        <h:commandButton style="margin-left: 15px; height: 20px;" image="images/registerimg.png" alt="Sign up"
+                                         action="register?faces-redirect=true"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+</html>

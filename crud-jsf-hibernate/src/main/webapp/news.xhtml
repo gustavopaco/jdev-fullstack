@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <!--  INICIO DO HEAD  -->
+    <ui:include src="head.xhtml"/>
+    <!--  FIM DO HEAD  -->
+    <!--  INICIO DO BODY  -->
+    <h:body style=" height: 100%; width: 100%; margin: 0; padding: 0;">
+        <!--  INICIO DIV BODY  -->
+        <div style=" height: 100%; width: 100%;">
+            <!--    INICIO DIV CONTENT HEADER     -->
+            <ui:include src="contentHeader.xhtml"/>
+            <!--    FIM DIV CONTENT HEADER     -->
+            <!--    INICIO DIV CONTENT BODY     -->
+            <div align="center" style="float: contour; margin: 20px auto;">
+                <!--     INICIO - PROGRAMAR AQUI DENTRO     -->
+                <h:form>
+                    <h:panelGrid columns="2" cellspacing="5" cellpadding="10">
+
+                        <f:facet name="header"><h1>News</h1></f:facet>
+
+
+
+                    </h:panelGrid>
+                </h:form>
+                <!--     FIM - PROGRAMAR AQUI DENTRO       -->
+            </div>
+            <!--    FIM DIV CONTENT BODY     -->
+        </div>
+        <!--  FIM DIV BODY  -->
+    </h:body>
+    <!--  FIM DO BODY  -->
+</f:view>
+</html>
