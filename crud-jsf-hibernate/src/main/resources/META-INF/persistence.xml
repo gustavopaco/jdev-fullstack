@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="crud-jsf-hibernate">
+
+        <class>model.Usuario</class>
+        <class>model.Framework</class>
+        <class>model.Invoice</class>
+        <class>model.Estados</class>
+        <class>model.Cidades</class>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/crud-jsf-hibernate"/>
+            <property name="hibernate.connection.username" value="postgres"/>
+            <property name="hibernate.connection.password" value="admin"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!--  * IMPORTANTE - Configuracao de Pool de Conexoes C3P0 do Hibernate - Melhora estabilidade        -->
+
+            <!--    Minimo de conexoes ou portas disponiveis        -->
+            <property name="hibernate.c3p0.min_size" value="5"/>
+
+            <!--    Maximo de portas que terao abertas, normalmente nao eh limitado, se utilizado evita muitas portas abertas -->
+            <property name="hibernate.c3p0.max_size" value="100"/>
+
+            <!--   Quantidade de segundos que uma conexao inativa eh mantida no pool    -->
+            <property name="hibernate.c3p0.timeout" value="300"/>
+
+            <!--   Numero total de instrucoes SQL, transacoes, operacoes no banco de dados mantidas em cache em caso de repeticoes  -->
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+
+            <!--   Tempo ocioso em segundos antes de uma conexao ser validada automaticamente    -->
+            <property name="hibernate.c3p0.idle_test_period" value="120"/>
+
+        </properties>
+    </persistence-unit>
+</persistence>

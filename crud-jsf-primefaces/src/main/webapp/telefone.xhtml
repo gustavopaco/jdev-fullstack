@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:include src="head.xhtml"/>
+    <h:body>
+        <!--   INICIO - Content Header     -->
+        <ui:include src="contentHeader.xhtml"/>
+        <!--   FIM - Content Header     -->
+        <div style="clear: both; margin-top: 5px; padding: 5px;">
+            <!--   INICIO - Body Div     -->
+            <div style="width: 500px;">
+                <p:outputLabel value="Usuario: #{telefoneBean.pessoa.nome}"
+                               style="font-size: x-large; padding: 5px; font-weight: bold"/>
+            </div>
+            <div class="card" style="width: 1000px; margin: 200px auto 0">
+                <h:form id="registerFone">
+                    <p:panelGrid id="gridRegisterFone" layout="grid" columns="3"
+                                 columnClasses="ui-g-12 ui-md-6 ui-lg-3 ui-md-offset-3, ui-g-12 ui-md-6 ui-lg-3, ui-g-12 ui-md-6 ui-lg-3"
+                                 styleClass="showcase-text-align-center">
+
+                        <f:facet name="header"><h3>Registro telefone</h3></f:facet>
+
+                        <p:growl id="growl" globalOnly="true"/>
+                        <p:column/>
+                        <p:column/>
+
+                        <p:outputLabel value="Numero:" for="numero"/>
+                        <p:inputText id="numero" value="#{telefoneBean.telefonePessoa.numeroTelefone}"/>
+                        <p:message for="numero"/>
+
+                        <p:commandButton value="Cadastrar" action="#{telefoneBean.registroTelefone}"
+                                         binding="#{telefoneBean.btnCadastro}" update="@form listTelefone"/>
+                        <p:commandButton value="Limpar" type="reset" binding="#{telefoneBean.btnLimpar}"/>
+                        <p:commandButton value="Editar" action="#{telefoneBean.updateTelefone}" rendered="false"
+                                         binding="#{telefoneBean.btnEditar}" update="@form listTelefone"/>
+                        <p:commandButton value="Cancelar" rendered="false" binding="#{telefoneBean.btnCancelar}"
+                                         update="@form" actionListener="#{telefoneBean.cancelar}"
+                                         immediate="true" resetValues="true"/>
+
+
+                    </p:panelGrid>
+                </h:form>
+            </div>
+            <div style="margin-top: 150px;">
+                <h:form id="listTelefone">
+                    <p:outputLabel id="labelTelefone" value="Sem registros de telefone"
+                                   style="font-size: large; font-weight: bold; margin-left: 45%;"
+                                   rendered="#{empty telefoneBean.telefonePessoas}"/>
+                    <p:dataTable id="dtTelefone" value="#{telefoneBean.telefonePessoas}" var="tel" stripedRows="true"
+                                 rendered="#{not empty telefoneBean.telefonePessoas}">
+
+                        <f:facet name="header">Lista de Telefones</f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText id="telID" value="#{tel.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Numero">
+                            <h:outputText id="telNumero" value="#{tel.numeroTelefone}"/>
+                        </p:column>
+
+                        <p:column headerText="Proprietario">
+                            <h:outputText id="telDono" value="#{tel.pessoa.nome}"/>
+                        </p:column>
+
+                        <p:column headerText="Editar">
+                            <p:commandLink actionListener="#{telefoneBean.esconderBtnCadastro}"
+                                           update="registerFone"><p:graphicImage value="resources/images/edit2.png"
+                                                                                 height="25" width="25"/>
+                                <f:setPropertyActionListener target="#{telefoneBean.telefonePessoa}" value="#{tel}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                        <p:column headerText="Deletar">
+                            <p:commandLink action="#{telefoneBean.deleteTelefone}"
+                                           update="@form registerFone"><p:graphicImage
+                                    value="resources/images/deleteimg.png" height="25"
+                                    width="25"/>
+                                <f:setPropertyActionListener target="#{telefoneBean.telefonePessoa}" value="#{tel}"/>
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+            <!--   FIM - Body Div     -->
+        </div>
+    </h:body>
+</f:view>
+</html>
