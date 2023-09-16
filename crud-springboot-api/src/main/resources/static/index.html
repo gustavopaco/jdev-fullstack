@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<script>
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                // End-points localHost para Dev profile
+                url: "http://localhost/api/microservices/usuario",
+                // End-point para Aws para Aws profile
+                // url: "http://www.pacoprojects.com/api/microservices/usuario",
+                method: "GET"
+            }).then(function (data, status, info) {
+                console.log(data);
+                alert('Login do usuario ' + data[0].login)
+            });
+        });
+</script>
+</body>
+</html>
