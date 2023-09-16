@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:include src="head.xhtml"/>
+    <h:body>
+        <!--   INICIO - Content Header     -->
+        <ui:include src="contentHeader.xhtml"/>
+        <!--   FIM - Content Header     -->
+        <div style="clear: both; margin-top: 5px; padding: 5px;">
+            <!--   INICIO - Body Div     -->
+            <div >
+                <p:chart type="bar" model="#{graficoBean.barChartModel}"/>
+            </div>
+            <div style="float: left; width: 900px; margin-top: 50px;">
+                <p:pieChart model="#{graficoBean.pieSpecial}" style="max-height: 700px; max-width: 700px;"/>
+<!--                <p:chart type="donut" responsive="true" model="#{graficoBean.donutChartModel}" style="max-height: 1000px; max-width: 1000px;"/>-->
+            </div>
+
+            <div style="float: right; width: 900px; margin-top: 50px;">
+               <p:donutChart model="#{graficoBean.donutSpecial}" style="max-width: 700px; max-height: 700px;" />
+<!--                <p:chart type="pie" model="#{graficoBean.pieChartModel}" style="height: 500px;" responsive="true"/>-->
+            </div>
+            <!--   FIM - Body Div     -->
+        </div>
+
+<!--        <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.css" rel="stylesheet"/>-->
+        <p:link href="resources/css/shCore.css" rel="stylesheet"/>
+
+<!--        <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.css" rel="stylesheet"/>-->
+        <p:link href="resources/css/shThemeDefault.css" rel="stylesheet"/>
+
+<!--        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.js"></script>-->
+        <script type="text/javascript" src="resources/js/shCore.js"></script>
+
+<!--        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJScript.js"></script>-->
+        <script type="text/javascript" src="resources/js/shBrushJScript.js"></script>
+
+<!--        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushXml.js"></script>-->
+        <script type="text/javascript" src="resources/js/shBrushXml.js"></script>
+    </h:body>
+</f:view>
+</html>

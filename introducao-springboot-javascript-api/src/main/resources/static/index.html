@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Rest API CRUD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        html {
+            margin-top: 5em;
+            margin-left: 10em;
+            margin-right: 10em;
+        }
+    </style>
+</head>
+<body>
+<h3>Spring Boot Rest API CRUD</h3>
+
+<form action="#" id="formCadastro">
+    <div class="mb-3">
+        <label for="id" class="form-label">ID Usuario:</label>
+        <input type="text" class="form-control" id="id" aria-describedby="IdHelp" readonly disabled>
+        <div id="IdHelp" class="form-text" style="color: red">Codigo do Usuario.</div>
+    </div>
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome do Usuario:</label>
+        <input type="text" class="form-control" id="nome" placeholder="Informe o nome" required>
+    </div>
+    <div class="mb-3">
+        <label for="idade" class="form-label">Idade:</label>
+        <input type="number" class="form-control" id="idade" placeholder="Informe sua Idade" required>
+    </div>
+    <div class="mb3">
+        <button class="btn btn-primary" id="btnSubmit" type="button" onclick="salvarUsuario()">Salvar</button>
+        <button class="btn btn-secondary" id="btnReset" type="reset">Novo</button>
+        <button class="btn btn-danger" id="btnPesquisar" type="button" data-bs-toggle="modal"
+                data-bs-target="#modalPesquisaUsuario">Pesquisar
+        </button>
+        <button class="btn btn-warning" id="btnDeletarDaTela" type="button" onclick="deletarDaTela()">Remover</button>
+    </div>
+</form>
+
+<div class="modal fade" id="modalPesquisaUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Pesquisa de Usuarios</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="nameBusca" class="col-form-label">Informe o Nome:</label>
+                        <input type="text" class="form-control" id="nameBusca">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="button" onclick="pesquisaUsuario()">Buscar</button>
+                    </div>
+                    <div style="height: 300px; overflow: scroll">
+                        <table class="table" id="tabelaResultados">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Editar</th>
+                                <th scope="col">Excluir</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        validaRemoverDaTela()
+    })
+
+    function validaRemoverDaTela() {
+        if (document.getElementById("id").text === undefined) {
+            $("#btnDeletarDaTela").hide()
+        }
+    }
+
+    function salvarUsuario() {
+        const id = $("#id").val();
+        const nome = $("#nome").val();
+        const idade = $("#idade").val();
+        let imprime = ''
+
+        // alert("nome: " + nome + "\nid: " + id + "\nidade: " + idade);
+
+        if (nome !== undefined || nome.trim() === '') {
+            imprime += '- Nome\n';
+        }
+
+        if (idade !== undefined || idade.trim() === '') {
+            imprime += "- Idade\n"
+        }
+
+        if (imprime !== '') {
+            alert("Informe:\n" +imprime)
+        } else {
+            $.ajax({
+                method: "POST",
+                url: "/rev-jsbt-api/sds",
+                /* Criando JSON de acordo com os dados vindo da TELA e ENVIANDO PARA BACK-END dados utilizando @RequestBody */
+                data: JSON.stringify({
+                    id: id,
+                    nome: nome,
+                    idade: idade
+                }),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert("Usuario Salvo com sucesso")
+                    console.log(`O ID do usuario eh: ` + response.id)
+                    $("#id").val(response.id)
+                    $("#nome").val(response.nome)
+                    $("#idade").val(response.idade)
+                    $("#btnDeletarDaTela").show()
+                    console.log("chamou validaRemoverDaTela")
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Error ao Salvar: " + xhr.responseText + "\nStatus: " + status + "\nError: " + errorThrown)
+            });
+        }
+    }
+
+    function pesquisaUsuario() {
+        const nameBusca = $("#nameBusca").val();
+        console.log(nameBusca);
+
+        if (nameBusca !== null && nameBusca.trim() !== "")
+
+            $.ajax({
+                method: "GET",
+                url: "/rev-jsbt-api/sds/searchName",
+                /* ENVIANDO PARA O BACK-END dados da Pesquisa por @RequestParam */
+                data: "namePart=" + nameBusca,
+                success: function (response) {
+                    console.log(response)
+                    $("#tabelaResultados > tbody > ").remove();
+                    for (let i = 0; i < response.length; i++) {
+                        console.log(response[i].id)
+                        console.log(response[i].nome)
+                        $("#tabelaResultados > tbody").append(
+                            '<tr id="' + response[i].id + '">' +
+                            '<th scope="row">' + response[i].id + '</th>' +
+                            '<td>' + response[i].nome + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-primary" type="button" id="btnEdit" onclick="editarUsuario(' + response[i].id + ')" data-bs-dismiss="modal">Editar</button>' +
+                            '</td>' +
+                            /* Solucao para deletar linha sem precisar buscar dados de novo no banco remover TD por ID*/
+                            '<td>' +
+                            '<button class="btn btn-danger" type="button" id="btnDelete" onclick="deletarUsuario(' + response[i].id + ')">Deletar</button>' +
+                            // '<button class="btn btn-danger" type="button" id="btnDelete" onclick="deletarUsuario(' + response[i].id + ')">Deletar</button>' +
+                            '</td>' +
+                            '</tr>'
+                        )
+                    }
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Error ao Buscar: " + xhr.responseText + "\nStatus: " + status + "\nError: " + errorThrown)
+            })
+    }
+
+    function editarUsuario(id) {
+        $.ajax({
+            method: "GET",
+            url: "/rev-jsbt-api/sds/search",
+            data: "userID=" + id,
+            success: function (response) {
+                console.log(response)
+                $("#id").val(response.id)
+                $("#nome").val(response.nome)
+                $("#idade").val(response.idade)
+                limparModal();
+                $("#btnDeletarDaTela").show()
+            }
+        }).fail(function (xhr, status, errorThrown) {
+            alert("Error ao Buscar: " + xhr.responseText + "\nStatus: " + status + "\nError: " + errorThrown)
+        })
+    }
+
+    function limparModal() {
+        $("#nameBusca").val('');
+        $("#tabelaResultados > tbody > ").remove();
+    }
+
+    function deletarUsuario(id) {
+        if (confirm("Deseja realmente deletar o registro?") && id !== undefined) {
+            $.ajax({
+                method: "DELETE",
+                url: "/rev-jsbt-api/sds/" + id,
+                success: function (response) {
+                    console.log(response)
+                    alert(response)
+                    $("#" + id).remove();
+                    // pesquisaUsuario();
+                }
+            }).fail(function (xhr, status, errorThrown) {
+                alert("Error ao Deletar Usuario: " + xhr.responseText + "\nStatus: " + status + "\nError: " + errorThrown)
+            })
+        }
+    }
+
+    function deletarDaTela() {
+        deletarUsuario($("#id").val())
+        document.getElementById("formCadastro").reset()
+        // $("#id").val('')
+        // $("#nome").val('')
+        // $("#idade").val('')
+        validaRemoverDaTela()
+    }
+</script>
+</body>
+</html>
